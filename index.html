@@ -325,6 +325,72 @@ main{padding-block:12px 80px;position:relative}
   .kpis{gap:20px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* home button */
+.homebtn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:7px 14px 7px 12px;font-family:var(--latin);font-weight:600;font-size:.82rem;letter-spacing:.06em;color:var(--cocoa);transition:border-color .3s,box-shadow .3s,background .3s}
+.homebtn svg{width:16px;height:16px;color:var(--lime)}
+.homebtn:hover{border-color:var(--line-2);box-shadow:0 0 22px -6px var(--lime-glow);background:var(--lime-soft)}
+/* category selection */
+.cat .tick{position:absolute;top:14px;right:14px;width:26px;height:26px;border-radius:9px;border:1.5px solid var(--line);display:grid;place-items:center;transition:all .35s var(--ease);background:rgba(0,0,0,.25)}
+.cat .tick svg{width:14px;height:14px;opacity:0;transform:scale(.4);transition:all .35s var(--ease);color:#071003}
+.cat.sel{border-color:var(--lime);box-shadow:0 0 0 1px rgba(166,240,74,.35),0 24px 60px -30px var(--lime-glow);background:linear-gradient(160deg,rgba(166,240,74,.14),rgba(166,240,74,.02))}
+.cat.sel .tick{background:var(--lime);border-color:var(--lime);box-shadow:0 0 14px var(--lime-glow)}
+.cat.sel .tick svg{opacity:1;transform:none}
+.cat.sel .ic{background:var(--lime);color:#071003;box-shadow:0 0 30px -6px var(--lime-glow)}
+.cat.locked{cursor:default}
+.selcount{font-family:var(--latin);font-weight:700;color:var(--lime)}
+/* sachet roll */
+.roll{margin:0 auto 18px;max-width:740px;display:flex;align-items:center;gap:14px}
+.roll .track{flex:1;position:relative;height:64px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%);mask-image:linear-gradient(90deg,transparent,#000 22%)}
+.roll .row{position:absolute;inset:0 0 0 auto;display:flex;gap:0;align-items:center;direction:rtl}
+.sc{width:40px;height:54px;flex:none;position:relative;border:1px solid rgba(255,255,255,.18);border-inline-start:none;background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.02));display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:3px;padding:6px 5px}
+.sc:first-child{border-inline-start:1px solid rgba(255,255,255,.18);border-radius:0 6px 6px 0}
+.sc::before,.sc::after{content:"";position:absolute;inset-inline:0;height:4px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0 2px,transparent 2px 5px)}
+.sc::before{top:0}.sc::after{bottom:0}
+.sc i{width:12px;height:6px;border-radius:4px;box-shadow:0 0 8px -1px currentColor}
+.sc i.r{width:8px;height:8px;border-radius:50%}
+.sc.ghost{border-style:dashed;background:none;border-color:rgba(166,240,74,.35);border-inline-start:1px dashed rgba(166,240,74,.35);border-radius:6px 0 0 6px;animation:ghostPulse 1.6s ease-in-out infinite}
+.sc.ghost::before,.sc.ghost::after{display:none}
+@keyframes ghostPulse{50%{border-color:rgba(166,240,74,.75);box-shadow:0 0 18px -6px var(--lime-glow)}}
+.sc.new{animation:scIn .7s var(--ease) both}
+.sc.new i{animation:pillDrop .6s var(--ease) both}
+.sc.new i:nth-child(2){animation-delay:.12s}.sc.new i:nth-child(3){animation-delay:.24s}
+@keyframes scIn{from{transform:translateX(-30px) scaleX(.3);opacity:0}}
+@keyframes pillDrop{from{transform:translateY(-26px) rotate(60deg);opacity:0}}
+.roll .cnt{font-family:var(--mono);font-size:.72rem;color:var(--stone);white-space:nowrap;text-align:center;line-height:1.4}
+.roll .cnt b{display:block;font-family:var(--latin);font-size:1.3rem;color:var(--lime)}
+/* pack transition */
+.packfx{position:fixed;inset:0;z-index:30;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,rgba(166,240,74,.12),rgba(5,8,10,.96) 60%);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);animation:fade .5s both}
+.packfx.out{animation:pfOut .6s var(--ease) forwards}
+@keyframes pfOut{to{opacity:0;transform:scale(1.15);filter:blur(8px)}}
+.packfx .stage{position:relative;width:min(420px,90vw);height:380px;perspective:900px;display:grid;place-items:end center;padding-bottom:70px}
+.packfx .box{position:relative;width:210px;height:150px;transform-style:preserve-3d;transform:rotateX(-8deg);animation:boxIn .7s var(--ease) both}
+@keyframes boxIn{from{transform:translateY(80px) rotateX(-8deg);opacity:0}}
+.packfx .front{position:absolute;inset:0;border-radius:6px;background:linear-gradient(160deg,#B8F25E,#86C93A);box-shadow:0 30px 80px -20px var(--lime-glow),inset 0 -20px 30px rgba(0,0,0,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#0b1a02;z-index:2}
+.packfx .front img{width:42px;height:42px;border-radius:50%;box-shadow:0 0 0 3px rgba(255,255,255,.5)}
+.packfx .front b{font-family:var(--latin);letter-spacing:.25em;font-size:.95rem}
+.packfx .front span{font-family:var(--mono);font-size:.62rem;letter-spacing:.15em;opacity:.75}
+.packfx .front em{position:absolute;bottom:10px;left:10px;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(11,26,2,.5);display:grid;place-items:center;font-style:normal;font-family:var(--latin);font-weight:700;font-size:.8rem}
+.packfx .lid{position:absolute;left:0;right:0;top:-1px;height:40px;background:linear-gradient(180deg,#9EDB4A,#7DBB33);border-radius:6px 6px 2px 2px;transform-origin:50% 0;transform:rotateX(150deg);animation:lidClose .55s 1.75s var(--ease) forwards;z-index:3}
+@keyframes lidClose{to{transform:rotateX(0)}}
+.packfx .box.glow .front{animation:boxGlow 1s ease-in-out}
+@keyframes boxGlow{50%{box-shadow:0 0 120px 10px var(--lime-glow),inset 0 -20px 30px rgba(0,0,0,.12)}}
+.packfx .fly{position:absolute;left:0;right:0;top:40px;display:flex;justify-content:center;gap:0;z-index:1}
+.packfx .fly .sc{animation:intoBox .9s var(--ease) both}
+@keyframes intoBox{0%{transform:translate(var(--fx),0) rotate(var(--fr));opacity:1}60%{transform:translate(0,120px) rotate(0) scale(.8);opacity:1}100%{transform:translate(0,190px) scale(.5);opacity:0}}
+.packfx p{position:absolute;bottom:10px;left:0;right:0;text-align:center;color:var(--cocoa-2);font-size:.95rem}
+.packfx p b{color:var(--lime)}
+/* result toggles */
+.supp{grid-template-columns:auto 1fr auto auto;align-items:center}
+.supp.off{opacity:.45}
+.supp.off h3{text-decoration:line-through;text-decoration-color:var(--stone)}
+.sw{width:46px;height:26px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.08);position:relative;padding:0;flex:none;transition:background .3s,border-color .3s}
+.sw::after{content:"";position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:var(--cocoa-2);transition:transform .35s var(--ease),background .3s}
+.sw[aria-checked="true"]{background:var(--lime);border-color:var(--lime);box-shadow:0 0 16px -4px var(--lime-glow)}
+.sw[aria-checked="true"]::after{transform:translateX(-20px);background:#071003}
+.packsum{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-radius:16px;border:1px solid var(--line-2);background:var(--lime-soft);margin-bottom:12px;font-size:.9rem}
+.packsum b{font-family:var(--latin);color:var(--lime);font-size:1.1rem}
+@media (max-width:520px){.homebtn span{display:none}.homebtn{padding:8px}.sc{width:32px;height:46px}.roll .track{height:56px}.supp{grid-template-columns:auto 1fr auto}.supp .t{display:none}}
 </style>
 </head>
 <body>
@@ -333,6 +399,7 @@ main{padding-block:12px 80px;position:relative}
 <header class="top"><div class="in">
   <button class="brand" id="homeBtn" aria-label="صفحه اصلی ویتاپلن"><img src="assets/logo.png" alt=""><span><b>ویتاپلن</b><small>PERSONALIZED · AI</small></span></button>
   <div class="sp"></div>
+  <button class="homebtn" id="homeBtn2" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg><span>HOME</span></button>
   <div class="strip" id="strip" aria-hidden="true" hidden></div>
   <span class="strip-label" id="stripLabel" hidden></span>
   <button class="ghost" id="adminBtn" hidden>پنل مدیریت</button>
@@ -662,7 +729,7 @@ function compute(S){
 }
 
 /* ---------------- state ---------------- */
-const blank=()=>({view:"home",b:{name:"",age:"",sex:"",h:"",w:""},a:{},txt:{},cat:null,qi:0,done:{},dir:1,phone:"",email:""});
+const blank=()=>({view:"home",b:{name:"",age:"",sex:"",h:"",w:""},a:{},txt:{},cat:null,qi:0,done:{},dir:1,phone:"",email:"",sel:null,off:{}});
 let S=window.claude?.hot?.data?.S||blank();
 try{const sv=localStorage.getItem("vp-draft");if(sv&&!window.claude?.hot?.data?.S)S=Object.assign(blank(),JSON.parse(sv))}catch(e){}
 window.claude?.hot?.snapshot?.(()=>({S}));
@@ -674,11 +741,15 @@ const go=(fn)=>{const run=()=>{fn();save();render();window.scrollTo({top:0,behav
 const visibleQs=cat=>cat.qs.filter(q=>(!q.sex||q.sex===S.b.sex)&&(!q.show||q.show(S.a)));
 const catProgress=cat=>{const qs=visibleQs(cat);const n=qs.filter(q=>S.a[q.id]!==undefined).length;return{n,t:qs.length}};
 const totalProgress=()=>{let n=0,t=2;if(S.b.name&&S.b.age&&S.b.sex)n++;if((S.a.G||[]).length)n++;
- CATS.forEach(c=>{const p=catProgress(c);if(S.done[c.id]||c.required||recCats().includes(c.id)){n+=p.n;t+=p.t}});return t?n/t:0};
+ const sl=selCats();CATS.forEach(c=>{const p=catProgress(c);if(sl.includes(c.id)){n+=p.n;t+=p.t}});return t?n/t:0};
+const selCats=()=>{if(!S.sel)S.sel=[...new Set([...recCats(),"clinical"])];if(!S.sel.includes("clinical"))S.sel.push("clinical");return CATS.filter(c=>S.sel.includes(c.id)).map(c=>c.id)};
+const firstOpen=id=>{const qs=visibleQs(CATS.find(c=>c.id===id));return qs.findIndex(q=>S.a[q.id]===undefined)};
+const nextCat=after=>{const sl=selCats(),i=after?sl.indexOf(after):-1;return sl.slice(i+1).find(id=>firstOpen(id)>=0)||null};
 const recCats=()=>{const g=S.a.G||[];return CATS.filter(c=>c.goals&&c.goals.some(x=>g.includes(x))).map(c=>c.id)};
 
 function strip(){
  const el=document.getElementById("strip"),lab=document.getElementById("stripLabel");
+ document.getElementById("homeBtn2").hidden=S.view==="home";
  const show=!["home","admin"].includes(S.view);
  el.hidden=!show;lab.hidden=!show;if(!show)return;
  if(!el.children.length)el.innerHTML="<i></i>".repeat(28);
@@ -718,7 +789,7 @@ function home(){
   </div>
   <div class="orbit" aria-hidden="true">
    <div class="glow"></div><div class="ring"></div><div class="ring r2"></div>
-   <div class="core"><img src="${IMG.slim}" alt=""></div>
+   <div class="core"><img src="${IMG.beauty}" alt=""></div>
    <div class="hud glass h4"><i style="background:var(--lime)"></i>ANALYZING <em>· 82 data points</em></div>
    <div class="hud glass h1"><i style="background:#F2D14B"></i>Vitamin D3 <em>1000 IU</em></div>
    <div class="hud glass h2"><i style="background:#C98A2E"></i>Omega-3 <em>AM</em></div>
@@ -828,44 +899,75 @@ function goals(){
  return d;
 }
 function hub(){
- const rec=recCats(),first=S.b.name.split(" ")[0];
- const cl=CATS.find(c=>c.required),clp=catProgress(cl);
- const ready=clp.n>=clp.t;
- const cards=CATS.map((c,i)=>{const p=catProgress(c),done=p.t&&p.n>=p.t;
-  return `<button class="cat ${rec.includes(c.id)?"rec":""} ${done?"done":""}" data-c="${c.id}" style="animation-delay:${i*60}ms">
+ const rec=recCats(),first=S.b.name.split(" ")[0];selCats();
+ const TICK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>';
+ const cards=CATS.map((c,i)=>{const p=catProgress(c),done=p.t&&p.n>=p.t,sel=S.sel.includes(c.id);
+  return `<button class="cat ${rec.includes(c.id)?"rec":""} ${done?"done":""} ${sel?"sel":""} ${c.required?"locked":""}" data-c="${c.id}" role="checkbox" aria-checked="${sel}" style="animation-delay:${i*60}ms">
+   <span class="tick">${TICK}</span>
    ${c.required?'<span class="chip req">الزامی</span>':rec.includes(c.id)?'<span class="chip">پیشنهادی برای تو</span>':""}
    <span class="ic ${c.id===S.cat?"morph":""}">${ICON[c.icon]}</span><h3>${c.title}</h3><p>${c.desc}</p>
    <div class="bar"><b style="width:${p.t?Math.round(p.n/p.t*100):0}%"></b></div>
    <div class="st"><span>${done?"تکمیل شد":p.n?"در حال پاسخ":"شروع نشده"}</span><span>${fa(p.n)} / ${fa(p.t)}</span></div></button>`}).join("");
- const d=h(`<div class="hubhead"><div><div class="kicker">بخش دوم · سبک زندگی و سلامت</div><h1>${esc(first)}، از کدوم بخش شروع کنیم؟</h1>
-  <p class="qhint" style="max-width:40em;margin-top:6px">پیشنهاد ما اینه که همه‌ی دسته‌ها رو جواب بدی، ولی می‌تونی فقط دسته‌های مهم برای خودت رو انتخاب کنی. سؤال‌ها بر اساس وضعیت فعلی یا تجربه‌ی یک ماه گذشته‌ست.</p></div>
+ const d=h(`<div class="hubhead"><div><div class="kicker">بخش دوم · سبک زندگی و سلامت</div><h1>${esc(first)}، کدوم بخش‌ها رو بررسی کنیم؟</h1>
+  <p class="qhint" style="max-width:42em;margin-top:6px">دسته‌هایی که می‌خوای رو انتخاب کن و «تأیید و شروع» رو بزن. سؤال‌ها پشت سر هم میان. هر چی دسته‌ی بیشتری انتخاب کنی، ترکیبت دقیق‌تر می‌شه. بخش ایمنی همیشه انتخاب‌شده‌ست.</p></div>
   <button class="ghost" id="eg">ویرایش هدف‌ها</button></div>
   <div class="cats">${cards}</div>
-  <div class="hubfoot glass"><div><b style="font-family:var(--display)">${ready?"آماده‌ی ساخت برنامه‌ات هستیم":"برای دیدن نتیجه، بخش «ایمنی و وضعیت بالینی» الزامیه"}</b><p class="qhint">${ready?"هر وقت خواستی برنامه رو بساز؛ دسته‌های بیشتر یعنی ترکیب دقیق‌تر.":"این بخش جلوی تداخل مکمل‌ها با داروها و بیماری‌هات رو می‌گیره."}</p></div>
-  <button class="btn lime" id="mk" ${ready?"":"disabled"}>ساخت برنامه‌ی من <span class="arr">${ICON.arrow}</span></button></div>`);
- d.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{d.querySelectorAll(".ic.morph").forEach(x=>x.classList.remove("morph"));b.querySelector(".ic").classList.add("morph");go(()=>{const c=CATS.find(x=>x.id===b.dataset.c);const qs=visibleQs(c);let qi=qs.findIndex(q=>S.a[q.id]===undefined);S.cat=c.id;S.qi=qi<0?0:qi;S.dir=1;S.view="q"})});
+  <div class="hubfoot glass"><div><b style="font-family:var(--display)"><span class="selcount" id="selc"></span> دسته انتخاب شده</b><p class="qhint" id="selq"></p></div>
+  <button class="btn lime" id="mk"></button></div>`);
+ const upd=()=>{const sl=selCats(),tq=sl.reduce((n,id)=>n+visibleQs(CATS.find(c=>c.id===id)).length,0),open=nextCat(null);
+  d.querySelector("#selc").textContent=fa(sl.length);d.querySelector("#selq").textContent="حدود "+fa(tq)+" سؤال · هر سؤال یک ساشه به پکت اضافه می‌کنه";
+  d.querySelector("#mk").innerHTML=(open?(sl.some(id=>catProgress(CATS.find(c=>c.id===id)).n)?"ادامه‌ی سؤال‌ها":"تأیید و شروع"):"ساخت پک من")+` <span class="arr">${ICON.arrow}</span>`};
+ upd();
+ d.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{const id=b.dataset.c;if(id==="clinical")return;
+  S.sel=S.sel.includes(id)?S.sel.filter(x=>x!==id):[...S.sel,id];const on=S.sel.includes(id);b.classList.toggle("sel",on);b.setAttribute("aria-checked",on);save();upd()});
  d.querySelector("#eg").onclick=()=>go(()=>S.view="goals");
- d.querySelector("#mk").onclick=()=>go(()=>S.view="result");
+ d.querySelector("#mk").onclick=()=>{const id=nextCat(null);if(!id){packThen();return}
+  const card=d.querySelector(`[data-c="${id}"] .ic`);d.querySelectorAll(".ic.morph").forEach(x=>x.classList.remove("morph"));card&&card.classList.add("morph");
+  go(()=>{S.cat=id;S.qi=firstOpen(id);S.dir=1;S.view="q"})};
  return d;
+}
+let lastA=-1;
+function rollHTML(){
+ const sl=selCats();let T=0,A=0;sl.forEach(id=>{const p=catProgress(CATS.find(c=>c.id===id));T+=p.t;A+=p.n});
+ const PAL=["#F2D14B","#C98A2E","#B9C2C9","#D9603B","#59B7D6","#E7A0B8","#8FA36B","#C14B8E","#F28C28","#7C8CFF"];
+ const show=Math.min(A,18),start=A-show,isNew=lastA>=0&&A>lastA;lastA=A;
+ let h="";for(let k=start;k<A;k++){const n=2+(k%2),pills=Array.from({length:n},(_,j)=>{const c=PAL[(k*3+j*7)%PAL.length];return `<i class="${(k+j)%3===0?"r":""}" style="background:${c};color:${c}"></i>`}).join("");
+  h+=`<span class="sc ${isNew&&k===A-1?"new":""}">${pills}</span>`}
+ if(A<T)h+='<span class="sc ghost"></span>';
+ return `<div class="roll" aria-label="${fa(A)} ساشه از ${fa(T)}"><div class="cnt"><b>${fa(A)}</b>از ${fa(T)} ساشه</div><div class="track"><div class="row">${h}</div></div></div>`;
+}
+function sachetEls(n){const PAL=["#F2D14B","#C98A2E","#D9603B","#59B7D6","#E7A0B8","#C14B8E","#F28C28"];
+ return Array.from({length:n},(_,k)=>`<span class="sc" style="--fx:${(k-(n-1)/2)*46}px;--fr:${(k-(n-1)/2)*6}deg;animation-delay:${.35+k*.12}s;margin-inline:-20px">${[0,1,2].map(j=>{const c=PAL[(k*2+j*3)%PAL.length];return `<i class="${j===1?"r":""}" style="background:${c};color:${c}"></i>`}).join("")}</span>`).join("")}
+function packThen(){
+ const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+ if(reduce){go(()=>S.view="result");return}
+ const o=document.createElement("div");o.className="packfx";o.setAttribute("role","status");
+ o.innerHTML=`<div class="stage"><div class="fly">${sachetEls(7)}</div><div class="box"><div class="lid"></div><div class="front"><img src="${IMG.logo}" alt=""><b>VITAPLAN</b><span>PERSONALIZED PACK</span><em>28</em></div></div><p>پک شخصی <b>${esc(S.b.name.split(" ")[0])}</b> در حال آماده‌سازیه…</p></div>`;
+ document.body.append(o);
+ setTimeout(()=>o.querySelector(".box").classList.add("glow"),2300);
+ setTimeout(()=>{o.classList.add("out");S.view="result";S.off=S.off||{};save();render();window.scrollTo({top:0,behavior:"instant"})},3100);
+ setTimeout(()=>o.remove(),3750);
 }
 function question(){
  const cat=CATS.find(c=>c.id===S.cat),qs=visibleQs(cat);
  if(S.qi>=qs.length)S.qi=qs.length-1;
  const q=qs[S.qi],val=S.a[q.id],multi=q.type==="multi";
  const tx=q.text&&q.text.when.some(i=>multi?(val||[]).includes(i):val===i);
- const d=h(`<div class="qwrap"><div class="qcard glass qpanel ${S.dir<0?"rev":""}">
+ const d=h(`<div class="qwrap">${rollHTML()}<div class="qcard glass qpanel ${S.dir<0?"rev":""}">
   <span class="q-ic">${ICON[cat.icon]}</span>
-  <div class="kicker">${cat.title} · سؤال ${fa(S.qi+1)} از ${fa(qs.length)} <span class="code">${q.id}</span></div>
+  <div class="kicker">${cat.title} · سؤال ${fa(S.qi+1)} از ${fa(qs.length)} · دسته‌ی ${fa(selCats().indexOf(cat.id)+1)} از ${fa(selCats().length)} <span class="code">${q.id}</span></div>
   <h1 class="qtitle">${esc(q.t)}</h1>${q.hint?`<p class="qhint">${q.hint}</p>`:multi?'<p class="qhint">می‌توانید چند گزینه انتخاب کنید.</p>':""}
   ${optsHTML(q,val)}
   <div id="txw">${tx?`<div class="field"><label for="f-tx">${q.text.label}</label><input class="inp" id="f-tx" value="${esc(S.txt[q.id]||"")}"></div>`:""}</div>
   ${q.other?`<div class="field"><label for="f-oth">${q.other}</label><input class="inp" id="f-oth" value="${esc(S.txt[q.id+"o"]||"")}"></div>`:""}
   ${q.why?`<details class="why"><summary>چرا این سؤال مهم است؟</summary><p>${q.why}</p></details>`:""}
   <div class="err"></div>
-  <div class="navrow"><button class="back" id="bk">${ICON.back} ${S.qi?"قبلی":"دسته‌ها"}</button>
-  <button class="btn" id="nx">${S.qi===qs.length-1?"پایان این بخش":"بعدی"} <span class="arr">${ICON.arrow}</span></button></div></div></div>`);
+  <div class="navrow"><button class="back" id="bk">${ICON.back} ${S.qi||selCats().indexOf(cat.id)>0?"قبلی":"دسته‌ها"}</button>
+  <button class="btn" id="nx">${S.qi===qs.length-1?(nextCat(cat.id)?"دسته‌ی بعدی":"ساخت پک من"):"بعدی"} <span class="arr">${ICON.arrow}</span></button></div></div></div>`);
  const next=()=>{const cur=S.a[q.id];if(cur===undefined||(Array.isArray(cur)&&!cur.length)){d.querySelector(".err").textContent="یک گزینه را انتخاب کن.";return}
-  go(()=>{const nqs=visibleQs(cat);const at=nqs.findIndex(x=>x.id===q.id);S.dir=1;if(at>=nqs.length-1){S.done[cat.id]=true;S.view="hub"}else S.qi=at+1})};
+  const nqs=visibleQs(cat);const at=nqs.findIndex(x=>x.id===q.id);
+  if(at>=nqs.length-1){S.done[cat.id]=true;const nx=nextCat(cat.id)||nextCat(null);if(!nx){save();packThen();return}go(()=>{S.dir=1;S.cat=nx;S.qi=firstOpen(nx)});return}
+  go(()=>{S.dir=1;S.qi=at+1})};
  bindOpts(d,q,i=>{const needTx=q.text&&q.text.when.some(w=>multi?(S.a[q.id]||[]).includes(w):S.a[q.id]===w);
   const w=d.querySelector("#txw");
   if(needTx&&!w.innerHTML){w.innerHTML=`<div class="field view"><label for="f-tx">${q.text.label}</label><input class="inp" id="f-tx" value="${esc(S.txt[q.id]||"")}"></div>`;w.querySelector("input").oninput=e=>{S.txt[q.id]=e.target.value;save()};w.querySelector("input").focus()}
@@ -873,7 +975,7 @@ function question(){
   if(!multi&&!needTx&&!q.other)setTimeout(()=>{if(document.contains(d))next()},320)});
  d.querySelector("#f-tx")&&(d.querySelector("#f-tx").oninput=e=>{S.txt[q.id]=e.target.value;save()});
  d.querySelector("#f-oth")&&(d.querySelector("#f-oth").oninput=e=>{S.txt[q.id+"o"]=e.target.value;save()});
- d.querySelector("#bk").onclick=()=>go(()=>{S.dir=-1;if(S.qi)S.qi--;else S.view="hub"});
+ d.querySelector("#bk").onclick=()=>go(()=>{S.dir=-1;if(S.qi){S.qi--;return}const sl=selCats(),i=sl.indexOf(cat.id);if(i>0){const pv=sl[i-1];S.cat=pv;S.qi=visibleQs(CATS.find(c=>c.id===pv)).length-1}else S.view="hub"});
  d.querySelector("#nx").onclick=next;
  return d;
 }
@@ -882,7 +984,8 @@ function bmiOf(){const hh=+S.b.h/100,ww=+S.b.w;return hh&&ww?ww/(hh*hh):null}
 function result(){
  const R=compute(S),P=PLANS[R.plan],first=S.b.name.split(" ")[0];
  const bmi=bmiOf();
- const am=R.list.filter(x=>x.t==="am"),pm=R.list.filter(x=>x.t==="pm");
+ S.off=S.off||{};const mine=()=>R.list.filter(x=>!S.off[x.k]);
+ const sachHTML=()=>{const L=mine();return sach("ساشه‌ی صبح، همراه صبحانه","sun",L.filter(x=>x.t==="am"))+sach("ساشه‌ی شب، بعد از شام","moon",L.filter(x=>x.t==="pm"))};
  const pills=arr=>arr.map((x,i)=>`<span class="pill ${x.r?"r":""}" style="background:${x.c};color:${x.c};animation-delay:${400+i*90}ms"></span>`).join("");
  const sach=(lab,ic,arr)=>`<div class="sachet"><div class="when"><span>${lab}</span><img src="${IMG.logo}" alt=""></div><div class="pills">${arr.length?pills(arr):'<span class="qhint">—</span>'}</div><ul>${arr.map(x=>`<li>${esc(x.n)}</li>`).join("")}</ul></div>`;
  const g=(S.a.G||[]).map(i=>GOALS.o[i]);
@@ -896,7 +999,7 @@ function result(){
    <p class="lede" style="margin-top:14px">${P.line} ${R.plan==="expert"?"":"این پلن پایه‌ی کارته و ترکیبش بر اساس پاسخ‌هات شخصی‌سازی شده."}</p>
    ${R.review?'<div class="flag bad" style="margin-top:16px"><span>این برنامه قبل از ارسال حتماً باید توسط داروساز تأیید شود.</span></div>':""}
   </div>
-  <div class="sachets">${sach("ساشه‌ی صبح، همراه صبحانه","sun",am)}${sach("ساشه‌ی شب، بعد از شام","moon",pm)}</div>
+  <div class="sachets" id="sachs">${sachHTML()}</div>
  </section>
  <section class="sec"><h2>پروفایل تو</h2><div class="profile">
   <div class="pf"><small>سن</small><b>${fa(S.b.age)} سال</b></div>
@@ -905,10 +1008,10 @@ function result(){
   <div class="pf" style="grid-column:span 2"><small>هدف‌ها</small><b style="font-size:.9rem">${g.map(esc).join("، ")}</b></div>
   <div class="pf" style="grid-column:span 2"><small>دسته‌های پاسخ داده‌شده</small><b style="font-size:.9rem">${answered.join("، ")}</b></div>
  </div></section>
- <section class="sec"><h2>مکمل‌های پیشنهادی <span class="n">${fa(R.list.length)} مورد</span></h2><div class="supps">
-  ${R.list.map((x,i)=>`<div class="supp" style="animation-delay:${i*70}ms"><span class="dot" style="background:${x.c};color:${x.c}"></span>
+ <section class="sec"><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="supps">
+  ${R.list.map((x,i)=>`<div class="supp ${S.off[x.k]?"off":""}" data-k="${x.k}" style="animation-delay:${i*70}ms"><span class="dot" style="background:${x.c};color:${x.c}"></span>
    <div><h3>${esc(x.n)}</h3><p>${esc((x.why||[]).slice(0,3).join(" · "))}</p><div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
-   <span class="t">${x.t==="am"?"صبح":"شب"}</span></div>`).join("")}
+   <span class="t">${x.t==="am"?"صبح":"شب"}</span><button class="sw" role="switch" aria-checked="${!S.off[x.k]}" aria-label="${esc(x.n)} در پک من"></button></div>`).join("")}
  </div><p class="disc">دوز نهایی هر مکمل پس از بازبینی داروساز و با توجه به مکمل‌های فعلی تو تعیین می‌شود.</p></section>
  ${R.exList.length?`<section class="sec"><h2>حذف‌شده برای ایمنی تو</h2><div class="ex">${R.exList.map(x=>`<span>${esc(x.n)}<em>${esc(x.r)}</em></span>`).join("")}</div></section>`:""}
  ${R.flags.length||R.notes.length?`<section class="sec"><h2>نکات ایمنی و مصرف</h2>${R.flags.map(f=>`<div class="flag ${f.bad?"bad":""}">${esc(f.t)}</div>`).join("")}${R.notes.map(n=>`<div class="flag note">${esc(n)}</div>`).join("")}</section>`:""}
@@ -919,12 +1022,13 @@ function result(){
   <div class="ok" id="ok" role="status"></div></section>
  <p class="disc">این ارزیابی بر پایه‌ی پاسخ‌های خود تو انجام شده و جایگزین تشخیص یا درمان پزشکی نیست. در صورت بیماری یا مصرف دارو، پیش از شروع هر مکمل با پزشک معالج مشورت کن.</p>`);
  d.querySelector("#edit").onclick=()=>go(()=>S.view="hub");
+ d.querySelectorAll(".supp .sw").forEach(b=>b.onclick=()=>{const row=b.closest(".supp"),k=row.dataset.k;S.off[k]=!S.off[k];save();row.classList.toggle("off",!!S.off[k]);b.setAttribute("aria-checked",!S.off[k]);d.querySelector("#sachs").innerHTML=sachHTML();d.querySelector("#pc").textContent=fa(mine().length)});
  d.querySelector("#send").onclick=async()=>{
   const ok=d.querySelector("#ok"),ph=toEn(d.querySelector("#f-ph").value).replace(/[\s-]/g,"");
   S.phone=d.querySelector("#f-ph").value;S.email=d.querySelector("#f-em").value.trim();save();
   if(!/^(\+98|0)?9\d{9}$/.test(ph)){ok.style.color="var(--warn)";ok.textContent="شماره‌ی موبایل را کامل وارد کن، مثلاً ۰۹۱۲۳۴۵۶۷۸۹.";return}
   ok.style.color="";ok.textContent="در حال ثبت…";
-  const res=await submit(R,ph);
+  const res=await submit({...R,list:mine(),removedByUser:R.list.filter(x=>S.off[x.k]).map(x=>x.n)},ph);
   ok.textContent=res;
  };
  return d;
@@ -942,7 +1046,7 @@ async function submit(R,ph){
   const answers={};Object.keys(S.a).forEach(k=>{const q=QBY[k];if(!q)return;const v=S.a[k];answers[k]=Array.isArray(v)?v.map(i=>q.o[i]):q.o[v]});
   const ref=DB.doc("submissions/"+id);
   await ref.set({name:S.b.name,age:+S.b.age,sex:S.b.sex,height:+S.b.h||null,weight:+S.b.w||null,phone:ph,email:S.email||"",
-   goals:(S.a.G||[]).map(i=>GOALS.o[i]),plan:PLANS[R.plan].k,supplements:R.list.map(x=>x.n),excluded:R.exList.map(x=>x.n+" — "+x.r),
+   goals:(S.a.G||[]).map(i=>GOALS.o[i]),plan:PLANS[R.plan].k,supplements:R.list.map(x=>x.n),removedByUser:R.removedByUser||[],excluded:R.exList.map(x=>x.n+" — "+x.r),
    flags:R.flags.map(f=>(f.bad?"[مهم] ":"")+f.t),notes:R.notes,needsReview:R.review,answers,texts:S.txt,status:"new",createdAt:Date.now()});
   return "ثبت شد. داروساز ویتاپلن برنامه‌ات را بررسی می‌کند و با همین شماره تماس می‌گیرد.";
  }catch(e){return e?.code==="not_granted"||e?.code==="permission_denied"?"برای ثبت، دسترسی «استفاده از صفحه» لازم است. از ارسال‌کننده‌ی لینک بخواه دسترسی Contributor بدهد.":"ثبت انجام نشد. اتصال را بررسی کن و دوباره «ثبت و ارسال» را بزن."}
@@ -1005,6 +1109,7 @@ function detail(r){
 })();
 addEventListener("pointerdown",e=>{const r=document.documentElement.style;r.setProperty("--vx",e.clientX+"px");r.setProperty("--vy",e.clientY+"px")},{capture:true});
 document.getElementById("homeBtn").onclick=()=>go(()=>S.view="home");
+document.getElementById("homeBtn2").onclick=()=>go(()=>S.view="home");
 document.getElementById("adminBtn").onclick=()=>go(()=>S.view="admin");
 const route=()=>{if(location.hash==="#admin"&&S.view!=="admin"){S.view="admin";render()}};
 addEventListener("hashchange",route);
