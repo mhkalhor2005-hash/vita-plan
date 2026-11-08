@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="ویتاپلن — ویتامین‌های شخصی‌سازی‌شده در ساشه‌های روزانه">
+<link rel="icon" href="assets/logo.png">
+<title>ویتاپلن</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Changa:wght@400;500;600;700;800&family=Vazirmatn:wght@300;400;500;700&display=swap">
+<style>
+body{margin:0}[hidden]{display:none!important}img{max-width:100%}
+/* Layout concept: one sachet strip runs the whole journey — progress is a roll of 28 sachets that fills as you answer */
+:root{
+  --lime:#86BF3A; --lime-ink:#4F7A12; --lime-soft:#E6F1D3;
+  --cream:#F4F3EA; --paper:#FBFAF4; --cocoa:#4A3A28; --cocoa-2:#7A6A55;
+  --stone:#8C887E; --line:#E2DFD2; --rose:#C9407A; --indigo:#2F3C9E;
+  --warn:#B9631C; --warn-soft:#F7E7D6; --bad:#B23A3A; --bad-soft:#F6DEDB;
+  --shadow:0 18px 50px -22px rgba(74,58,40,.35);
+  --display:"Changa","Vazirmatn",system-ui,sans-serif;
+  --body:"Vazirmatn","Changa",Tahoma,system-ui,sans-serif;
+  --ease:cubic-bezier(.22,.8,.2,1);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --lime:#9ACF4C; --lime-ink:#B7E07A; --lime-soft:#2A3519; --cream:#1B1A16; --paper:#24221D; --cocoa:#EEE9DC; --cocoa-2:#BDB4A2;
+  --stone:#9A9587; --line:#3A372F; --rose:#E3709F; --indigo:#8F9BF0; --warn:#E5A160; --warn-soft:#3A2B1C; --bad:#EE8C8C; --bad-soft:#3B2222;
+  --shadow:0 18px 50px -22px rgba(0,0,0,.7); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --lime:#9ACF4C; --lime-ink:#B7E07A; --lime-soft:#2A3519; --cream:#1B1A16; --paper:#24221D; --cocoa:#EEE9DC; --cocoa-2:#BDB4A2;
+  --stone:#9A9587; --line:#3A372F; --rose:#E3709F; --indigo:#8F9BF0; --warn:#E5A160; --warn-soft:#3A2B1C; --bad:#EE8C8C; --bad-soft:#3B2222;
+  --shadow:0 18px 50px -22px rgba(0,0,0,.7); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--cream);color:var(--cocoa);font-family:var(--body);font-size:16px;line-height:1.75;direction:rtl;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--cream)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.25;margin:0}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2.5px solid var(--lime);outline-offset:3px;border-radius:10px}
+.wrap{max-width:1080px;margin:0 auto}
+.latin{font-family:"Changa",sans-serif;direction:ltr;letter-spacing:.02em}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--cream) 88%,transparent);backdrop-filter:blur(10px);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)))}
+.top .in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:12px max(16px,env(safe-area-inset-right,0px))}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0}
+.brand img{width:38px;height:38px}
+.brand b{font-family:var(--display);font-weight:800;font-size:1.25rem;letter-spacing:-.01em}
+.brand small{display:block;font-family:"Changa";font-size:.62rem;letter-spacing:.18em;color:var(--stone);line-height:1;margin-top:-2px}
+.top .sp{flex:1}
+.ghost{background:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.85rem;color:var(--cocoa-2)}
+.ghost:hover{border-color:var(--cocoa-2)}
+
+/* sachet strip progress */
+.strip{display:flex;gap:3px;direction:rtl;flex:1;max-width:520px}
+.strip i{flex:1;height:18px;border-radius:3px;border:1px solid var(--line);background:var(--paper);position:relative;overflow:hidden;transition:background .5s var(--ease),border-color .5s}
+.strip i::after{content:"";position:absolute;inset:4px 30%;border-radius:4px;background:transparent;transition:background .5s var(--ease),transform .5s var(--ease);transform:scale(.3)}
+.strip i.on{border-color:color-mix(in srgb,var(--lime) 50%,var(--line));background:var(--lime-soft)}
+.strip i.on::after{background:var(--lime);transform:scale(1)}
+.strip i.on:nth-child(3n)::after{background:var(--rose)}
+.strip i.on:nth-child(4n)::after{background:var(--indigo)}
+.strip-label{font-size:.78rem;color:var(--stone);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* views */
+main{padding-block:12px 64px}
+.view{animation:enter .7s var(--ease) both}
+@keyframes enter{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+:root{--vx:50%;--vy:30%}
+.top{view-transition-name:topbar}
+::view-transition-group(topbar){animation:none}
+::view-transition-old(root){animation:vtOut .7s var(--ease) both}
+::view-transition-new(root){animation:vtReveal .9s var(--ease) both}
+@keyframes vtOut{to{opacity:.2;transform:scale(.96);filter:blur(6px)}}
+@keyframes vtReveal{from{clip-path:circle(0 at var(--vx) var(--vy))}to{clip-path:circle(150vmax at var(--vx) var(--vy))}}
+::view-transition-group(cat-ic){animation-duration:.8s;animation-timing-function:var(--ease)}
+.cat .ic.morph,.q-ic{view-transition-name:cat-ic}
+@supports (animation-timeline:view()){
+  .band h2,.step,.line{animation:rise linear both;animation-timeline:view();animation-range:entry 0% cover 28%}
+  @keyframes rise{from{opacity:0;transform:translateY(40px)}}
+}
+
+/* landing */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding-block:28px 40px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;color:var(--lime-ink);background:var(--lime-soft);border-radius:999px;padding:4px 12px;font-weight:500}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--lime)}
+.hero h1{font-size:clamp(2.1rem,5vw,3.6rem);font-weight:800;margin:18px 0 16px;letter-spacing:-.01em}
+.hero h1 em{font-style:normal;color:var(--lime-ink);position:relative;white-space:nowrap}
+.hero h1 em::after{content:"";position:absolute;inset:auto 0 .08em;height:.18em;background:var(--lime);opacity:.35;border-radius:4px;transform-origin:right;animation:underline 1.1s .5s var(--ease) both}
+@keyframes underline{from{transform:scaleX(0)}}
+.lede{font-size:1.08rem;color:var(--cocoa-2);max-width:34em}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;border-radius:999px;padding:14px 26px;background:var(--cocoa);color:var(--cream);font-family:var(--display);font-weight:600;font-size:1.05rem;transition:transform .25s var(--ease),box-shadow .25s}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.btn .arr{width:26px;height:26px;border-radius:50%;background:var(--lime);display:grid;place-items:center;color:#1e2a0a;transition:transform .3s var(--ease)}
+.btn:hover .arr{transform:translateX(-4px)}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.btn.lime{background:var(--lime);color:#1e2a0a}
+.btn.lime .arr{background:var(--cocoa);color:var(--cream)}
+.meta{font-size:.85rem;color:var(--stone)}
+
+/* card deck (brand card style) */
+.deck{position:relative;height:520px;perspective:1400px}
+.pcard{position:absolute;inset:0 50% auto auto;width:300px;margin-right:-150px;background:var(--paper);border-radius:34px;padding:12px 12px 20px;box-shadow:var(--shadow);transition:transform .9s var(--ease),opacity .9s var(--ease),filter .9s;transform-origin:50% 120%;border:1px solid var(--line)}
+.pcard .ph{border-radius:24px;overflow:hidden;aspect-ratio:4/4.6;max-width:100%;background:#8f8c86}
+.pcard .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 6s linear}
+.pcard.p0 .ph img{transform:scale(1.08)}
+.pcard h3{font-family:"Changa";font-weight:500;font-size:1.7rem;letter-spacing:-.01em;margin:14px 8px 0;direction:ltr;text-align:left;line-height:1.1}
+.pcard .tag{font-family:"Changa";font-weight:700;font-size:.72rem;color:var(--stone);letter-spacing:.06em;direction:ltr;text-align:left;margin:2px 8px 6px}
+.pcard .row{display:flex;align-items:center;gap:10px;margin:0 8px}
+.pcard .row p{flex:1;font-size:.88rem;color:var(--cocoa-2);line-height:1.6}
+.circ{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--cocoa);display:grid;place-items:center;flex:none}
+.pcard.p0{transform:translateZ(0) rotate(0);z-index:3}
+.pcard.p1{transform:translateX(-46px) translateY(18px) rotate(-7deg) scale(.94);z-index:2;filter:brightness(.97)}
+.pcard.p2{transform:translateX(46px) translateY(30px) rotate(7deg) scale(.9);z-index:1;filter:brightness(.94)}
+.pcard.out{transform:translateY(-40px) rotate(14deg) scale(.9);opacity:0;z-index:4}
+.dots{position:absolute;bottom:0;inset-inline:0;display:flex;justify-content:center;gap:8px}
+.dots button{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--cocoa-2);background:transparent;padding:0;transition:background .3s,transform .3s}
+.dots button.on{background:var(--cocoa);border-color:var(--cocoa);transform:scale(1.15)}
+
+.band{padding-block:56px;border-top:1px solid var(--line)}
+.band h2{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:700;margin-bottom:8px}
+.band .sub{color:var(--cocoa-2);max-width:40em}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:30px;counter-reset:s}
+.step{position:relative;padding-top:54px}
+.step::before{counter-increment:s;content:"۰" counter(s,persian);position:absolute;top:0;right:0;font-family:var(--display);font-weight:800;font-size:2.4rem;line-height:1;color:var(--lime)}
+.step::after{content:"";position:absolute;top:20px;right:64px;left:-10px;border-top:2px dashed var(--line)}
+.step:last-child::after{display:none}
+.step h3{font-size:1.1rem;font-weight:700;margin-bottom:6px}
+.step p{font-size:.93rem;color:var(--cocoa-2)}
+.lines{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.line{border-radius:22px;padding:22px;background:var(--paper);border:1px solid var(--line)}
+.line .k{font-family:"Changa";font-weight:700;letter-spacing:.04em;direction:ltr;text-align:right;font-size:1.25rem}
+.line p{font-size:.92rem;color:var(--cocoa-2);margin-top:6px}
+.line.hl{background:var(--lime);border-color:var(--lime);color:#1e2a0a}
+.line.hl p{color:#2f3d16}
+.foot{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;padding-block:30px;border-top:1px solid var(--line);color:var(--stone);font-size:.85rem}
+
+/* quiz */
+.qwrap{max-width:720px;margin:0 auto;padding-top:20px}
+.kicker{font-size:.82rem;color:var(--lime-ink);font-weight:500;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.kicker .code{font-family:"Changa";direction:ltr;color:var(--stone);font-size:.75rem;border:1px solid var(--line);border-radius:6px;padding:0 6px}
+.qtitle{font-size:clamp(1.35rem,3.2vw,1.9rem);font-weight:700;margin:10px 0 6px}
+.qhint{color:var(--stone);font-size:.9rem}
+.opts{display:grid;gap:10px;margin-top:22px}
+.opt{display:flex;align-items:center;gap:14px;text-align:right;width:100%;background:var(--paper);border:1.5px solid var(--line);border-radius:18px;padding:14px 18px;font-size:1rem;transition:border-color .2s,background .2s,transform .2s var(--ease)}
+.opt:hover{border-color:var(--cocoa-2);transform:translateX(-3px)}
+.opt .mk{width:22px;height:22px;border-radius:50%;border:2px solid var(--stone);flex:none;display:grid;place-items:center;transition:all .25s var(--ease)}
+.opts.multi .opt .mk{border-radius:7px}
+.opt.sel{border-color:var(--lime);background:var(--lime-soft)}
+.opt.sel .mk{border-color:var(--lime);background:var(--lime)}
+.opt.sel .mk::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--paper)}
+.opts.multi .opt.sel .mk::after{width:10px;height:6px;border-radius:0;background:none;border:solid var(--paper);border-width:0 0 2.5px 2.5px;transform:rotate(-45deg) translate(1px,-1px)}
+.opt.pop{animation:pop .35s var(--ease)}
+@keyframes pop{50%{transform:scale(.98)}}
+.field{display:grid;gap:6px;margin-top:14px}
+.field label{font-size:.85rem;color:var(--cocoa-2)}
+.inp{width:100%;font:inherit;color:var(--cocoa);background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:12px 16px;transition:border-color .2s}
+.inp:focus{outline:none;border-color:var(--lime)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.why{margin-top:18px;border-radius:16px;background:var(--lime-soft);padding:0}
+.why summary{cursor:pointer;list-style:none;padding:10px 16px;font-size:.88rem;color:var(--lime-ink);font-weight:500;display:flex;gap:8px;align-items:center}
+.why summary::-webkit-details-marker{display:none}
+.why summary::before{content:"؟";width:20px;height:20px;border-radius:50%;background:var(--lime);color:#1e2a0a;display:grid;place-items:center;font-size:.8rem;font-weight:700}
+.why p{padding:0 16px 14px;font-size:.9rem;color:var(--cocoa-2)}
+.navrow{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:26px}
+.back{background:none;border:0;color:var(--stone);display:inline-flex;gap:6px;align-items:center;padding:8px 4px}
+.back:hover{color:var(--cocoa)}
+.err{color:var(--bad);font-size:.88rem;margin-top:10px;min-height:1.4em}
+.qcard{animation:qIn .55s var(--ease) both}
+.qcard.rev{animation-name:qInRev}
+@keyframes qIn{from{opacity:0;transform:translateX(-40px)}}
+@keyframes qInRev{from{opacity:0;transform:translateX(40px)}}
+
+/* hub */
+.hubhead{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;padding-top:20px}
+.hubhead h1{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:26px}
+.cat{position:relative;aspect-ratio:1;max-width:100%;text-align:center;background:var(--paper);border:1.5px solid var(--line);border-radius:28px;padding:44px 18px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;overflow:hidden;isolation:isolate;transition:transform .45s var(--ease),border-color .3s,box-shadow .45s;animation:catIn .7s var(--ease) both}
+@keyframes catIn{from{opacity:0;transform:translateY(24px) scale(.94)}}
+.cat::before{content:"";position:absolute;inset:auto -30% -60% -30%;height:90%;border-radius:50%;background:radial-gradient(closest-side,var(--lime-soft),transparent);z-index:-1;opacity:0;transform:translateY(30%);transition:opacity .5s,transform .7s var(--ease)}
+.cat:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:var(--cocoa-2)}
+.cat:hover::before{opacity:1;transform:none}
+.cat .ic{width:72px;height:72px;border-radius:22px;display:grid;place-items:center;background:var(--cream);color:var(--cocoa);margin-bottom:10px;transition:transform .6s var(--ease),background .3s,color .3s}
+.cat .ic svg{width:36px;height:36px;stroke-width:1.6}
+.cat:hover .ic{transform:rotate(-8deg) scale(1.08);background:var(--lime);color:#1e2a0a}
+.cat h3{font-size:1.1rem;font-weight:700}
+.cat p{font-size:.78rem;color:var(--stone);line-height:1.55;max-width:18em}
+.cat .bar{height:5px;width:100%;border-radius:5px;background:var(--line);margin-top:auto;overflow:hidden}
+.cat .st{width:100%}
+.q-ic{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:var(--lime);color:#1e2a0a;margin-bottom:14px}
+.q-ic svg{width:28px;height:28px}
+.cat .bar b{display:block;height:100%;background:var(--lime);border-radius:5px;transition:width .8s var(--ease)}
+.cat .st{font-size:.75rem;color:var(--stone);display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+.chip{position:absolute;top:14px;inset-inline:0;margin:0 auto;width:max-content;font-size:.7rem;font-weight:600;border-radius:999px;padding:2px 10px;background:var(--lime);color:#1e2a0a}
+.chip.req{background:var(--warn-soft);color:var(--warn)}
+.cat.rec{border-color:color-mix(in srgb,var(--lime) 60%,var(--line))}
+.cat.done .ic{background:var(--lime);color:#1e2a0a}
+.hubfoot{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-top:30px;padding:20px;border-radius:24px;background:var(--paper);border:1px dashed var(--line)}
+
+/* result */
+.res-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding-block:24px}
+.res-hero h1{font-size:clamp(1.7rem,4.2vw,2.6rem);font-weight:800;margin:12px 0}
+.planbadge{display:inline-flex;align-items:baseline;gap:10px;border-radius:16px;padding:8px 16px;color:#fff;font-family:"Changa";font-weight:700;letter-spacing:.03em}
+.planbadge small{font-weight:400;opacity:.85;font-size:.75rem}
+.sachets{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.sachet{width:200px;max-width:46%;border-radius:10px;padding:16px 14px 18px;position:relative;background:linear-gradient(160deg,rgba(255,255,255,.75),rgba(255,255,255,.35));border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(4px);animation:drop .9s var(--ease) both}
+.sachet:nth-child(2){animation-delay:.15s}
+@keyframes drop{from{opacity:0;transform:translateY(-30px) rotate(-6deg)}}
+:root[data-theme="dark"] .sachet{background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.03))}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sachet{background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.03))}}
+.sachet::before,.sachet::after{content:"";position:absolute;inset-inline:0;height:8px;background:repeating-linear-gradient(90deg,var(--line) 0 4px,transparent 4px 7px)}
+.sachet::before{top:0}.sachet::after{bottom:0}
+.sachet .when{font-family:var(--display);font-weight:700;font-size:.9rem;display:flex;justify-content:space-between;align-items:center}
+.sachet .when img{width:22px;height:22px}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 8px;min-height:60px;align-content:center;justify-content:center}
+.pill{width:30px;height:14px;border-radius:8px;box-shadow:inset -3px -2px 0 rgba(0,0,0,.12);animation:pillIn .6s var(--ease) both}
+.pill.r{width:16px;height:16px;border-radius:50%}
+@keyframes pillIn{from{opacity:0;transform:translateY(-14px) rotate(30deg)}}
+.sachet ul{list-style:none;margin:0;padding:0;font-size:.78rem;color:var(--cocoa-2);line-height:1.7}
+.sec{margin-top:34px}
+.sec h2{font-size:1.35rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sec h2 .n{font-family:"Changa";font-size:.8rem;color:var(--stone);font-weight:500}
+.profile{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.pf{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.pf small{display:block;color:var(--stone);font-size:.75rem}
+.pf b{font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums}
+.supps{display:grid;gap:10px}
+.supp{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:14px 16px;animation:enter .6s var(--ease) both}
+.supp .dot{width:14px;height:14px;border-radius:50%;margin-top:7px}
+.supp h3{font-size:1.02rem;font-weight:700;font-family:var(--body)}
+.supp p{font-size:.85rem;color:var(--cocoa-2)}
+.supp .t{font-size:.72rem;border-radius:999px;padding:2px 10px;background:var(--cream);color:var(--cocoa-2);white-space:nowrap;margin-top:4px}
+.score{display:flex;gap:3px;margin-top:6px}
+.score i{width:16px;height:4px;border-radius:2px;background:var(--line)}
+.score i.on{background:var(--lime)}
+.flag{display:flex;gap:12px;padding:12px 16px;border-radius:16px;background:var(--warn-soft);color:var(--cocoa);font-size:.9rem;margin-bottom:8px;border-inline-start:4px solid var(--warn)}
+.flag.bad{background:var(--bad-soft);border-color:var(--bad)}
+.ex{display:flex;flex-wrap:wrap;gap:8px}
+.ex span{font-size:.82rem;border:1px dashed var(--bad);color:var(--bad);border-radius:999px;padding:4px 12px;text-decoration:line-through;text-decoration-thickness:1px}
+.ex span em{font-style:normal;text-decoration:none;display:inline-block;margin-inline-start:6px;color:var(--cocoa-2)}
+.submitbox{margin-top:34px;padding:26px;border-radius:28px;background:var(--cocoa);color:var(--cream)}
+.submitbox h2{font-size:1.4rem;margin-bottom:6px}
+.submitbox p{color:color-mix(in srgb,var(--cream) 75%,transparent);font-size:.93rem}
+.submitbox .inp{background:color-mix(in srgb,var(--cream) 10%,transparent);border-color:color-mix(in srgb,var(--cream) 25%,transparent);color:var(--cream)}
+.submitbox .inp::placeholder{color:color-mix(in srgb,var(--cream) 50%,transparent)}
+.submitbox .ok{margin-top:12px;color:var(--lime);min-height:1.5em;font-size:.92rem}
+.disc{font-size:.8rem;color:var(--stone);margin-top:22px}
+.blocked{max-width:560px;margin:60px auto;text-align:center}
+
+/* admin */
+.adm table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:640px}
+.adm th{font-weight:500;color:var(--stone);text-align:right;padding:10px;border-bottom:1px solid var(--line);font-size:.78rem}
+.adm td{padding:12px 10px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.adm tr.click{cursor:pointer;transition:background .2s}
+.adm tr.click:hover{background:var(--paper)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:18px;background:var(--cream)}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:20px 0}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:14px 16px}
+.stat b{font-family:var(--display);font-size:1.8rem;font-weight:700;display:block;line-height:1.2;font-variant-numeric:tabular-nums}
+.stat small{color:var(--stone)}
+.pillb{display:inline-block;font-size:.72rem;border-radius:999px;padding:1px 9px;color:#fff;font-family:"Changa"}
+.drawer{position:fixed;inset:0;z-index:20;background:rgba(20,16,10,.45);display:flex;justify-content:flex-start;animation:fade .3s both}
+@keyframes fade{from{opacity:0}}
+.drawer .pane{width:min(560px,100%);height:100%;overflow-y:auto;background:var(--cream);padding:calc(20px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) 40px max(20px,env(safe-area-inset-left,0px));animation:slide .45s var(--ease) both}
+@keyframes slide{from{transform:translateX(100%)}}
+.qa{border-bottom:1px solid var(--line);padding:8px 0;font-size:.86rem}
+.qa small{color:var(--stone);display:block}
+.empty{padding:40px 20px;text-align:center;color:var(--stone)}
+
+@media (max-width:860px){
+  .hero,.res-hero{grid-template-columns:1fr}
+  .deck{height:500px}
+  .steps{grid-template-columns:1fr 1fr}
+  .step::after{display:none}
+  .lines{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  .grid2{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .deck{height:470px}
+  .pcard{width:260px;margin-right:-130px}
+  .strip i{height:14px}
+  .strip{gap:2px}
+  .top .ghost{display:none}
+  .cats{grid-template-columns:1fr 1fr;gap:10px}
+  .cat{padding:34px 12px 12px;border-radius:22px}
+  .cat .ic{width:54px;height:54px;border-radius:16px;margin-bottom:6px}
+  .cat .ic svg{width:28px;height:28px}
+  .cat p{display:none}
+  .cat .chip{top:9px;font-size:.62rem}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="in">
+  <button class="brand" id="homeBtn" aria-label="صفحه اصلی ویتاپلن"><img src="assets/logo.png" alt=""><span><b>ویتاپلن</b><small class="latin">PERSONALIZED VITAMIN</small></span></button>
+  <div class="sp"></div>
+  <div class="strip" id="strip" aria-hidden="true" hidden></div>
+  <span class="strip-label" id="stripLabel" hidden></span>
+  <button class="ghost" id="adminBtn" hidden>پنل مدیریت</button>
+</div></header>
+<main id="app" class="wrap"></main>
+
+<script>
+(()=>{
+const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
+const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ICON={
+ arrow:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>',
+ back:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+ sleep:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>',
+ mind:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3a3 3 0 0 0-3 3v.5A3 3 0 0 0 4 12a3 3 0 0 0 2 5.5V18a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM15 3a3 3 0 0 1 3 3v.5a3 3 0 0 1 2 5.5 3 3 0 0 1-2 5.5V18a3 3 0 0 1-6 0"/></svg>',
+ activity:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>',
+ hormone:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="9" r="5"/><path d="M12 14v7M9 18h6"/></svg>',
+ gut:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v4a4 4 0 0 0 4 4h2a4 4 0 0 1 0 8H9a3 3 0 0 1 0-6h5"/></svg>',
+ food:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-5 0-8-4-8-9 0-3 2-5 5-5 1.5 0 2.3.6 3 1 .7-.4 1.5-1 3-1 3 0 5 2 5 5 0 5-3 9-8 9z"/><path d="M12 8c0-3 1-5 3-5"/></svg>',
+ beauty:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.2 5.3L20 9l-4.4 3.8L17 18.5 12 15.6 7 18.5l1.4-5.7L4 9l5.8-.7z"/></svg>',
+ shield:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+ sun:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+ moon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>'
+};
+
+/* ---------------- questionnaire data ---------------- */
+const NONE="هیچ‌کدام";
+const BASIC={id:"basic",title:"اطلاعات پایه"};
+const GOALS={id:"G",t:"هدف اصلی شما از دریافت برنامه‌ی شخصی‌سازی‌شده‌ی مکمل چیست؟",hint:"حداکثر سه گزینه انتخاب کنید.",type:"multi",max:3,o:["افزایش سطح انرژی و کاهش خستگی","بهبود کیفیت خواب","افزایش تمرکز و عملکرد ذهنی","تقویت سیستم ایمنی","بهبود وضعیت پوست، مو و ناخن","بهبود عملکرد ورزشی و ریکاوری","کاهش وزن و بهبود متابولیسم","افزایش وزن","بهبود عملکرد جنسی","حمایت از باروری و سلامت هورمونی","پیشگیری از کمبود ریزمغذی‌ها و حفظ سلامت عمومی"],other:"سایر اهداف (اختیاری)"};
+
+const CATS=[
+{id:"sleep",title:"خواب",desc:"کیفیت خواب، ساعت خواب و مکمل‌های فعلی",icon:"sleep",goals:[1],qs:[
+ {id:"SLP01",t:"مشکل اصلی خواب شما در حال حاضر کدام است؟",o:["معمولاً مشکل خاصی در خواب ندارم.","دیر به خواب می‌روم (بیش از ۳۰ دقیقه).","در طول شب چندین بار از خواب بیدار می‌شوم.","صبح با وجود خواب کافی احساس شادابی ندارم."]},
+ {id:"SLP02",t:"معمولاً چند ساعت در شب می‌خوابید؟",o:["کمتر از ۵ ساعت","۵ تا ۶ ساعت","۷ تا ۸ ساعت","بیش از ۸ ساعت"]},
+ {id:"SLP03",t:"علت اصلی اختلال خواب خود را چه می‌دانید؟",o:["افکار و استرس ذهنی","درد یا ناراحتی جسمی","استفاده از موبایل یا لپ‌تاپ قبل از خواب","علت مشخصی ندارد / خواب طبیعی دارم"]},
+ {id:"SLP04",t:"هنگام بیدار شدن از خواب معمولاً چه احساسی دارید؟",o:["کاملاً سرحال و پرانرژی","نسبتاً خوب","هنوز احساس خستگی دارم","بسیار خسته و خواب‌آلود هستم"]},
+ {id:"SLP05",t:"آیا برای بهبود خواب از دارو یا مکمل استفاده می‌کنید؟",o:["خیر","ملاتونین","منیزیم","داروی خواب‌آور یا آرام‌بخش"],text:{when:[3],label:"نام دارو را وارد کنید"},why:"مصرف هم‌زمان داروهای آرام‌بخش با برخی ترکیبات گیاهی یا ملاتونین می‌تواند اثر خواب‌آوری را بیش از حد تقویت کند."},
+ {id:"SLP06",t:"ترجیح شما برای مکمل کمک‌خواب چیست؟",o:["ترکیبات کاملاً گیاهی","منیزیم و ترکیبات غیرهورمونی","ملاتونین در صورت نیاز","ترجیح خاصی ندارم"]}
+]},
+{id:"mind",title:"ذهن، انرژی و استرس",desc:"الگوی خستگی، تمرکز و وضعیت استرس",icon:"mind",goals:[0,2],qs:[
+ {id:"MNT01",t:"الگوی خستگی شما بیشتر شبیه کدام مورد است؟",o:["حتی پس از خواب کافی هم احساس خستگی دارم.","بیشتر در اواسط روز دچار افت انرژی می‌شوم.","فقط بعد از فعالیت ذهنی یا جسمی خسته می‌شوم.","معمولاً انرژی کافی دارم."]},
+ {id:"MNT02",t:"هنگام انجام کارهای فکری، بیشتر کدام حالت را تجربه می‌کنید؟",o:["تمرکز خوبی دارم.","تمرکزم زود از بین می‌رود.","مطالب را فراموش می‌کنم.","احساس می‌کنم ذهنم کندتر از قبل شده است."]},
+ {id:"MNT03",t:"مهم‌ترین عامل کاهش عملکرد روزانه‌ی شما چیست؟",o:["کمبود انرژی","استرس و فشار روانی","خواب نامناسب","مشکل خاصی ندارم"]},
+ {id:"MNT04",t:"در حال حاضر وضعیت استرس خود را چگونه توصیف می‌کنید؟",o:["آرام و قابل کنترل","استرس گاه‌به‌گاه","استرس مداوم در بیشتر روزها","استرس شدید که بر زندگی روزانه اثر گذاشته است"]},
+ {id:"MNT05",t:"استرس بیشتر چگونه خود را نشان می‌دهد؟",o:["افکار مداوم و نگرانی","تحریک‌پذیری یا عصبانیت","خستگی و کاهش انرژی","مشکل خاصی ندارم"]},
+ {id:"MNT06",t:"آیا در حال حاضر برای اضطراب، استرس یا تمرکز دارو یا مکمل مصرف می‌کنید؟",o:["خیر","منیزیم","مکمل گیاهی (مانند گل گاوزبان یا گل ساعتی)","داروی تجویزشده توسط پزشک"],text:{when:[3],label:"نام دارو را وارد کنید"}}
+]},
+{id:"activity",title:"فعالیت بدنی و ریکاوری",desc:"نوع ورزش، شدت تمرین و ریکاوری",icon:"activity",goals:[5,6,7],qs:[
+ {id:"PA01",t:"کدام گزینه بهترین توصیف از سبک فعالیت بدنی شما در یک ماه گذشته است؟",o:["بیشتر ساعات روز نشسته‌ام و فعالیت بدنی‌ام بسیار کم است.","فعالیت روزانه‌ی معمولی دارم (پیاده‌روی یا کارهای روزمره).","به‌طور منظم ۲ تا ۴ روز در هفته ورزش می‌کنم.","بیش از ۴ روز در هفته یا به‌صورت حرفه‌ای تمرین می‌کنم."]},
+ {id:"PA02",t:"هدف اصلی شما از ورزش چیست؟",o:["حفظ سلامت عمومی","کاهش وزن و چربی‌سوزی","افزایش عضله و قدرت","افزایش استقامت یا آمادگی جسمانی"],why:"این سؤال مستقیماً روی انتخاب نوع مکمل اثر می‌گذارد.",show:A=>A.PA01>=2},
+ {id:"PA03",t:"بیشتر چه نوع فعالیتی انجام می‌دهید؟",o:["پیاده‌روی یا فعالیت سبک","ورزش‌های هوازی (دویدن، دوچرخه، شنا و...)","تمرینات قدرتی یا بدنسازی","ترکیبی از تمرینات هوازی و قدرتی"],show:A=>A.PA01>=1},
+ {id:"PA04",t:"مدت معمول هر جلسه‌ی تمرین چقدر است؟",o:["کمتر از ۳۰ دقیقه","۳۰ تا ۶۰ دقیقه","۶۰ تا ۹۰ دقیقه","بیش از ۹۰ دقیقه"],show:A=>A.PA01>=2},
+ {id:"PA05",t:"پس از فعالیت بدنی، بیشتر کدام حالت را تجربه می‌کنید؟",o:["به‌سرعت ریکاوری می‌شوم و روز بعد مشکلی ندارم.","تا یک روز احساس خستگی یا درد عضلانی دارم.","درد یا کوفتگی عضلات بیش از دو روز باقی می‌ماند.","به‌دلیل خستگی یا درد، ادامه‌ی تمرین برایم دشوار است."],why:"این سؤال برای تصمیم‌گیری درباره‌ی منیزیم، پروتئین، امگا ۳ و وضعیت ریکاوری ارزش بالایی دارد.",show:A=>A.PA01>=1},
+ {id:"PA06",t:"در طول ورزش یا فعالیت بدنی بیشتر کدام مشکل را تجربه می‌کنید؟",o:["گرفتگی عضلات","افت انرژی یا ضعف","تعریق بسیار زیاد","مشکل خاصی ندارم."],show:A=>A.PA01>=1},
+ {id:"PA07",t:"کدام عبارت بیشتر وضعیت شما را توصیف می‌کند؟",o:["بعد از تمرین اشتهای خوبی دارم و سریع ریکاوری می‌شوم.","بعد از تمرین احساس ضعف یا افت انرژی دارم.","بعد از تمرین اشتهای کمی دارم یا غذا خوردن برایم سخت است.","ورزش من به اندازه‌ای نیست که این موارد را تجربه کنم."],show:A=>A.PA01>=2},
+ {id:"PA08",t:"هنگام فعالیت بدنی معمولاً چقدر عرق می‌کنید؟",o:["کم","متوسط","زیاد","بسیار زیاد (به حدی که لباس کاملاً خیس می‌شود)"],why:"این سؤال برای ارزیابی نیاز به الکترولیت‌ها مانند پتاسیم و سدیم و مواد معدنی مانند منیزیم اهمیت دارد.",show:A=>A.PA01>=1},
+ {id:"PA09",t:"بعد از ورزش معمولاً چه چیزی مصرف می‌کنید؟",o:["فقط آب","نوشیدنی‌های ورزشی یا الکترولیت","وعده یا میان‌وعده‌ی پروتئینی","معمولاً چیز خاصی مصرف نمی‌کنم."],show:A=>A.PA01>=2},
+ {id:"PA10",t:"آیا در حال حاضر از مکمل‌های ورزشی استفاده می‌کنید؟",o:["خیر","پروتئین یا آمینواسیدها","کراتین","سایر مکمل‌های ورزشی"],text:{when:[3],label:"نام مکمل را وارد کنید"},show:A=>A.PA01>=1},
+ {id:"PA11",t:"آیا تاکنون به‌دلیل ورزش یا فعالیت بدنی دچار آسیب‌های مکرر عضلانی یا مفصلی شده‌اید؟",o:["خیر","گاهی اوقات","به‌طور مکرر","در حال حاضر تحت درمان هستم."],text:{when:[2,3],label:"نوع آسیب را وارد کنید"}}
+]},
+{id:"hormone",title:"سلامت هورمونی",desc:"سلامت قاعدگی یا سلامت هورمونی مردان",icon:"hormone",goals:[8,9],qs:[
+ {id:"WH01",sex:"f",t:"وضعیت قاعدگی شما در شش ماه گذشته چگونه بوده است؟",o:["منظم (هر ۲۱ تا ۳۵ روز)","نامنظم (فاصله‌ی بین قاعدگی‌ها متغیر است)","چند ماه است قاعدگی نداشته‌ام.","یائسه هستم."]},
+ {id:"WH02",sex:"f",t:"شدت خونریزی قاعدگی شما معمولاً چگونه است؟",o:["سبک","طبیعی","شدید (نیاز به تعویض مکرر نوار بهداشتی)","بسیار شدید همراه با لخته‌های بزرگ"],why:"این سؤال برای ارزیابی خطر کمبود آهن بسیار مهم است.",show:A=>A.WH01!==3},
+ {id:"WH03",sex:"f",t:"درد قاعدگی شما معمولاً چگونه است؟",o:["درد قابل توجهی ندارم.","درد خفیف که فعالیت روزانه را مختل نمی‌کند.","درد متوسط که گاهی نیاز به مسکن دارم.","درد شدید که فعالیت روزانه را مختل می‌کند."],show:A=>A.WH01!==3},
+ {id:"WH04",sex:"f",type:"multi",t:"کدام‌یک از موارد زیر را تجربه می‌کنید؟",hint:"می‌توانید چند گزینه انتخاب کنید.",o:["رشد موهای زائد در صورت یا بدن","آکنه‌ی مقاوم یا مکرر","ریزش مو با الگوی زنانه",NONE]},
+ {id:"WH05",sex:"f",t:"کدام مورد بیشتر وضعیت شما را توصیف می‌کند؟",o:["وزن و اشتهای طبیعی دارم.","کاهش وزن برایم دشوار است.","میل زیادی به شیرینی و کربوهیدرات دارم.","هر دو مورد بالا را تجربه می‌کنم."]},
+ {id:"WH06",sex:"f",type:"multi",t:"آیا پزشک تاکنون یکی از موارد زیر را برای شما تشخیص داده است؟",o:["سندرم تخمدان پلی‌کیستیک (PCOS)","اندومتریوز","اختلال تیروئید",NONE]},
+ {id:"WH07",sex:"f",t:"آیا در حال حاضر از داروهای هورمونی استفاده می‌کنید؟",o:["خیر","قرص جلوگیری از بارداری","اسپیرونولاکتون","متفورمین","سایر"],text:{when:[4],label:"نام دارو را وارد کنید"},why:"قرص‌های ضدبارداری نیاز به برخی ویتامین‌های گروه B را تغییر می‌دهند و اسپیرونولاکتون با مکمل‌های حاوی پتاسیم تداخل دارد."},
+ {id:"MH01",sex:"m",t:"کدام مورد بیشتر وضعیت شما را توصیف می‌کند؟",o:["میل جنسی طبیعی دارم.","کاهش میل جنسی را تجربه کرده‌ام.","کاهش انرژی و توان جسمی را همراه با کاهش میل جنسی تجربه کرده‌ام.","مطمئن نیستم."]},
+ {id:"MH02",sex:"m",type:"multi",t:"آیا یکی از موارد زیر را تجربه می‌کنید؟",o:["کاهش قدرت عضلانی","ریزش موی ارثی","خستگی مداوم",NONE]},
+ {id:"MH03",sex:"m",t:"آیا از داروهای هورمونی یا داروهای مرتبط استفاده می‌کنید؟",o:["خیر","فیناستراید","تستوسترون","سایر"],text:{when:[3],label:"نام دارو را وارد کنید"}}
+]},
+{id:"gut",title:"دستگاه گوارش",desc:"هضم، دفع، داروهای گوارشی و آنتی‌بیوتیک",icon:"gut",goals:[3],qs:[
+ {id:"GI01",t:"کدام‌یک از موارد زیر بیشتر وضعیت گوارش شما را توصیف می‌کند؟",o:["هضم غذا برای من طبیعی است و مشکل خاصی ندارم.","معمولاً بعد از غذا احساس نفخ یا سنگینی می‌کنم.","بیشتر اوقات دچار یبوست هستم.","بیشتر اوقات دچار اسهال یا شل بودن مدفوع هستم."]},
+ {id:"GI02",t:"بعد از مصرف کدام گروه غذایی بیشتر دچار ناراحتی گوارشی می‌شوید؟",o:["لبنیات","غذاهای چرب یا سرخ‌کردنی","حبوبات یا سبزیجات نفاخ","معمولاً با هیچ غذایی مشکل ندارم."],why:"برای شناسایی عدم تحمل غذایی و مشکلات هضم."},
+ {id:"GI03",t:"وضعیت دفع شما در بیشتر روزها چگونه است؟",o:["منظم و طبیعی","معمولاً یبوست دارم.","معمولاً اسهال دارم.","بین یبوست و اسهال متغیر است."]},
+ {id:"GI04",t:"کدام علامت را بیشتر تجربه می‌کنید؟",o:["سوزش معده یا رفلاکس","نفخ و گاز زیاد","درد یا گرفتگی شکم",NONE]},
+ {id:"GI05",type:"multi",t:"آیا پزشک تاکنون یکی از بیماری‌های گوارشی زیر را برای شما تشخیص داده است؟",o:["خیر","سندرم روده‌ی تحریک‌پذیر (IBS)","بیماری التهابی روده یا سلیاک","زخم معده یا رفلاکس مزمن"],noneIdx:0},
+ {id:"GI06",type:"multi",t:"آیا در حال حاضر از داروهای زیر استفاده می‌کنید؟",o:[NONE,"داروهای کاهش اسید معده (مانند امپرازول، پنتوپرازول)","ملین‌ها","پروبیوتیک یا آنزیم‌های گوارشی"],noneIdx:0,why:"مصرف طولانی‌مدت مهارکننده‌های اسید معده می‌تواند جذب برخی ریزمغذی‌ها مانند ویتامین B12، آهن، منیزیم و کلسیم را تحت تأثیر قرار دهد."},
+ {id:"GI07",t:"در طول یک سال گذشته، مصرف آنتی‌بیوتیک برای شما چگونه بوده است؟",o:["نداشته‌ام.","یک دوره‌ی کوتاه","چند دوره در سال","مصرف طولانی‌مدت یا مکرر"],why:"برای بررسی احتمال تغییر میکروبیوتای روده و نیاز احتمالی به پروبیوتیک."},
+ {id:"GI08",type:"multi",t:"آیا تاکنون پزشک به شما گفته است که دچار کمبود ویتامین یا اختلال جذب مواد مغذی هستید؟",o:["خیر","بله، کمبود آهن","بله، کمبود ویتامین B12 یا فولات","بله، سایر موارد"],noneIdx:0,text:{when:[3],label:"کدام مورد؟"}}
+]},
+{id:"nutrition",title:"تغذیه و الگوی غذایی",desc:"رژیم غذایی، پروتئین و محدودیت‌های غذایی",icon:"food",goals:[6,7,10],qs:[
+ {id:"NUT01",t:"کدام گزینه بهترین توصیف از رژیم غذایی شماست؟",o:["رژیم غذایی متنوع و بدون محدودیت خاص دارم.","گیاه‌خوار (Vegetarian)","وگان (Vegan)","رژیم خاص (کتو، فستینگ، کم‌کربوهیدرات و...)"]},
+ {id:"NUT02",t:"در طول هفته معمولاً چند وعده ماهی یا غذاهای دریایی مصرف می‌کنید؟",o:["به‌ندرت یا اصلاً","۱ بار در هفته","۲ تا ۳ بار در هفته","بیش از ۳ بار در هفته"]},
+ {id:"NUT03",t:"مصرف لبنیات شما چگونه است؟",o:["روزانه","چند بار در هفته","به‌ندرت","اصلاً مصرف نمی‌کنم."]},
+ {id:"NUT04",t:"به‌طور معمول چند واحد میوه و سبزیجات در روز مصرف می‌کنید؟",o:["کمتر از ۲ واحد","۲ تا ۴ واحد","۵ واحد یا بیشتر","مطمئن نیستم."]},
+ {id:"NUT05",t:"منبع اصلی پروتئین شما بیشتر کدام است؟",o:["گوشت، مرغ یا ماهی","تخم‌مرغ و لبنیات","حبوبات و منابع گیاهی","ترکیبی از همه‌ی موارد"]},
+ {id:"NUT06",t:"چند وعده در هفته گوشت قرمز مصرف می‌کنید؟",o:["اصلاً","۱ تا ۲ وعده","۳ تا ۴ وعده","بیش از ۴ وعده"],show:A=>A.NUT01!==1&&A.NUT01!==2},
+ {id:"NUT07",t:"بیشتر کدام مورد درباره‌ی شما صدق می‌کند؟",o:["معمولاً وعده‌های غذایی منظمی دارم.","گاهی وعده‌های اصلی را حذف می‌کنم.","بیشتر روزها صبحانه نمی‌خورم.","برنامه‌ی غذایی منظمی ندارم."]},
+ {id:"NUT08",t:"مصرف نوشیدنی‌های شیرین، فست‌فود یا غذاهای فراوری‌شده‌ی شما چگونه است؟",o:["به‌ندرت","۱ تا ۲ بار در هفته","۳ تا ۵ بار در هفته","تقریباً هر روز"]},
+ {id:"NUT09",t:"کدام مورد بیشتر درباره‌ی شما صدق می‌کند؟",o:["اشتهای طبیعی دارم.","اشتهای کمی دارم.","بیشتر اوقات اشتهای زیادی دارم.","اشتهای من در طول روز متغیر است."]},
+ {id:"NUT10",type:"multi",t:"آیا یکی از محدودیت‌های زیر را دارید؟",o:["عدم تحمل لاکتوز","حساسیت به گلوتن یا سلیاک","آلرژی غذایی",NONE],text:{when:[2],label:"به چه چیزی آلرژی دارید؟"}}
+]},
+{id:"beauty",title:"پوست، مو و ناخن",desc:"تیپ پوست، ریزش مو و وضعیت ناخن",icon:"beauty",goals:[4],qs:[
+ {id:"SK01",t:"کدام توصیف بیشتر شبیه پوست صورت شماست؟",o:["خشک، کم‌آب و گاهی پوسته‌پوسته","چرب و براق با منافذ باز و جوش","مختلط (قسمت‌هایی چرب، قسمت‌هایی خشک)","حساس، زود ملتهب یا قرمز","نرمال و پایدار"]},
+ {id:"SK02",t:"در حال حاضر مهم‌ترین دغدغه‌ی پوست شما چیست؟",o:["جوش و آکنه","لک و تیرگی","خشکی و کم‌آبی","کدری و بی‌روح بودن پوست","مشکل خاصی ندارم (فقط بهبود و شادابی می‌خواهم)"]},
+ {id:"SK03",t:"اگر فقط یک تغییر در پوست خود ببینید، کدام را ترجیح می‌دهید؟",o:["شفاف‌تر و درخشان‌تر شدن","آبرسانی و لطافت بیشتر","کاهش جوش و التهاب","کاهش لک و یکنواخت شدن رنگ پوست"]},
+ {id:"SK04",t:"در یک ماه اخیر کدام مورد را بیشتر تجربه کرده‌اید؟",o:["خشکی یا کشیدگی پوست","جوش‌های مکرر یا التهابی","قرمزی یا حساسیت","احساس سلامت نسبی پوست"]},
+ {id:"SK05",type:"multi",t:"چه عواملی بیشتر روی پوست شما اثر منفی دارند؟",o:["استرس و کم‌خوابی","نور خورشید و آلودگی","تغذیه‌ی نامناسب","نمی‌دانم"],noneIdx:3},
+ {id:"SK06",type:"multi",t:"آیا طی ۱۲ ماه گذشته از درمان‌های زیر استفاده کرده‌اید؟",o:["راکوتان / ایزوترتینوئین","لیزر، میکرونیدلینگ یا پیلینگ","کرم‌های درمانی ضدجوش یا ضدلک",NONE],why:"مصرف ایزوترتینوئین با مکمل‌های حاوی ویتامین A تداخل جدی دارد.",other:"سایر (نام ببرید)"},
+ {id:"HA01",t:"نوع موی شما بیشتر کدام است؟",o:["خشک و شکننده","چرب و سنگین","معمولی","نازک و کم‌حجم"]},
+ {id:"HA02",t:"بزرگ‌ترین مشکل موهای شما چیست؟",o:["ریزش مو","نازکی و کم‌پشتی","خشکی و موخوره","کندی رشد","مشکل خاصی ندارم"]},
+ {id:"HA03",t:"الگوی ریزش موی شما چگونه است؟",o:["ریزش ندارم","ریزش منتشر در کل سر","ریزش در جلوی سر یا فرق سر","ریزش فصلی یا دوره‌ای"]},
+ {id:"HA04",t:"در یک ماه اخیر کدام وضعیت را تجربه کرده‌اید؟",o:["افزایش ریزش مو","کاهش حجم یا ضخامت مو","تغییر خاصی نداشته‌ام"]},
+ {id:"HA05",type:"multi",t:"آیا موهای شما تحت آسیب‌های زیر بوده‌اند؟",o:["رنگ یا دکلره","حرارت زیاد (اتو، سشوار)","کراتین یا مواد شیمیایی",NONE]},
+ {id:"HA06",type:"multi",t:"آیا در حال حاضر از درمان مو استفاده می‌کنید؟",o:["ماینوکسیدیل","مکمل‌های رشد مو","درمان دارویی دیگر",NONE],text:{when:[1,2],label:"نام ببرید"}},
+ {id:"NA01",t:"وضعیت ناخن‌های شما چگونه است؟",o:["سالم و طبیعی","شکننده و لایه‌لایه","دارای لکه‌های سفید","رشد کند یا ضعیف"]},
+ {id:"NA02",t:"ناخن‌های شما چقدر راحت می‌شکنند؟",o:["به‌ندرت","گاهی","زیاد","بسیار زیاد"]},
+ {id:"BGO01",t:"اگر بخواهید فقط یک بهبود کلی در پوست، مو و ناخن خود ببینید، آن چیست؟",o:["شفافیت و شادابی پوست","کاهش ریزش و تقویت مو","استحکام ناخن‌ها","بهبود هم‌زمان هر سه مورد"]}
+]},
+{id:"clinical",title:"ایمنی و وضعیت بالینی",desc:"بیماری‌ها، داروها، بارداری و مکمل‌های فعلی",icon:"shield",required:true,qs:[
+ {id:"CL01",t:"آیا در حال حاضر بیماری زمینه‌ای یا مزمن دارید؟",o:["خیر","بله (یک بیماری)","بله (چند بیماری)","مطمئن نیستم"],other:"سایر توضیحات",why:"برخی بیماری‌ها (مثل تیروئید، دیابت، مشکلات کبدی یا هورمونی) نیاز بدن به ویتامین‌ها و مواد معدنی را تغییر می‌دهند و روی انتخاب مکمل اثر مستقیم دارند."},
+ {id:"CL02",type:"multi",t:"آیا تاکنون یکی از موارد زیر برای شما تشخیص داده شده است؟",o:["کم‌خونی یا فقر آهن","بیماری تیروئید","دیابت یا پیش‌دیابت","PCOS","بیماری گوارشی مزمن","صرع یا تشنج","بیماری کلیوی","بیماری کبدی",NONE],other:"سایر",why:"برخی بیماری‌ها مستقیماً روی جذب یا نیاز بدن به ویتامین‌ها اثر دارند (مثل B12، D، فولات و آهن). در بیماری‌های کلیوی و کبدی، مکمل‌هایی مانند منیزیم، پتاسیم و برخی عصاره‌های گیاهی باید کاملاً محدود شوند."},
+ {id:"CL03",type:"multi",t:"آیا در حال حاضر داروی خاصی مصرف می‌کنید؟",o:["خیر","داروهای تیروئید","داروهای قند خون (مثل متفورمین)","داروهای رقیق‌کننده‌ی خون (مثل وارفارین)","داروهای اعصاب یا ضدتشنج","داروهای پوست (مثل راکوتان)","داروهای ضدافسردگی یا ضداضطراب","داروهای فشار خون یا ادرارآور","داروهای سرکوب ایمنی یا شیمی‌درمانی"],noneIdx:0,other:"سایر داروها (نام ببرید)",why:"برخی داروها با مکمل‌ها تداخل دارند یا نیاز بدن به ویتامین‌ها را تغییر می‌دهند. مثلاً وارفارین به ویتامین K و کوآنزیم Q10 حساس است و راکوتان مصرف ویتامین A را محدود می‌کند."},
+ {id:"CL04",sex:"f",t:"آیا در حال حاضر باردار یا شیرده هستید یا قصد بارداری دارید؟",o:["باردار هستم","شیرده هستم","در شش ماه آینده قصد بارداری دارم",NONE],why:"در این شرایط برخی ویتامین‌ها (مثل ویتامین A با دوز بالا) و بعضی ترکیبات گیاهی باید حذف یا تنظیم شوند. برای قصد بارداری هم شروع اسید فولیک از قبل اهمیت دارد."},
+ {id:"CL05",type:"multi",t:"آیا در حال حاضر مکمل مصرف می‌کنید؟",o:["خیر","مولتی‌ویتامین","مکمل پوست / مو / ناخن","مکمل ورزشی","آهن / ویتامین B12 / ویتامین D"],noneIdx:0,other:"سایر",why:"برای جلوگیری از مصرف تکراری یا بیش‌دوزی و تنظیم دقیق دوز مکمل‌های جدید بر اساس مصرف فعلی شما."},
+ {id:"CL06",type:"multi",t:"در یک ماه اخیر کدام مورد را تجربه کرده‌اید؟",o:["خستگی مداوم یا بی‌انرژی بودن","ریزش موی شدید یا ناگهانی","تغییر وزن غیرعادی","تغییرات پوست یا خلق",NONE],why:"این علائم می‌توانند نشانه‌ی کمبودهای مهم (مثل آهن، B12، ویتامین D یا مشکلات تیروئید) باشند و مسیر انتخاب مکمل را هدفمندتر می‌کنند."},
+ {id:"CL08",t:"آیا سیگار یا قلیان مصرف می‌کنید؟",o:["خیر","گاهی","روزانه"],why:"مصرف دخانیات نیاز به ویتامین C را بالا می‌برد و مکمل بتاکاروتن برای افراد سیگاری توصیه نمی‌شود."},
+ {id:"CL09",t:"در طول هفته چقدر در معرض مستقیم نور آفتاب هستید؟",o:["تقریباً هیچ (بیشتر در فضای بسته‌ام)","کمتر از ۱ ساعت در هفته","چند بار در هفته، هر بار حدود ۱۵ دقیقه","بیشتر روزها"],why:"نور خورشید منبع اصلی ساخت ویتامین D است و کمبود آن در ایران بسیار شایع است."},
+ {id:"CL10",type:"multi",t:"ترجیح شما برای شکل مکمل‌ها در ساشه چیست؟",o:["محدودیتی ندارم","فقط کپسول گیاهی (بدون ژلاتین)","بلع قرص برایم سخت است","ترجیح می‌دهم تعداد قرص‌ها کم باشد"],noneIdx:0,why:"محتوای هر ساشه بر اساس ترجیح شما چیده می‌شود."},
+ {id:"CL07",t:"آیا مورد خاص دیگری درباره‌ی سلامت، بیماری یا دارو دارید که در گزینه‌های بالا ذکر نشده باشد؟",o:["خیر","بله"],text:{when:[1],label:"لطفاً توضیح دهید"},why:"برای پوشش شرایط خاص یا غیرمعمول (مثل بیماری‌های نادر، داروهای خاص یا حساسیت‌های فردی) که در انتخاب مکمل و ایمنی آن نقش مهمی دارند."}
+]}
+];
+const QBY={};CATS.forEach(c=>c.qs.forEach(q=>{q.cat=c.id;QBY[q.id]=q}));QBY.G=GOALS;
+
+/* ---------------- supplement engine ---------------- */
+const SUP={
+ multi:{n:"مولتی‌ویتامین و مینرال پایه",t:"am",c:"#E4B33B",r:0},
+ d3:{n:"ویتامین D3",t:"am",c:"#F2D14B",r:1},
+ omega3:{n:"امگا ۳ (روغن ماهی)",t:"am",c:"#C98A2E",r:0},
+ mg:{n:"منیزیم (گلیسینات / سیترات)",t:"pm",c:"#B9C2C9",r:0},
+ bcomplex:{n:"ویتامین‌های گروه B",t:"am",c:"#D9603B",r:1},
+ b12:{n:"ویتامین B12",t:"am",c:"#C2334B",r:1},
+ iron:{n:"آهن + ویتامین C",t:"am",c:"#7A2E2E",r:1},
+ folic:{n:"اسید فولیک",t:"am",c:"#E7A0B8",r:1},
+ coq10:{n:"کوآنزیم Q10",t:"am",c:"#E07B2A",r:0},
+ vitc:{n:"ویتامین C",t:"am",c:"#F28C28",r:1},
+ zinc:{n:"زینک",t:"pm",c:"#9AA4AE",r:1},
+ probiotic:{n:"پروبیوتیک",t:"am",c:"#F3EFE6",r:0},
+ enzyme:{n:"آنزیم گوارشی",t:"am",c:"#D8C9A7",r:0},
+ biotin:{n:"بیوتین",t:"am",c:"#C14B8E",r:1},
+ collagen:{n:"کلاژن هیدرولیز",t:"pm",c:"#EBD3C3",r:0},
+ calcium:{n:"کلسیم",t:"pm",c:"#ECECEC",r:0},
+ herbal:{n:"ترکیب گیاهی آرام‌بخش (سنبل‌الطیب / گل ساعتی)",t:"pm",c:"#6E8B4E",r:0},
+ melatonin:{n:"ملاتونین",t:"pm",c:"#5B5FA8",r:1},
+ ashwa:{n:"اشواگاندا",t:"pm",c:"#8C6A3F",r:0},
+ creatine:{n:"کراتین مونوهیدرات",t:"am",c:"#F6F6F6",r:1},
+ protein:{n:"پروتئین / آمینواسید",t:"am",c:"#E9DFC8",r:0},
+ electro:{n:"الکترولیت (سدیم، پتاسیم، منیزیم)",t:"am",c:"#59B7D6",r:1},
+ inositol:{n:"اینوزیتول",t:"pm",c:"#D7C6E8",r:1},
+ chromium:{n:"کروم پیکولینات",t:"am",c:"#8FA36B",r:1},
+ greentea:{n:"عصاره‌ی چای سبز",t:"am",c:"#5F8F3A",r:0},
+ curcumin:{n:"کورکومین",t:"pm",c:"#E3A11C",r:0}
+};
+const PLANS={
+ sport:{k:"SportPlan",fa:"برنامه‌ی ورزشی",c:"var(--indigo)",img:"sport",line:"برنامه‌ی روزانه‌ی ویتامینی که بعد از ورزش حواسش به بدنت هست!"},
+ slim:{k:"SlimPlan",fa:"برنامه‌ی کاهش وزن",c:"var(--lime-ink)",img:"slim",line:"برنامه‌ی روزانه‌ی ویتامینی که تو مسیر کاهش وزن کمکت می‌کنه!"},
+ beauty:{k:"BeautyPlan",fa:"برنامه‌ی زیبایی",c:"var(--rose)",img:"beauty",line:"برنامه‌ی روزانه‌ی ویتامینی که برای سلامت پوست، مو و ناخنت مفیدند!"},
+ expert:{k:"Personalized",fa:"برنامه‌ی کاملاً شخصی",c:"var(--cocoa)",img:null,line:"ترکیبی که فقط بر اساس پاسخ‌های خود تو چیده شده."}
+};
+
+function compute(S){
+ const A=S.a, sc={}, why={}, ex={}, flags=[], notes=[];
+ const has=(id,i)=>{const v=A[id];return Array.isArray(v)?v.includes(i):v===i};
+ const add=(k,p,r)=>{sc[k]=(sc[k]||0)+p;(why[k]=why[k]||[]);if(r&&!why[k].includes(r))why[k].push(r)};
+ const no=(k,r)=>{if(!ex[k])ex[k]=r};
+ const flag=(t,bad)=>flags.push({t,bad:!!bad});
+ const G=i=>has("G",i);
+ const female=S.b.sex==="f", age=+S.b.age||0;
+ let plan={sport:0,slim:0,beauty:0};
+
+ add("multi",2,"پایه‌ی هر برنامه برای پوشش کمبودهای رایج");
+ if(G(0)){add("bcomplex",2,"هدف شما افزایش انرژی است");add("coq10",1,"حمایت از تولید انرژی سلولی");add("d3",1,"کمبود ویتامین D از علل شایع خستگی است")}
+ if(G(1)){add("mg",2,"هدف شما بهبود خواب است");add("herbal",1,"کمک به آرامش پیش از خواب")}
+ if(G(2)){add("omega3",2,"هدف شما تمرکز و عملکرد ذهنی است");add("bcomplex",1,"نقش در عملکرد سیستم عصبی")}
+ if(G(3)){add("vitc",2,"هدف شما تقویت ایمنی است");add("zinc",2,"نقش زینک در ایمنی");add("d3",2,"ویتامین D و ایمنی")}
+ if(G(4)){add("biotin",2,"هدف شما سلامت پوست، مو و ناخن است");add("collagen",2,"حمایت از ساختار پوست");add("zinc",1);add("vitc",1,"نقش در ساخت کلاژن");plan.beauty+=4}
+ if(G(5)){add("mg",1,"ریکاوری عضلانی");add("omega3",1,"کاهش التهاب پس از تمرین");plan.sport+=4}
+ if(G(6)){add("chromium",2,"کمک به کنترل میل به شیرینی");add("greentea",1,"حمایت از متابولیسم");add("omega3",1);plan.slim+=4}
+ if(G(7)){add("protein",2,"هدف شما افزایش وزن است");plan.sport+=1}
+ if(G(8)){add("zinc",2,"زینک و سلامت جنسی");add("d3",1);flag("برای کاهش عملکرد جنسی، مشورت با پزشک برای بررسی علت توصیه می‌شود.")}
+ if(G(9)){add("folic",1,"حمایت از سلامت باروری")}
+ if(G(10)){add("multi",1);add("d3",1,"پیشگیری از شایع‌ترین کمبود")}
+
+ // sleep
+ if(has("SLP01",1)){add("mg",2,"دیر به خواب رفتن");add("herbal",1,"دیر به خواب رفتن")}
+ if(has("SLP01",2))add("mg",2,"بیدار شدن‌های شبانه");
+ if(has("SLP01",3)){add("d3",1);add("bcomplex",1,"خستگی صبحگاهی")}
+ if(has("SLP02",0))add("mg",1,"خواب کمتر از ۵ ساعت");
+ if(has("SLP03",0)){add("ashwa",1,"استرس ذهنی مانع خواب");add("mg",1)}
+ if(has("SLP05",1))no("melatonin","در حال حاضر ملاتونین مصرف می‌کنید");
+ if(has("SLP05",2))no("mg","در حال حاضر منیزیم مصرف می‌کنید");
+ if(has("SLP05",3)){no("herbal","تقویت اثر داروی آرام‌بخش");no("melatonin","تقویت اثر داروی آرام‌بخش");flag("مصرف داروی خواب‌آور: مکمل‌های خواب حذف شد و داروساز باید بررسی کند.")}
+ const sleepIssue=has("SLP01",1)||has("SLP01",2)||G(1);
+ if(sleepIssue){if(has("SLP06",0))add("herbal",2,"ترجیح شما ترکیبات گیاهی است");if(has("SLP06",1))add("mg",1,"ترجیح شما ترکیبات غیرهورمونی است");if(has("SLP06",2))add("melatonin",2,"ترجیح شما ملاتونین است")}
+ if(has("SLP06",1))no("melatonin","ترجیح شما ترکیبات غیرهورمونی است");
+ // mind
+ if(has("MNT01",0)){add("d3",1);add("b12",1,"خستگی مداوم با وجود خواب کافی");add("iron",1,"خستگی مداوم می‌تواند نشانه‌ی کمبود آهن باشد")}
+ if(has("MNT01",1)){add("bcomplex",1,"افت انرژی میانه‌ی روز");add("coq10",1)}
+ if([1,2,3].some(i=>has("MNT02",i)))add("omega3",1,"کاهش تمرکز یا حافظه");
+ if(has("MNT04",2)||has("MNT04",3)){add("ashwa",2,"استرس مداوم");add("mg",1,"استرس مداوم")}
+ if(has("MNT04",3))flag("استرس شدید که زندگی روزانه را مختل کرده، نیازمند مشاوره‌ی تخصصی در کنار مکمل است.");
+ if(has("MNT06",1))no("mg","در حال حاضر منیزیم مصرف می‌کنید");
+ if(has("MNT06",3)){no("ashwa","احتمال تداخل با داروی اعصاب");no("herbal","احتمال تداخل با داروی اعصاب");flag("مصرف داروی تجویزی برای اضطراب یا تمرکز: ترکیبات گیاهی مؤثر بر اعصاب حذف شد.")}
+ // activity
+ if(A.PA01===2)plan.sport+=2; if(A.PA01===3)plan.sport+=3;
+ if(A.PA01>=2)add("mg",1,"ورزش منظم");
+ if(has("PA02",2)){add("protein",2,"هدف شما افزایش عضله است");add("creatine",2,"افزایش قدرت و حجم عضلانی");plan.sport+=2}
+ if(has("PA02",1))plan.slim+=2;
+ if(has("PA02",3))add("electro",1,"تمرینات استقامتی");
+ if(has("PA03",2)||has("PA03",3))add("creatine",1,"تمرینات قدرتی");
+ if(has("PA05",2)||has("PA05",3)){add("mg",2,"ریکاوری کند");add("omega3",1,"کوفتگی طولانی عضلات")}
+ if(has("PA06",0)){add("mg",2,"گرفتگی عضلات");add("electro",1,"گرفتگی عضلات")}
+ if(has("PA06",1))add("electro",1,"افت انرژی حین ورزش");
+ if(has("PA08",2)||has("PA08",3))add("electro",2,"تعریق زیاد");
+ if(has("PA07",1))add("protein",1,"ضعف پس از تمرین");
+ if(has("PA10",1))no("protein","در حال حاضر پروتئین مصرف می‌کنید");
+ if(has("PA10",2))no("creatine","در حال حاضر کراتین مصرف می‌کنید");
+ if(has("PA11",2)||has("PA11",3)){add("collagen",1,"آسیب‌های مکرر مفصلی");add("omega3",1);add("curcumin",1,"آسیب‌های مکرر مفصلی")}
+ if(has("PA11",3))flag("در حال درمان آسیب ورزشی هستید؛ هماهنگی با پزشک معالج لازم است.");
+ // hormone women
+ if(female){
+  if(has("WH02",2)||has("WH02",3)){add("iron",3,"خونریزی شدید قاعدگی");add("vitc",1)}
+  if(has("WH02",3))flag("خونریزی بسیار شدید همراه لخته نیازمند بررسی پزشک و آزمایش فریتین است.",true);
+  if(has("WH01",2))flag("چند ماه قاعدگی نداشتن نیاز به بررسی پزشک دارد.",true);
+  if(has("WH03",2)||has("WH03",3)){add("mg",1,"درد قاعدگی");add("omega3",1,"درد قاعدگی")}
+  if(has("WH04",0)||has("WH04",1)){add("inositol",1,"علائم هورمونی مثل آکنه یا موهای زائد");add("zinc",1)}
+  if(has("WH05",2)||has("WH05",3)){add("chromium",1,"میل زیاد به شیرینی");add("inositol",1);plan.slim+=1}
+  if(has("WH05",1)||has("WH05",3))plan.slim+=1;
+  if(has("WH06",0)){add("inositol",3,"تشخیص PCOS");add("d3",1)}
+  if(has("WH06",2))flag("اختلال تیروئید: فاصله‌ی مصرف مکمل‌ها با لووتیروکسین باید رعایت شود.");
+  if(has("WH07",1))add("bcomplex",1,"قرص ضدبارداری نیاز به ویتامین‌های B را بالا می‌برد");
+  if(has("WH07",2))no("electro","تداخل پتاسیم با اسپیرونولاکتون");
+  if(has("WH07",3)){add("b12",2,"مصرف متفورمین جذب B12 را کم می‌کند");no("chromium","احتمال افت قند خون همراه متفورمین")}
+ } else {
+  if(has("MH01",1)||has("MH01",2)){add("zinc",1,"کاهش میل جنسی");add("d3",1)}
+  if(has("MH01",2))flag("کاهش انرژی همراه با کاهش میل جنسی: بررسی سطح تستوسترون توسط پزشک توصیه می‌شود.");
+  if(has("MH02",0))add("creatine",1,"کاهش قدرت عضلانی");
+  if(has("MH02",2))add("d3",1,"خستگی مداوم");
+  if(has("MH03",2))flag("مصرف تستوسترون: داروساز باید برنامه را بازبینی کند.",true);
+ }
+ // gut
+ if(has("GI01",1)){add("enzyme",2,"نفخ و سنگینی بعد از غذا");add("probiotic",1)}
+ if(has("GI01",2)||has("GI03",1)){add("probiotic",1,"یبوست");add("mg",1,"منیزیم سیترات به یبوست کمک می‌کند")}
+ if(has("GI01",3)||has("GI03",2))add("probiotic",2,"اسهال یا شل بودن مدفوع");
+ if(has("GI04",1))add("probiotic",1,"نفخ و گاز");
+ if(has("GI04",0))notes.push("به‌دلیل رفلاکس، امگا ۳ و آهن بهتر است همراه غذا مصرف شوند.");
+ if(has("GI05",1)){add("probiotic",1,"IBS");flag("IBS: شروع پروبیوتیک با دوز پایین توصیه می‌شود.")}
+ if(has("GI05",2)){add("b12",1,"سوءجذب در بیماری التهابی روده یا سلیاک");flag("بیماری التهابی روده یا سلیاک: نیاز به بررسی سطح ریزمغذی‌ها با آزمایش دارد.",true)}
+ if(has("GI06",1)){add("b12",2,"داروهای کاهش اسید جذب B12 را کم می‌کنند");add("mg",1);add("calcium",1);notes.push("مصرف طولانی داروهای ضداسید: سطح B12 و منیزیم باید پایش شود.")}
+ if(has("GI06",3)){no("probiotic","در حال حاضر پروبیوتیک مصرف می‌کنید");no("enzyme","در حال حاضر آنزیم گوارشی مصرف می‌کنید")}
+ if(has("GI07",2)||has("GI07",3))add("probiotic",2,"مصرف مکرر آنتی‌بیوتیک");
+ if(has("GI08",1))add("iron",3,"کمبود آهن تشخیص‌داده‌شده");
+ if(has("GI08",2)){add("b12",3,"کمبود B12 یا فولات تشخیص‌داده‌شده");add("folic",1)}
+ // nutrition
+ if(has("NUT01",1)){add("b12",2,"رژیم گیاه‌خواری");add("omega3",1);add("iron",1)}
+ if(has("NUT01",2)){add("b12",3,"رژیم وگان");add("omega3",1,"در رژیم وگان از امگا ۳ جلبکی استفاده می‌شود");add("d3",1);add("iron",1);add("zinc",1)}
+ if(has("NUT02",0))add("omega3",2,"مصرف کم ماهی");
+ if(has("NUT03",2)||has("NUT03",3)){add("calcium",2,"مصرف کم لبنیات");add("d3",1)}
+ if(has("NUT04",0)){add("multi",1,"مصرف کم میوه و سبزی");add("vitc",1)}
+ if(has("NUT05",2))add("b12",1);
+ if(has("NUT06",0)){add("iron",1,"عدم مصرف گوشت قرمز");add("b12",1)}
+ if(has("NUT07",2)||has("NUT07",3))add("multi",1,"وعده‌های نامنظم");
+ if(has("NUT08",3))add("multi",1);
+ if(has("NUT09",2))plan.slim+=1;
+ if(has("NUT10",0)){notes.push("عدم تحمل لاکتوز: پروتئین و پروبیوتیک باید بدون لاکتوز انتخاب شوند.");add("calcium",1)}
+ if(has("NUT10",1))notes.push("حساسیت به گلوتن: تمام مکمل‌ها باید فاقد گلوتن باشند.");
+ if(has("NUT10",2))flag("آلرژی غذایی: ترکیب ساشه باید از نظر مواد حساسیت‌زا بررسی شود.");
+ // beauty
+ if(has("SK01",0)){add("omega3",1,"پوست خشک");add("collagen",1)}
+ if(has("SK01",1)||has("SK02",0)||has("SK04",1)){add("zinc",2,"جوش و آکنه");plan.beauty+=1}
+ if(has("SK02",1)||has("SK02",3)||has("SK03",3)){add("vitc",1,"لک و تیرگی پوست");plan.beauty+=1}
+ if(has("SK02",2)){add("omega3",1);add("collagen",1,"خشکی و کم‌آبی پوست")}
+ if(has("HA02",0)||has("HA04",0)){add("iron",1,"ریزش مو");add("biotin",1,"ریزش مو");add("d3",1);plan.beauty+=1}
+ if(has("HA02",1)||has("HA04",1)){add("biotin",1,"نازکی مو");add("collagen",1)}
+ if(has("HA03",1))flag("ریزش منتشر مو می‌تواند به کمبود آهن یا تیروئید مربوط باشد؛ آزمایش فریتین و TSH توصیه می‌شود.");
+ if(has("HA03",2))notes.push("ریزش در جلو یا فرق سر معمولاً الگوی آندروژنیک دارد و مکمل به‌تنهایی کافی نیست.");
+ if(has("HA06",1))no("biotin","در حال حاضر مکمل رشد مو مصرف می‌کنید");
+ if(has("NA01",1)||has("NA02",2)||has("NA02",3)){add("biotin",2,"ناخن شکننده");add("collagen",1);plan.beauty+=1}
+ if(has("NA01",2))add("zinc",1,"لکه‌های سفید ناخن");
+ if(has("NA01",3))add("biotin",1,"رشد کند ناخن");
+ if(has("SK06",0)){no("multiA","ایزوترتینوئین");flag("مصرف راکوتان: مولتی‌ویتامین باید بدون ویتامین A باشد.",true)}
+ // clinical
+ if(has("CL01",2))flag("چند بیماری زمینه‌ای: برنامه حتماً توسط داروساز بازبینی می‌شود.",true);
+ if(has("CL02",0)){add("iron",2,"سابقه‌ی کم‌خونی");flag("سابقه‌ی کم‌خونی: دوز آهن بر اساس آزمایش اخیر تعیین می‌شود.")}
+ if(has("CL02",1)){no("ashwa","اشواگاندا روی هورمون تیروئید اثر دارد");flag("بیماری تیروئید: آهن، کلسیم و منیزیم باید حداقل ۴ ساعت با داروی تیروئید فاصله داشته باشند.")}
+ if(has("CL02",2)){no("chromium","احتمال افت قند خون در کنار داروهای دیابت");no("greentea","اثر بر کنترل قند خون");flag("دیابت: هر تغییر در مکمل‌ها باید با پزشک معالج هماهنگ شود.")}
+ if(has("CL02",3))add("inositol",2,"تشخیص PCOS");
+ if(has("CL02",5)){no("herbal","احتمال تداخل با داروهای ضدتشنج");no("melatonin","احتمال تداخل با داروهای ضدتشنج");no("ashwa","احتمال تداخل با داروهای ضدتشنج");flag("صرع یا تشنج: ترکیبات گیاهی و ملاتونین حذف شد.",true)}
+ if(has("CL02",6)){["mg","electro","creatine","calcium"].forEach(k=>no(k,"بیماری کلیوی"));no("vitc","دوز بالای ویتامین C در بیماری کلیوی");flag("بیماری کلیوی: منیزیم، پتاسیم، کلسیم و کراتین حذف شد. برنامه فقط با تأیید پزشک قابل ارسال است.",true)}
+ if(has("CL02",7)){["greentea","ashwa","curcumin"].forEach(k=>no(k,"بیماری کبدی"));flag("بیماری کبدی: عصاره‌های گیاهی حذف شد. برنامه فقط با تأیید پزشک قابل ارسال است.",true)}
+ if(has("CL03",1))notes.push("داروی تیروئید: ساشه‌ی صبح باید حداقل ۴ ساعت بعد از داروی تیروئید مصرف شود.");
+ if(has("CL03",2)){add("b12",2,"مصرف متفورمین جذب B12 را کم می‌کند");no("chromium","احتمال افت قند خون همراه داروهای دیابت")}
+ if(has("CL03",3)){["coq10","omega3","curcumin","greentea"].forEach(k=>no(k,"تداخل با داروی رقیق‌کننده‌ی خون"));flag("مصرف وارفارین: ویتامین K، کوآنزیم Q10، امگا ۳ و کورکومین حذف شد. هرگونه تغییر مکمل باید با پزشک هماهنگ شود.",true)}
+ if(has("CL03",4)){["herbal","ashwa","melatonin"].forEach(k=>no(k,"تداخل با داروهای اعصاب"));add("d3",1,"داروهای ضدتشنج سطح ویتامین D را کاهش می‌دهند");flag("داروهای اعصاب یا ضدتشنج: ترکیبات مؤثر بر سیستم عصبی حذف شد.",true)}
+ if(has("CL03",5)){no("multiA","ایزوترتینوئین");flag("مصرف راکوتان: مولتی‌ویتامین باید بدون ویتامین A باشد.",true)}
+ if(has("CL03",6)){["herbal","ashwa","melatonin"].forEach(k=>no(k,"احتمال تداخل با داروهای ضدافسردگی"));flag("مصرف داروی ضدافسردگی: ترکیبات گیاهی مؤثر بر خلق حذف شد.")}
+ if(has("CL03",7)){no("electro","خطر افزایش پتاسیم با داروهای فشار خون");flag("داروهای فشار خون: مکمل‌های حاوی پتاسیم حذف شد.")}
+ if(has("CL03",8)){["probiotic","herbal","ashwa","curcumin","greentea"].forEach(k=>no(k,"سرکوب سیستم ایمنی یا شیمی‌درمانی"));flag("سرکوب ایمنی یا شیمی‌درمانی: فقط با تأیید پزشک معالج. پروبیوتیک و عصاره‌های گیاهی حذف شد.",true)}
+ const preg=female&&(has("CL04",0)||has("CL04",1));
+ if(preg){["ashwa","greentea","herbal","melatonin","creatine","chromium","curcumin","coq10"].forEach(k=>no(k,"بارداری یا شیردهی"));add("folic",3,"بارداری یا شیردهی");flag("بارداری یا شیردهی: مولتی‌ویتامین با فرمول مخصوص بارداری جایگزین می‌شود و برنامه باید توسط داروساز تأیید شود.",true)}
+ if(female&&has("CL04",2))add("folic",3,"قصد بارداری: اسید فولیک باید از قبل شروع شود");
+ if(has("CL05",1))no("multi","در حال حاضر مولتی‌ویتامین مصرف می‌کنید");
+ if(has("CL05",2)){no("biotin","در حال حاضر مکمل پوست و مو مصرف می‌کنید");no("collagen","در حال حاضر مکمل پوست و مو مصرف می‌کنید")}
+ if(has("CL05",4))notes.push("مکمل آهن، B12 یا D فعلی شما در دوزبندی لحاظ می‌شود تا بیش‌دوزی رخ ندهد.");
+ if(has("CL06",1)||has("CL06",2))flag("ریزش موی ناگهانی یا تغییر وزن غیرعادی: پیش از شروع، آزمایش خون (CBC، فریتین، TSH، ویتامین D) توصیه می‌شود.");
+ if(has("CL06",0)){add("iron",1);add("d3",1)}
+ if(has("CL08",1)||has("CL08",2)){add("vitc",1,"دخانیات نیاز به ویتامین C را بالا می‌برد");notes.push("مصرف دخانیات: مولتی‌ویتامین بدون بتاکاروتن انتخاب می‌شود.")}
+ if(has("CL09",0)||has("CL09",1))add("d3",2,"قرار گرفتن کم در معرض آفتاب");
+ if(has("CL10",1))notes.push("فقط کپسول گیاهی (بدون ژلاتین).");
+ if(has("CL10",2))notes.push("بلع سخت: فرم پودری یا جویدنی ترجیح داده می‌شود.");
+ if(age>=65)flag("سن بالای ۶۵ سال: دوزها با توجه به عملکرد کلیه تنظیم می‌شود.");
+ if(has("CL07",1))flag("شرایط خاص گزارش‌شده توسط شما توسط داروساز بررسی می‌شود.");
+
+ if(ex.multiA&&!ex.multi){SUP.multi._n="مولتی‌ویتامین بدون ویتامین A"}else SUP.multi._n=null;
+ if(preg&&!ex.multi)SUP.multi._n="مولتی‌ویتامین مخصوص بارداری";
+ const exList=Object.keys(ex).filter(k=>k!=="multiA"&&sc[k]>=2).map(k=>({k,n:SUP[k].n,r:ex[k]}));
+ let list=Object.keys(sc).filter(k=>!ex[k]&&sc[k]>=2).sort((a,b)=>sc[b]-sc[a]).slice(0,8)
+   .map(k=>({k,n:SUP[k]._n||SUP[k].n,s:sc[k],why:why[k],t:SUP[k].t,c:SUP[k].c,r:SUP[k].r}));
+ const top=Object.entries(plan).sort((a,b)=>b[1]-a[1]);
+ let pk=top[0][1]>=4&&top[0][1]-top[1][1]>=2?top[0][0]:"expert";
+ const review=flags.some(f=>f.bad);
+ return {plan:pk,planScores:plan,list,exList,flags,notes,review};
+}
+
+/* ---------------- state ---------------- */
+const blank=()=>({view:"home",b:{name:"",age:"",sex:"",h:"",w:""},a:{},txt:{},cat:null,qi:0,done:{},dir:1,phone:"",email:""});
+let S=window.claude?.hot?.data?.S||blank();
+try{const sv=localStorage.getItem("vp-draft");if(sv&&!window.claude?.hot?.data?.S)S=Object.assign(blank(),JSON.parse(sv))}catch(e){}
+window.claude?.hot?.snapshot?.(()=>({S}));
+const save=()=>{try{localStorage.setItem("vp-draft",JSON.stringify(S))}catch(e){}};
+const app=document.getElementById("app");
+const go=(fn)=>{const run=()=>{fn();save();render();window.scrollTo({top:0,behavior:"instant"})};
+ if(document.startViewTransition&&!matchMedia("(prefers-reduced-motion:reduce)").matches)document.startViewTransition(run);else run()};
+
+const visibleQs=cat=>cat.qs.filter(q=>(!q.sex||q.sex===S.b.sex)&&(!q.show||q.show(S.a)));
+const catProgress=cat=>{const qs=visibleQs(cat);const n=qs.filter(q=>S.a[q.id]!==undefined).length;return{n,t:qs.length}};
+const totalProgress=()=>{let n=0,t=2;if(S.b.name&&S.b.age&&S.b.sex)n++;if((S.a.G||[]).length)n++;
+ CATS.forEach(c=>{const p=catProgress(c);if(S.done[c.id]||c.required||recCats().includes(c.id)){n+=p.n;t+=p.t}});return t?n/t:0};
+const recCats=()=>{const g=S.a.G||[];return CATS.filter(c=>c.goals&&c.goals.some(x=>g.includes(x))).map(c=>c.id)};
+
+function strip(){
+ const el=document.getElementById("strip"),lab=document.getElementById("stripLabel");
+ const show=!["home","admin"].includes(S.view);
+ el.hidden=!show;lab.hidden=!show;if(!show)return;
+ if(!el.children.length)el.innerHTML="<i></i>".repeat(28);
+ const on=S.view==="result"?28:Math.round(totalProgress()*28);
+ [...el.children].forEach((i,k)=>i.classList.toggle("on",k<on));
+ lab.textContent=fa(on)+" از ۲۸";
+}
+
+/* ---------------- views ---------------- */
+function render(){
+ strip();
+ const v={home,basic,goals,hub,q:question,result,blocked,admin}[S.view]||home;
+ app.innerHTML="";app.append(v());
+}
+const h=(html)=>{const d=document.createElement("div");d.className="view";d.innerHTML=html;return d};
+
+let deckTimer;
+function home(){
+ const cards=["beauty","sport","slim"].map((k,i)=>`<article class="pcard p${i}" data-i="${i}">
+   <div class="ph"><img src="${IMG[k]}" alt="${PLANS[k].k} — ساشه‌های روزانه‌ی ویتاپلن"></div>
+   <h3>${PLANS[k].k.replace("Plan"," PLAN").toUpperCase()}</h3><div class="tag">VITAMIN</div>
+   <div class="row"><p>${PLANS[k].line}</p><span class="circ">${ICON.arrow}</span></div></article>`).join("");
+ const d=h(`
+ <section class="hero">
+  <div>
+   <span class="eyebrow">مکمل شخصی‌سازی‌شده با تأیید داروساز</span>
+   <h1>ویتامین‌هایی که <em>برای خود تو</em> چیده می‌شن</h1>
+   <p class="lede">به چند سؤال درباره‌ی خواب، انرژی، تغذیه و سلامتت جواب بده. ما ترکیب مکمل‌هات رو طراحی می‌کنیم، داروساز بازبینی می‌کنه و ۲۸ ساشه‌ی روزانه، به تفکیک صبح و شب، برات بسته‌بندی می‌شه.</p>
+   <div class="cta-row">
+    <button class="btn" id="start">${S.b.name?"ادامه‌ی پرسشنامه":"شروع ارزیابی"} <span class="arr">${ICON.arrow}</span></button>
+    <span class="meta">حدود ۷ تا ۱۰ دقیقه · می‌تونی فقط دسته‌های مهم برای خودت رو جواب بدی</span>
+   </div>
+  </div>
+  <div class="deck" id="deck">${cards}<div class="dots" id="dots">${[0,1,2].map(i=>`<button aria-label="کارت ${fa(i+1)}" data-d="${i}"></button>`).join("")}</div></div>
+ </section>
+ <section class="band">
+  <h2>ویتاپلن چطور کار می‌کنه؟</h2>
+  <p class="sub">از پرسشنامه تا ساشه‌ای که هر روز صبح باز می‌کنی.</p>
+  <div class="steps">
+   <div class="step"><h3>ارزیابی دسته‌بندی‌شده</h3><p>هدف‌هات رو انتخاب می‌کنی و فقط به سؤال‌های دسته‌هایی که برات مهمه جواب می‌دی.</p></div>
+   <div class="step"><h3>طراحی ترکیب</h3><p>سیستم ما بر اساس پاسخ‌ها، داروها و شرایطت ترکیب مکمل رو پیشنهاد می‌ده.</p></div>
+   <div class="step"><h3>بازبینی داروساز</h3><p>تداخل‌های دارویی و دوزها توسط داروساز بررسی و تأیید می‌شه.</p></div>
+   <div class="step"><h3>بسته‌ی ۲۸ روزه</h3><p>مکمل‌ها از برندهای معتبر، در رول ساشه‌های روزانه با زمان مصرف روی هر ساشه.</p></div>
+  </div>
+ </section>
+ <section class="band">
+  <h2>سه مسیر، یک بسته‌بندی</h2>
+  <p class="sub">بسته به نیازت، یکی از این مسیرها برات انتخاب می‌شه.</p>
+  <div class="lines">
+   <div class="line"><div class="k">Customised</div><p>SportPlan، SlimPlan و BeautyPlan؛ طراحی‌شده برای نیاز مشترک یک گروه، مثل ورزشکارها یا مسیر کاهش وزن.</p></div>
+   <div class="line"><div class="k">Expert Plan</div><p>فرمولاسیونی که با همکاری یک متخصص تغذیه، سلامت یا ورزش برای کلینیک‌ها و باشگاه‌ها طراحی می‌شه.</p></div>
+   <div class="line hl"><div class="k">Personalised</div><p>برنامه‌ی کاملاً شخصی بر اساس رژیم غذایی، سبک زندگی و تاریخچه‌ی پزشکی خودت. همین پرسشنامه شروعشه.</p></div>
+  </div>
+ </section>
+ <footer class="foot"><span class="latin">www.vitaplan.ir</span><span>این ارزیابی جایگزین ویزیت پزشک نیست.</span></footer>`);
+ d.querySelector("#start").onclick=()=>go(()=>{S.view=S.b.name&&S.b.age&&S.b.sex?((S.a.G||[]).length?"hub":"goals"):"basic"});
+ const cs=[...d.querySelectorAll(".pcard")],dots=[...d.querySelectorAll(".dots button")];let cur=0;
+ const lay=()=>{cs.forEach((c,i)=>{c.className="pcard p"+((i-cur+3)%3)});dots.forEach((b,i)=>b.classList.toggle("on",i===cur))};
+ const next=(to)=>{const top=cs[cur];top.classList.add("out");setTimeout(()=>{cur=to??(cur+1)%3;lay()},380)};
+ lay();clearInterval(deckTimer);
+ if(!matchMedia("(prefers-reduced-motion:reduce)").matches)deckTimer=setInterval(()=>{if(document.contains(d))next();else clearInterval(deckTimer)},4200);
+ dots.forEach(b=>b.onclick=()=>{clearInterval(deckTimer);next(+b.dataset.d)});
+ d.querySelector("#deck").addEventListener("click",e=>{if(e.target.closest(".pcard.p0")){clearInterval(deckTimer);next()}});
+ return d;
+}
+
+function basic(){
+ const b=S.b;
+ const d=h(`<div class="qwrap qcard">
+  <div class="kicker">بخش اول · اطلاعات پایه</div>
+  <h1 class="qtitle">بیا با خودت شروع کنیم</h1>
+  <p class="qhint">از اینجا به بعد سؤال‌ها با اسم خودت پرسیده می‌شه.</p>
+  <div class="field"><label for="f-name">نام و نام خانوادگی</label><input class="inp" id="f-name" value="${esc(b.name)}" autocomplete="name"></div>
+  <div class="grid2">
+   <div class="field"><label for="f-age">سن (سال)</label><input class="inp" id="f-age" inputmode="numeric" value="${esc(b.age)}"></div>
+   <div class="field"><label>جنسیت</label><div class="opts" style="margin:0;grid-template-columns:1fr 1fr">
+     <button class="opt ${b.sex==="f"?"sel":""}" data-sex="f"><span class="mk"></span>زن</button>
+     <button class="opt ${b.sex==="m"?"sel":""}" data-sex="m"><span class="mk"></span>مرد</button></div></div>
+   <div class="field"><label for="f-h">قد (سانتی‌متر)</label><input class="inp" id="f-h" inputmode="numeric" value="${esc(b.h)}"></div>
+   <div class="field"><label for="f-w">وزن (کیلوگرم)</label><input class="inp" id="f-w" inputmode="numeric" value="${esc(b.w)}"></div>
+  </div>
+  <div class="err" id="err"></div>
+  <div class="navrow"><button class="back" id="bk">${ICON.back} صفحه‌ی اصلی</button><button class="btn" id="nx">ادامه <span class="arr">${ICON.arrow}</span></button></div>
+ </div>`);
+ d.querySelectorAll("[data-sex]").forEach(x=>x.onclick=()=>{S.b.sex=x.dataset.sex;d.querySelectorAll("[data-sex]").forEach(y=>y.classList.toggle("sel",y===x))});
+ d.querySelector("#bk").onclick=()=>go(()=>S.view="home");
+ d.querySelector("#nx").onclick=()=>{
+  const name=d.querySelector("#f-name").value.trim(),age=+toEn(d.querySelector("#f-age").value),hh=toEn(d.querySelector("#f-h").value),ww=toEn(d.querySelector("#f-w").value);
+  const e=d.querySelector("#err");
+  if(!name)return e.textContent="نامت رو بنویس تا برنامه به اسم خودت ساخته بشه.";
+  if(!age||age<1||age>110)return e.textContent="سن را به عدد وارد کن، مثلاً ۲۸.";
+  if(!S.b.sex)return e.textContent="جنسیت را انتخاب کن؛ بخشی از سؤال‌ها به آن بستگی دارد.";
+  if(hh&&(+hh<100||+hh>230))return e.textContent="قد را به سانتی‌متر وارد کن، مثلاً ۱۷۲.";
+  if(ww&&(+ww<30||+ww>250))return e.textContent="وزن را به کیلوگرم وارد کن، مثلاً ۶۸.";
+  go(()=>{Object.assign(S.b,{name,age:String(age),h:hh,w:ww});S.view=age<18?"blocked":"goals"});
+ };
+ return d;
+}
+function blocked(){
+ const d=h(`<div class="blocked qcard"><h1 class="qtitle">ویتاپلن فعلاً برای بزرگسالان طراحی شده</h1><p class="qhint" style="margin-top:10px">برنامه‌های مکمل ما برای افراد ۱۸ سال به بالاست. برای مکمل‌های مناسب سن نوجوانی، با پزشک یا داروساز مشورت کن.</p><div class="cta-row" style="justify-content:center"><button class="btn" id="bk">اصلاح سن <span class="arr">${ICON.arrow}</span></button></div></div>`);
+ d.querySelector("#bk").onclick=()=>go(()=>S.view="basic");return d;
+}
+function optsHTML(q,val){
+ const multi=q.type==="multi";
+ return `<div class="opts ${multi?"multi":""}" role="${multi?"group":"radiogroup"}">${q.o.map((o,i)=>{const s=multi?(val||[]).includes(i):val===i;
+  return `<button class="opt ${s?"sel":""}" data-i="${i}" role="${multi?"checkbox":"radio"}" aria-checked="${s}"><span class="mk"></span><span>${esc(o)}</span></button>`}).join("")}</div>`;
+}
+function bindOpts(d,q,onPick){
+ const multi=q.type==="multi";const noneI=q.noneIdx??q.o.indexOf(NONE);
+ d.querySelectorAll(".opt[data-i]").forEach(b=>b.onclick=()=>{
+  const i=+b.dataset.i;b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");
+  if(multi){let v=[...(S.a[q.id]||[])];
+   if(v.includes(i))v=v.filter(x=>x!==i);else{if(i===noneI)v=[];else v=v.filter(x=>x!==noneI);if(q.max&&v.length>=q.max){d.querySelector(".err").textContent="حداکثر "+fa(q.max)+" گزینه را می‌توانی انتخاب کنی.";return}v.push(i)}
+   S.a[q.id]=v;d.querySelector(".err").textContent="";
+   d.querySelectorAll(".opt[data-i]").forEach(x=>{const s=v.includes(+x.dataset.i);x.classList.toggle("sel",s);x.setAttribute("aria-checked",s)});
+  }else{S.a[q.id]=i;d.querySelectorAll(".opt[data-i]").forEach(x=>{const s=+x.dataset.i===i;x.classList.toggle("sel",s);x.setAttribute("aria-checked",s)})}
+  save();onPick&&onPick(i);
+ });
+}
+function goals(){
+ const q=GOALS,first=S.b.name.split(" ")[0];
+ const d=h(`<div class="qwrap qcard">
+  <div class="kicker">هدف‌ها <span class="code">G</span></div>
+  <h1 class="qtitle">${esc(first)}، ${q.t}</h1><p class="qhint">${q.hint}</p>
+  ${optsHTML(q,S.a.G)}
+  <div class="field"><label for="f-gother">${q.other}</label><input class="inp" id="f-gother" value="${esc(S.txt.G||"")}"></div>
+  <div class="err"></div>
+  <div class="navrow"><button class="back" id="bk">${ICON.back} قبلی</button><button class="btn" id="nx">رفتن به دسته‌ها <span class="arr">${ICON.arrow}</span></button></div></div>`);
+ bindOpts(d,q);
+ d.querySelector("#f-gother").oninput=e=>{S.txt.G=e.target.value;save()};
+ d.querySelector("#bk").onclick=()=>go(()=>S.view="basic");
+ d.querySelector("#nx").onclick=()=>{if(!(S.a.G||[]).length){d.querySelector(".err").textContent="حداقل یک هدف انتخاب کن.";return}go(()=>S.view="hub")};
+ return d;
+}
+function hub(){
+ const rec=recCats(),first=S.b.name.split(" ")[0];
+ const cl=CATS.find(c=>c.required),clp=catProgress(cl);
+ const ready=clp.n>=clp.t;
+ const cards=CATS.map((c,i)=>{const p=catProgress(c),done=p.t&&p.n>=p.t;
+  return `<button class="cat ${rec.includes(c.id)?"rec":""} ${done?"done":""}" data-c="${c.id}" style="animation-delay:${i*60}ms">
+   ${c.required?'<span class="chip req">الزامی</span>':rec.includes(c.id)?'<span class="chip">پیشنهادی برای تو</span>':""}
+   <span class="ic ${c.id===S.cat?"morph":""}">${ICON[c.icon]}</span><h3>${c.title}</h3><p>${c.desc}</p>
+   <div class="bar"><b style="width:${p.t?Math.round(p.n/p.t*100):0}%"></b></div>
+   <div class="st"><span>${done?"تکمیل شد":p.n?"در حال پاسخ":"شروع نشده"}</span><span>${fa(p.n)} / ${fa(p.t)}</span></div></button>`}).join("");
+ const d=h(`<div class="hubhead"><div><div class="kicker">بخش دوم · سبک زندگی و سلامت</div><h1>${esc(first)}، از کدوم بخش شروع کنیم؟</h1>
+  <p class="qhint" style="max-width:40em;margin-top:6px">پیشنهاد ما اینه که همه‌ی دسته‌ها رو جواب بدی، ولی می‌تونی فقط دسته‌های مهم برای خودت رو انتخاب کنی. سؤال‌ها بر اساس وضعیت فعلی یا تجربه‌ی یک ماه گذشته‌ست.</p></div>
+  <button class="ghost" id="eg">ویرایش هدف‌ها</button></div>
+  <div class="cats">${cards}</div>
+  <div class="hubfoot"><div><b style="font-family:var(--display)">${ready?"آماده‌ی ساخت برنامه‌ات هستیم":"برای دیدن نتیجه، بخش «ایمنی و وضعیت بالینی» الزامیه"}</b><p class="qhint">${ready?"هر وقت خواستی برنامه رو بساز؛ دسته‌های بیشتر یعنی ترکیب دقیق‌تر.":"این بخش جلوی تداخل مکمل‌ها با داروها و بیماری‌هات رو می‌گیره."}</p></div>
+  <button class="btn lime" id="mk" ${ready?"":"disabled"}>ساخت برنامه‌ی من <span class="arr">${ICON.arrow}</span></button></div>`);
+ d.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{d.querySelectorAll(".ic.morph").forEach(x=>x.classList.remove("morph"));b.querySelector(".ic").classList.add("morph");go(()=>{const c=CATS.find(x=>x.id===b.dataset.c);const qs=visibleQs(c);let qi=qs.findIndex(q=>S.a[q.id]===undefined);S.cat=c.id;S.qi=qi<0?0:qi;S.dir=1;S.view="q"})});
+ d.querySelector("#eg").onclick=()=>go(()=>S.view="goals");
+ d.querySelector("#mk").onclick=()=>go(()=>S.view="result");
+ return d;
+}
+function question(){
+ const cat=CATS.find(c=>c.id===S.cat),qs=visibleQs(cat);
+ if(S.qi>=qs.length)S.qi=qs.length-1;
+ const q=qs[S.qi],val=S.a[q.id],multi=q.type==="multi";
+ const tx=q.text&&q.text.when.some(i=>multi?(val||[]).includes(i):val===i);
+ const d=h(`<div class="qwrap"><div class="qcard ${S.dir<0?"rev":""}">
+  <span class="q-ic">${ICON[cat.icon]}</span>
+  <div class="kicker">${cat.title} · سؤال ${fa(S.qi+1)} از ${fa(qs.length)} <span class="code">${q.id}</span></div>
+  <h1 class="qtitle">${esc(q.t)}</h1>${q.hint?`<p class="qhint">${q.hint}</p>`:multi?'<p class="qhint">می‌توانید چند گزینه انتخاب کنید.</p>':""}
+  ${optsHTML(q,val)}
+  <div id="txw">${tx?`<div class="field"><label for="f-tx">${q.text.label}</label><input class="inp" id="f-tx" value="${esc(S.txt[q.id]||"")}"></div>`:""}</div>
+  ${q.other?`<div class="field"><label for="f-oth">${q.other}</label><input class="inp" id="f-oth" value="${esc(S.txt[q.id+"o"]||"")}"></div>`:""}
+  ${q.why?`<details class="why"><summary>چرا این سؤال مهم است؟</summary><p>${q.why}</p></details>`:""}
+  <div class="err"></div>
+  <div class="navrow"><button class="back" id="bk">${ICON.back} ${S.qi?"قبلی":"دسته‌ها"}</button>
+  <button class="btn" id="nx">${S.qi===qs.length-1?"پایان این بخش":"بعدی"} <span class="arr">${ICON.arrow}</span></button></div></div></div>`);
+ const next=()=>{const cur=S.a[q.id];if(cur===undefined||(Array.isArray(cur)&&!cur.length)){d.querySelector(".err").textContent="یک گزینه را انتخاب کن.";return}
+  go(()=>{const nqs=visibleQs(cat);const at=nqs.findIndex(x=>x.id===q.id);S.dir=1;if(at>=nqs.length-1){S.done[cat.id]=true;S.view="hub"}else S.qi=at+1})};
+ bindOpts(d,q,i=>{const needTx=q.text&&q.text.when.some(w=>multi?(S.a[q.id]||[]).includes(w):S.a[q.id]===w);
+  const w=d.querySelector("#txw");
+  if(needTx&&!w.innerHTML){w.innerHTML=`<div class="field view"><label for="f-tx">${q.text.label}</label><input class="inp" id="f-tx" value="${esc(S.txt[q.id]||"")}"></div>`;w.querySelector("input").oninput=e=>{S.txt[q.id]=e.target.value;save()};w.querySelector("input").focus()}
+  if(!needTx)w.innerHTML="";
+  if(!multi&&!needTx&&!q.other)setTimeout(()=>{if(document.contains(d))next()},320)});
+ d.querySelector("#f-tx")&&(d.querySelector("#f-tx").oninput=e=>{S.txt[q.id]=e.target.value;save()});
+ d.querySelector("#f-oth")&&(d.querySelector("#f-oth").oninput=e=>{S.txt[q.id+"o"]=e.target.value;save()});
+ d.querySelector("#bk").onclick=()=>go(()=>{S.dir=-1;if(S.qi)S.qi--;else S.view="hub"});
+ d.querySelector("#nx").onclick=next;
+ return d;
+}
+
+function bmiOf(){const hh=+S.b.h/100,ww=+S.b.w;return hh&&ww?ww/(hh*hh):null}
+function result(){
+ const R=compute(S),P=PLANS[R.plan],first=S.b.name.split(" ")[0];
+ const bmi=bmiOf();
+ const am=R.list.filter(x=>x.t==="am"),pm=R.list.filter(x=>x.t==="pm");
+ const pills=arr=>arr.map((x,i)=>`<span class="pill ${x.r?"r":""}" style="background:${x.c};animation-delay:${400+i*90}ms"></span>`).join("");
+ const sach=(lab,ic,arr)=>`<div class="sachet"><div class="when"><span>${lab}</span><img src="${IMG.logo}" alt=""></div><div class="pills">${arr.length?pills(arr):'<span class="qhint">—</span>'}</div><ul>${arr.map(x=>`<li>${esc(x.n)}</li>`).join("")}</ul></div>`;
+ const g=(S.a.G||[]).map(i=>GOALS.o[i]);
+ const answered=CATS.filter(c=>catProgress(c).n).map(c=>c.title);
+ const d=h(`
+ <section class="res-hero">
+  <div>
+   <div class="kicker">نتیجه‌ی ارزیابی · ${new Date().toLocaleDateString("fa-IR")}</div>
+   <h1>${esc(first)}، این برنامه‌ی پیشنهادی توئه</h1>
+   <span class="planbadge" style="background:${P.c}">${P.k}<small>${P.fa}</small></span>
+   <p class="lede" style="margin-top:14px">${P.line} ${R.plan==="expert"?"":"این پلن پایه‌ی کارته و ترکیبش بر اساس پاسخ‌هات شخصی‌سازی شده."}</p>
+   ${R.review?'<div class="flag bad" style="margin-top:16px"><span>این برنامه قبل از ارسال حتماً باید توسط داروساز تأیید شود.</span></div>':""}
+  </div>
+  <div class="sachets">${sach("ساشه‌ی صبح، همراه صبحانه","sun",am)}${sach("ساشه‌ی شب، بعد از شام","moon",pm)}</div>
+ </section>
+ <section class="sec"><h2>پروفایل تو</h2><div class="profile">
+  <div class="pf"><small>سن</small><b>${fa(S.b.age)} سال</b></div>
+  <div class="pf"><small>جنسیت</small><b>${S.b.sex==="f"?"زن":"مرد"}</b></div>
+  ${bmi?`<div class="pf"><small>شاخص توده‌ی بدنی (BMI)</small><b>${fa(bmi.toFixed(1))}</b></div>`:""}
+  <div class="pf" style="grid-column:span 2"><small>هدف‌ها</small><b style="font-size:.9rem">${g.map(esc).join("، ")}</b></div>
+  <div class="pf" style="grid-column:span 2"><small>دسته‌های پاسخ داده‌شده</small><b style="font-size:.9rem">${answered.join("، ")}</b></div>
+ </div></section>
+ <section class="sec"><h2>مکمل‌های پیشنهادی <span class="n">${fa(R.list.length)} مورد</span></h2><div class="supps">
+  ${R.list.map((x,i)=>`<div class="supp" style="animation-delay:${i*70}ms"><span class="dot" style="background:${x.c}"></span>
+   <div><h3>${esc(x.n)}</h3><p>${esc((x.why||[]).slice(0,3).join(" · "))}</p><div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
+   <span class="t">${x.t==="am"?"صبح":"شب"}</span></div>`).join("")}
+ </div><p class="disc">دوز نهایی هر مکمل پس از بازبینی داروساز و با توجه به مکمل‌های فعلی تو تعیین می‌شود.</p></section>
+ ${R.exList.length?`<section class="sec"><h2>حذف‌شده برای ایمنی تو</h2><div class="ex">${R.exList.map(x=>`<span>${esc(x.n)}<em>${esc(x.r)}</em></span>`).join("")}</div></section>`:""}
+ ${R.flags.length||R.notes.length?`<section class="sec"><h2>نکات ایمنی و مصرف</h2>${R.flags.map(f=>`<div class="flag ${f.bad?"bad":""}">${esc(f.t)}</div>`).join("")}${R.notes.map(n=>`<div class="flag" style="background:var(--paper);border-color:var(--line)">${esc(n)}</div>`).join("")}</section>`:""}
+ <section class="submitbox"><h2>ارسال برای بازبینی داروساز</h2><p>شماره‌ات رو وارد کن تا داروساز ویتاپلن برنامه رو بررسی کنه و برای سفارش بسته‌ی ۲۸ روزه باهات تماس بگیره.</p>
+  <div class="grid2" style="margin-top:14px"><div class="field"><label for="f-ph" style="color:inherit">شماره‌ی موبایل</label><input class="inp" id="f-ph" inputmode="tel" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" value="${esc(S.phone)}"></div>
+  <div class="field"><label for="f-em" style="color:inherit">ایمیل (اختیاری)</label><input class="inp" id="f-em" inputmode="email" value="${esc(S.email)}"></div></div>
+  <div class="cta-row"><button class="btn lime" id="send">ثبت و ارسال <span class="arr">${ICON.arrow}</span></button><button class="ghost" id="edit" style="color:inherit;border-color:currentColor">ویرایش پاسخ‌ها</button></div>
+  <div class="ok" id="ok" role="status"></div></section>
+ <p class="disc">این ارزیابی بر پایه‌ی پاسخ‌های خود تو انجام شده و جایگزین تشخیص یا درمان پزشکی نیست. در صورت بیماری یا مصرف دارو، پیش از شروع هر مکمل با پزشک معالج مشورت کن.</p>`);
+ d.querySelector("#edit").onclick=()=>go(()=>S.view="hub");
+ d.querySelector("#send").onclick=async()=>{
+  const ok=d.querySelector("#ok"),ph=toEn(d.querySelector("#f-ph").value).replace(/[\s-]/g,"");
+  S.phone=d.querySelector("#f-ph").value;S.email=d.querySelector("#f-em").value.trim();save();
+  if(!/^(\+98|0)?9\d{9}$/.test(ph)){ok.style.color="var(--warn)";ok.textContent="شماره‌ی موبایل را کامل وارد کن، مثلاً ۰۹۱۲۳۴۵۶۷۸۹.";return}
+  ok.style.color="";ok.textContent="در حال ثبت…";
+  const res=await submit(R,ph);
+  ok.textContent=res;
+ };
+ return d;
+}
+
+/* ---------------- storage ---------------- */
+let DB=null,USER=null;
+const ready=(async()=>{try{[DB,USER]=await Promise.all([window.claude?.use?.("db"),window.claude?.use?.("user")])}catch(e){}
+ try{if(USER&&(await USER.canEdit()))document.getElementById("adminBtn").hidden=false}catch(e){}})();
+async function submit(R,ph){
+ await ready;
+ if(!DB||!USER)return "ذخیره‌ی آنلاین در این نما در دسترس نیست. برای ثبت، صفحه را با حساب claude.ai باز کن.";
+ try{
+  const id=await USER.id();
+  const answers={};Object.keys(S.a).forEach(k=>{const q=QBY[k];if(!q)return;const v=S.a[k];answers[k]=Array.isArray(v)?v.map(i=>q.o[i]):q.o[v]});
+  const ref=DB.doc("submissions/"+id);
+  await ref.set({name:S.b.name,age:+S.b.age,sex:S.b.sex,height:+S.b.h||null,weight:+S.b.w||null,phone:ph,email:S.email||"",
+   goals:(S.a.G||[]).map(i=>GOALS.o[i]),plan:PLANS[R.plan].k,supplements:R.list.map(x=>x.n),excluded:R.exList.map(x=>x.n+" — "+x.r),
+   flags:R.flags.map(f=>(f.bad?"[مهم] ":"")+f.t),notes:R.notes,needsReview:R.review,answers,texts:S.txt,status:"new",createdAt:Date.now()});
+  return "ثبت شد. داروساز ویتاپلن برنامه‌ات را بررسی می‌کند و با همین شماره تماس می‌گیرد.";
+ }catch(e){return e?.code==="not_granted"||e?.code==="permission_denied"?"برای ثبت، دسترسی «استفاده از صفحه» لازم است. از ارسال‌کننده‌ی لینک بخواه دسترسی Contributor بدهد.":"ثبت انجام نشد. اتصال را بررسی کن و دوباره «ثبت و ارسال» را بزن."}
+}
+
+/* ---------------- admin ---------------- */
+let unsub=null,ROWS=[];
+function admin(){
+ const d=h(`<div class="adm"><div class="hubhead"><div><div class="kicker">پنل مدیریت</div><h1>پاسخ‌های پرسشنامه</h1></div><button class="ghost" id="bk">بازگشت به سایت</button></div>
+  <div class="stats" id="stats"></div><div class="tbl"><table><thead><tr><th>نام</th><th>سن</th><th>جنسیت</th><th>پلن</th><th>موبایل</th><th>نیاز به بازبینی</th><th>تاریخ</th></tr></thead><tbody id="tb"><tr><td colspan="7"><div class="empty">در حال بارگذاری پاسخ‌ها…</div></td></tr></tbody></table></div></div>`);
+ d.querySelector("#bk").onclick=()=>{unsub&&unsub();unsub=null;go(()=>S.view="home")};
+ const draw=()=>{
+  const tb=d.querySelector("#tb");
+  const n=ROWS.length,rev=ROWS.filter(r=>r.needsReview).length,cnt=k=>ROWS.filter(r=>r.plan===k).length;
+  d.querySelector("#stats").innerHTML=[["کل پاسخ‌ها",n],["نیازمند بازبینی",rev],["SportPlan",cnt("SportPlan")],["SlimPlan",cnt("SlimPlan")],["BeautyPlan",cnt("BeautyPlan")],["Personalized",cnt("Personalized")]].map(([l,v])=>`<div class="stat"><b>${fa(v)}</b><small>${l}</small></div>`).join("");
+  if(!n){tb.innerHTML='<tr><td colspan="7"><div class="empty">هنوز پاسخی ثبت نشده. وقتی کسی پرسشنامه را تمام کند و «ثبت و ارسال» را بزند، اینجا نمایش داده می‌شود.</div></td></tr>';return}
+  const col={SportPlan:"var(--indigo)",SlimPlan:"var(--lime-ink)",BeautyPlan:"var(--rose)",Personalized:"var(--cocoa)"};
+  tb.innerHTML=ROWS.map((r,i)=>`<tr class="click" data-i="${i}" tabindex="0"><td>${esc(r.name)}</td><td>${fa(r.age||"")}</td><td>${r.sex==="f"?"زن":"مرد"}</td><td><span class="pillb" style="background:${col[r.plan]||"var(--stone)"}">${esc(r.plan)}</span></td><td class="latin">${esc(r.phone)}</td><td>${r.needsReview?'<span style="color:var(--bad)">بله</span>':"خیر"}</td><td>${new Date(r.createdAt).toLocaleDateString("fa-IR")}</td></tr>`).join("");
+  tb.querySelectorAll("tr.click").forEach(tr=>{const op=()=>detail(ROWS[+tr.dataset.i]);tr.onclick=op;tr.onkeydown=e=>{if(e.key==="Enter")op()}});
+ };
+ (async()=>{await ready;
+  if(!DB){d.querySelector("#tb").innerHTML='<tr><td colspan="7"><div class="empty">پایگاه داده در این نما در دسترس نیست.</div></td></tr>';return}
+  const t=setTimeout(()=>{if(!ROWS.length)draw()},10000);
+  unsub&&unsub();
+  unsub=DB.collection("submissions").orderBy("createdAt","desc").onSnapshot(s=>{clearTimeout(t);ROWS=s.docs.map(x=>x.data());if(document.contains(d))draw()},()=>{clearTimeout(t);d.querySelector("#tb").innerHTML='<tr><td colspan="7"><div class="empty">دسترسی به پاسخ‌ها فقط برای مالک و ویرایشگران صفحه است.</div></td></tr>'});
+ })();
+ return d;
+}
+function detail(r){
+ const dr=document.createElement("div");dr.className="drawer";
+ const lst=(t,a)=>a&&a.length?`<div class="sec"><h2 style="font-size:1.05rem">${t}</h2>${a.map(x=>`<div class="qa">${esc(x)}</div>`).join("")}</div>`:"";
+ const ans=Object.entries(r.answers||{}).map(([k,v])=>`<div class="qa"><small>${k} · ${esc(QBY[k]?.t||"")}</small>${esc(Array.isArray(v)?v.join("، "):v)}${r.texts?.[k]?` — <b>${esc(r.texts[k])}</b>`:""}${r.texts?.[k+"o"]?` — <b>${esc(r.texts[k+"o"])}</b>`:""}</div>`).join("");
+ dr.innerHTML=`<div class="pane" role="dialog" aria-label="جزئیات پاسخ"><div class="navrow" style="margin-top:0"><h1 class="qtitle" style="margin:0">${esc(r.name)}</h1><button class="ghost" id="cl">بستن</button></div>
+  <div class="profile" style="margin-top:12px"><div class="pf"><small>پلن</small><b>${esc(r.plan)}</b></div><div class="pf"><small>سن</small><b>${fa(r.age)}</b></div><div class="pf"><small>موبایل</small><b class="latin">${esc(r.phone)}</b></div>${r.email?`<div class="pf"><small>ایمیل</small><b class="latin" style="font-size:.8rem">${esc(r.email)}</b></div>`:""}</div>
+  ${lst("هدف‌ها",r.goals)}${lst("مکمل‌های پیشنهادی",r.supplements)}${lst("حذف‌شده",r.excluded)}${lst("هشدارها",r.flags)}${lst("نکات مصرف",r.notes)}
+  <div class="sec"><h2 style="font-size:1.05rem">همه‌ی پاسخ‌ها</h2>${ans}</div></div>`;
+ const close=()=>dr.remove();
+ dr.onclick=e=>{if(e.target===dr)close()};dr.querySelector("#cl").onclick=close;
+ document.addEventListener("keydown",function k(e){if(e.key==="Escape"){close();document.removeEventListener("keydown",k)}});
+ document.body.append(dr);dr.querySelector("#cl").focus();
+}
+
+addEventListener("pointerdown",e=>{const r=document.documentElement.style;r.setProperty("--vx",e.clientX+"px");r.setProperty("--vy",e.clientY+"px")},{capture:true});
+document.getElementById("homeBtn").onclick=()=>go(()=>S.view="home");
+document.getElementById("adminBtn").onclick=()=>go(()=>S.view="admin");
+const route=()=>{if(location.hash==="#admin"&&S.view!=="admin"){S.view="admin";render()}};
+addEventListener("hashchange",route);
+if(location.hash==="#admin")S.view="admin";
+render();
+})();
+</script>
+
+</body>
+</html>
