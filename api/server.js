@@ -15,7 +15,7 @@ function cors(req, res) {
 }
 function send(res, code, obj) { res.writeHead(code, { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" }); res.end(JSON.stringify(obj)); }
 function body(req) {
-  return new Promise((ok, bad) => { let d = ""; req.on("data", c => { d += c; if (d.length > 300000) { bad(new Error("too large")); req.destroy(); } }); req.on("end", () => { try { ok(JSON.parse(d || "{}")); } catch (e) { bad(e); } }); });
+  return new Promise((ok, bad) => { let d = ""; req.on("data", c => { d += c; if (d.length > 4000000) { bad(new Error("too large")); req.destroy(); } }); req.on("end", () => { try { ok(JSON.parse(d || "{}")); } catch (e) { bad(e); } }); });
 }
 function limited(ip) {
   const now = Date.now(), w = hits.get(ip) || [];
@@ -48,6 +48,33 @@ http.createServer(async (req, res) => {
         [b.cid, String(b.name || "").slice(0, 120), phone, Number(b.age) || null, b.sex === "f" || b.sex === "m" ? b.sex : null,
          stage, b.plan ? String(b.plan).slice(0, 40) : null, !!b.needsReview, b.data && typeof b.data === "object" ? b.data : {}, STAGES]);
       return send(res, 200, { ok: true });
+    }
+    if (url.pathname === "/api/state" && req.method === "GET") {
+      const cid = url.searchParams.get("cid") || "";
+      if (!/^[\w-]{8,64}$/.test(cid)) return send(res, 400, { ok: false });
+      const r = await pool.query("SELECT data->'state' AS state FROM leads WHERE cid=$1", [cid]);
+      return send(res, 200, { ok: true, state: r.rows[0] ? r.rows[0].state : null });
+    }
+    if (url.pathname === "/api/ref" && req.method === "GET") {
+      const code = (url.searchParams.get("code") || "").toUpperCase();
+      if (!/^VP-[A-Z0-9]{5}$/.test(code)) return send(res, 400, { ok: false });
+      const r = await pool.query("SELECT count(*)::int AS n, count(*) FILTER (WHERE stage='submitted')::int AS s FROM leads WHERE upper(data->>'ref')=$1", [code]);
+      return send(res, 200, { ok: true, joined: r.rows[0].n, submitted: r.rows[0].s });
+    }
+    if (url.pathname === "/api/upload" && req.method === "POST") {
+      const ip = (req.headers["x-forwarded-for"] || "").split(",")[0] || req.socket.remoteAddress;
+      if (limited(ip)) return send(res, 429, { ok: false });
+      const b = await body(req);
+      if (typeof b.cid !== "string" || !/^[\w-]{8,64}$/.test(b.cid)) return send(res, 400, { ok: false });
+      const m = /^data:(image\/(jpeg|png|webp)|application\/pdf);base64,([A-Za-z0-9+/=]+)$/.exec(String(b.file || ""));
+      if (!m || m[3].length > 3800000) return send(res, 400, { ok: false, err: "file" });
+      await pool.query("INSERT INTO uploads (cid, mime, name, data) VALUES ($1,$2,$3,$4)", [b.cid, m[1], String(b.name || "").slice(0, 120), Buffer.from(m[3], "base64")]);
+      return send(res, 200, { ok: true });
+    }
+    if (url.pathname === "/api/upload" && req.method === "GET") {
+      if (!ADMIN_KEY || req.headers["x-admin-key"] !== ADMIN_KEY) return send(res, 401, { ok: false });
+      const r = await pool.query("SELECT id, mime, name, encode(data,'base64') AS b64, created_at FROM uploads WHERE cid=$1 ORDER BY id DESC LIMIT 5", [url.searchParams.get("cid") || ""]);
+      return send(res, 200, { ok: true, files: r.rows.map(x => ({ id: x.id, name: x.name, url: "data:" + x.mime + ";base64," + x.b64, at: x.created_at })) });
     }
     if (url.pathname === "/api/leads" && req.method === "GET") {
       if (!ADMIN_KEY || req.headers["x-admin-key"] !== ADMIN_KEY) return send(res, 401, { ok: false });

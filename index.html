@@ -449,6 +449,71 @@ main{padding-block:12px 150px;position:relative}
 .codebox{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:14px;padding:12px 16px;border-radius:16px;border:1.5px dashed var(--lime);background:var(--lime-soft);font-size:.88rem}
 .codebox b{font-size:1.25rem;color:var(--cocoa);letter-spacing:.08em}
 .storyprev{max-width:200px;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow)}
+
+/* --- round 3 features --- */
+.cmp{margin-top:30px;overflow-x:auto;border-radius:24px}
+.cmp table{width:100%;border-collapse:collapse;min-width:520px}
+.cmp th,.cmp td{padding:14px 18px;text-align:right;border-bottom:1px solid var(--line);font-size:.95rem}
+.cmp th{font-weight:600;color:var(--stone);font-size:.8rem}
+.cmp th.us,.cmp td.us{color:var(--lime);text-align:center;background:var(--lime-soft)}
+.cmp td.th{color:var(--stone);text-align:center}
+.cmp tr:last-child td{border-bottom:0}
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.tr{border-radius:22px;padding:20px;text-align:center}
+.tr .ti{width:52px;height:52px;margin:0 auto 12px;border-radius:16px;display:grid;place-items:center;background:var(--lime-soft);border:1px solid var(--line-2);color:var(--lime)}
+.tr .ti svg{width:26px;height:26px}
+.tr b{display:block;font-family:var(--display)}
+.tr small{color:var(--stone);font-size:.82rem}
+.faq{display:grid;gap:10px;margin-top:28px;max-width:820px}
+.faq details{border-radius:18px;padding:0;overflow:hidden}
+.faq summary{cursor:pointer;list-style:none;padding:16px 20px;font-weight:700;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--latin);color:var(--lime);font-size:1.3rem;transition:transform .3s var(--ease)}
+.faq details[open]{border-color:var(--line-2)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 20px 18px;color:var(--cocoa-2);font-size:.93rem}
+.mag{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+.art{text-align:right;border-radius:22px;padding:20px;display:grid;gap:8px;align-content:start;transition:transform .4s var(--ease),border-color .3s}
+.art:hover{transform:translateY(-4px);border-color:var(--line-2)}
+.art .tg{justify-self:start;font-size:.72rem;border:1px solid var(--line-2);color:var(--lime);border-radius:999px;padding:2px 10px}
+.art h3{font-size:1.08rem}
+.art small{color:var(--stone)}
+.artbody p{color:var(--cocoa-2);margin-top:12px}
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+.rv{border-radius:22px;padding:20px}.rv .st{color:#F2D14B;letter-spacing:2px}.rv p{color:var(--cocoa-2);margin:8px 0}.rv small{color:var(--lime);font-size:.75rem}
+.chatfab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:16;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.chatfab .fab{width:56px;height:56px;border-radius:50%;border:0;background:var(--lime);color:#071003;display:grid;place-items:center;box-shadow:0 0 30px -4px var(--lime-glow),var(--shadow);transition:transform .3s var(--ease)}
+.chatfab .fab:hover{transform:scale(1.07)}
+.chatfab .fab svg{width:26px;height:26px}
+.chatfab .panel{width:min(290px,calc(100vw - 32px));border-radius:22px;padding:16px;background:rgba(10,16,19,.95);border:1px solid var(--line-2);box-shadow:var(--shadow);transform-origin:100% 100%;transition:opacity .3s,transform .4s var(--ease)}
+.chatfab .panel.hide{opacity:0;transform:scale(.7);pointer-events:none}
+.chatfab .panel b{font-family:var(--display)}
+.chatfab .panel a,.chatfab .panel .num{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:10px 14px;border-radius:14px;border:1px solid var(--line);color:var(--cocoa);text-decoration:none;font-size:.9rem;background:var(--paper)}
+.chatfab .panel a:hover{border-color:var(--line-2)}
+.modal{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:16px;animation:fade .3s both}
+.modal .box{max-width:440px;width:100%;border-radius:26px;padding:26px;background:var(--bg-2);border:1px solid var(--line-2);box-shadow:var(--shadow);animation:bdgIn .5s var(--ease) both}
+.modal h3{font-size:1.25rem;margin-bottom:8px}
+.modal p{color:var(--cocoa-2);font-size:.92rem}
+.modal .cta-row{margin-top:20px}
+.brand{display:inline-block;margin-top:6px;font-size:.72rem;color:var(--cyan);border:1px solid rgba(79,227,224,.3);border-radius:999px;padding:1px 10px}
+.labs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.labs .field{margin:0}
+.drop{display:flex;align-items:center;gap:12px;margin-top:12px;padding:14px 16px;border-radius:16px;border:1.5px dashed var(--line-2);background:var(--lime-soft);cursor:pointer;font-size:.9rem}
+.drop input{display:none}
+.subs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.sub{text-align:right;border-radius:20px;padding:18px;background:var(--paper);border:1.5px solid var(--line);transition:border-color .3s,box-shadow .3s}
+.sub.on{border-color:var(--lime);background:var(--lime-soft);box-shadow:0 0 40px -16px var(--lime-glow)}
+.sub b{display:block;font-family:var(--display);font-size:1.05rem}
+.sub .pr{font-size:1.25rem;font-weight:900;margin-top:6px}
+.sub .pr span{color:var(--lime)}
+.sub small{color:var(--stone);font-size:.8rem}
+.sub .tag2{float:left;font-size:.68rem;background:var(--lime);color:#071003;border-radius:999px;padding:1px 9px}
+.refbox{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.refbox .pf{flex:1;min-width:130px;text-align:center}
+.refbox .pf b{font-family:var(--latin);font-size:1.5rem;color:var(--lime)}
+.later{background:none;border:0;color:var(--cyan);font-size:.85rem;padding:6px 2px;text-decoration:underline;text-underline-offset:4px}
+@media (max-width:900px){.trust{grid-template-columns:1fr 1fr}.mag,.reviews{grid-template-columns:1fr}.labs{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.subs{grid-template-columns:1fr}#vita{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
 </style>
 </head>
 <body>
@@ -467,6 +532,17 @@ main{padding-block:12px 150px;position:relative}
 
 <script>
 (()=>{
+/* ===== تنظیمات ویتاپلن: این بخش رو تیم پر می‌کنه ===== */
+const CFG={
+ contact:{instagram:"vitaplan.ir",whatsapp:"",telegram:"",phone:""}, // whatsapp: 98912xxxxxxx · telegram: username · phone: 021...
+ license:"",            // متن مجوز، مثلاً «پروانه‌ی بهره‌برداری شماره‌ی ...». خالی = نمایش داده نمی‌شه
+ discount:"",           // مقدار تخفیف کد معرف، مثلاً «۱۰٪»
+ prices:{m1:null,m3:null}, // قیمت روزانه به تومان، مثلاً {m1:45000,m3:39000}
+ brands:["یوروویتال","عبیدی"], // برندهای نمونه‌ی بازار ایران
+ brandMap:{},           // برند هر مکمل، مثلاً {d3:"یوروویتال",omega3:"عبیدی"}
+ reviews:[]             // فقط نظر واقعی: {name:"سارا",plan:"BeautyPlan",stars:5,text:"..."}
+};
+const BUILD="1794256667";
 const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
@@ -776,6 +852,11 @@ function compute(S){
  if(age>=65)flag("سن بالای ۶۵ سال: دوزها با توجه به عملکرد کلیه تنظیم می‌شود.");
  if(has("CL07",1))flag("شرایط خاص گزارش‌شده توسط شما توسط داروساز بررسی می‌شود.");
 
+ const L=S.labs||{};
+ if(L.d!==""&&L.d!=null){if(L.d<20)add("d3",4,"آزمایش: ویتامین D پایین");else if(L.d<30)add("d3",2,"آزمایش: ویتامین D کمتر از حد مطلوب");else if(L.d>=60)no("d3","آزمایش: سطح ویتامین D کافی است")}
+ if(L.f!==""&&L.f!=null){if(L.f<30)add("iron",4,"آزمایش: فریتین پایین");else if(L.f>150)no("iron","آزمایش: ذخیره‌ی آهن کافی است")}
+ if(L.b!==""&&L.b!=null&&L.b<300)add("b12",4,"آزمایش: ویتامین B12 پایین");
+ if(L.t!==""&&L.t!=null&&(L.t<0.4||L.t>4.5))flag("TSH خارج از محدوده‌ی طبیعی است؛ پیش از شروع، با پزشک درباره‌ی تیروئید مشورت کن.",true);
  if(ex.multiA&&!ex.multi){SUP.multi._n="مولتی‌ویتامین بدون ویتامین A"}else SUP.multi._n=null;
  if(preg&&!ex.multi)SUP.multi._n="مولتی‌ویتامین مخصوص بارداری";
  const exList=Object.keys(ex).filter(k=>k!=="multiA"&&sc[k]>=2).map(k=>({k,n:SUP[k].n,r:ex[k]}));
@@ -788,7 +869,7 @@ function compute(S){
 }
 
 /* ---------------- state ---------------- */
-const blank=()=>({view:"home",b:{name:"",age:"",sex:"",h:"",w:""},a:{},txt:{},cat:null,qi:0,done:{},dir:1,phone:"",email:"",sel:null,off:{},cid:"",code:""});
+const blank=()=>({view:"home",b:{name:"",age:"",sex:"",h:"",w:""},a:{},txt:{},cat:null,qi:0,done:{},dir:1,phone:"",email:"",sel:null,off:{},cid:"",code:"",ref:"",labs:{},sub:"m3"});
 let S=window.claude?.hot?.data?.S||blank();
 try{const sv=localStorage.getItem("vp-draft");if(sv&&!window.claude?.hot?.data?.S)S=Object.assign(blank(),JSON.parse(sv))}catch(e){}
 window.claude?.hot?.snapshot?.(()=>({S}));
@@ -907,6 +988,85 @@ async function storyCard(R,list,P,out){
  out.innerHTML=`<div class="storyrow"><img class="storyprev" src="${url}" alt="کارت استوری ویتاپلن"><div><a class="btn line" href="${url}" download="vitaplan-story.png">دانلود عکس <span class="arr">${ICON.arrow}</span></a><p class="qhint" style="margin-top:8px">روی گوشی می‌تونی عکس رو نگه داری و ذخیره کنی.</p></div></div>`;
 }
 
+/* ---------------- content ---------------- */
+const SVGI=p=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function trustHTML(){const T=[];
+ if(CFG.license)T.push([SVGI('<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>'),"دارای مجوز",CFG.license]);
+ T.push([SVGI('<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>'),"تأیید داروساز","برای تک‌تک پک‌ها"]);
+ T.push([SVGI('<path d="M4 7h16v13H4z"/><path d="M9 7V4h6v3"/>'),"مکمل اصل","از برندهای معتبر بازار ایران"]);
+ T.push([SVGI('<path d="M12 3v18M3 12h18"/>'),"چک تداخل دارویی","بر اساس داروها و بیماری‌هات"]);
+ if(T.length<4)T.push([SVGI('<path d="M21 12a9 9 0 11-3-6.7"/><path d="M21 4v5h-5"/>'),"مشاوره‌ی رایگان","قبل و بعد از خرید"]);
+ return T.slice(0,4).map(t=>`<div class="tr glass reveal"><div class="ti">${t[0]}</div><b>${t[1]}</b><small>${esc(t[2])}</small></div>`).join("")}
+const FAQ=[
+ ["با داروهایی که مصرف می‌کنم تداخل نداره؟","توی پرسشنامه داروها و بیماری‌هات رو می‌پرسیم و مکمل‌هایی که با اون‌ها تداخل دارن خودکار حذف می‌شن. بعد داروساز ویتاپلن هم برنامه رو بازبینی می‌کنه. اگه داروی خاصی مصرف می‌کنی، بهتره با پزشک معالجت هم هماهنگ کنی."],
+ ["بعد از چند وقت اثرش رو حس می‌کنم؟","بستگی به مکمل و بدن هر کس داره. بیشتر مکمل‌ها با مصرف منظم و روزانه طی چند هفته اثرشون مشخص می‌شه، برای همین پک‌ها ۲۸ روزه طراحی شدن."],
+ ["توی بارداری یا شیردهی هم می‌تونم استفاده کنم؟","بله، ولی با فرمول مخصوص. اگه توی پرسشنامه بارداری یا شیردهی رو بزنی، ترکیبات نامناسب حذف می‌شن و برنامه حتماً باید قبل از ارسال توسط داروساز تأیید بشه."],
+ ["ساشه‌ها رو چطور مصرف کنم؟","هر روز یک ساشه‌ی صبح همراه صبحانه و یک ساشه‌ی شب بعد از شام. زمان مصرف روی هر ساشه نوشته شده."],
+ ["اگه بخوام ترکیب پکم رو عوض کنم؟","توی صفحه‌ی نتیجه هر مکملی رو نخوای خاموش می‌کنی. بعداً هم می‌تونی پرسشنامه رو دوباره پر کنی یا با داروساز صحبت کنی."],
+ ["اطلاعاتم کجا ذخیره می‌شه؟","پاسخ‌هات فقط برای طراحی پک و تماس داروساز با تو استفاده می‌شه و در اختیار کس دیگه‌ای قرار نمی‌گیره."]];
+const ARTICLES=[
+ {tag:"خواب",t:"منیزیم رو صبح بخوریم یا شب؟",m:"۳",p:["منیزیم توی پک‌های ویتاپلن معمولاً توی ساشه‌ی شب قرار می‌گیره، چون خیلی‌ها مصرفش رو در ساعات پایانی روز راحت‌تر و همراه با حس آرامش بیشتری تجربه می‌کنن.","مصرفش همراه غذا احتمال ناراحتی گوارشی رو کمتر می‌کنه. فرم‌های مختلف منیزیم (مثل گلیسینات و سیترات) اثرات گوارشی متفاوتی دارن و داروساز بر اساس شرایطت فرم مناسب رو انتخاب می‌کنه.","اگه بیماری کلیوی داری، منیزیم فقط با نظر پزشک مصرف بشه."]},
+ {tag:"ویتامین D",t:"چرا ویتامین D رو با غذا بخوریم؟",m:"۲",p:["ویتامین D یک ویتامین محلول در چربیه؛ یعنی وقتی همراه وعده‌ای که کمی چربی داره مصرف بشه، بهتر جذب می‌شه.","برای همین ویتامین D توی ساشه‌ی صبح، همراه صبحانه قرار می‌گیره.","بهترین راه فهمیدن نیاز واقعی‌ات، آزمایش خونه. اگه آزمایش داری، عددش رو توی صفحه‌ی نتیجه وارد کن تا دوزت دقیق‌تر تنظیم بشه."]},
+ {tag:"آهن",t:"آهن و چای: چرا با هم نه؟",m:"۳",p:["ترکیبات موجود در چای و قهوه می‌تونن جذب آهن رو کم کنن. بهتره بین مصرف مکمل آهن و چای یا قهوه یکی دو ساعت فاصله باشه.","ویتامین C جذب آهن رو بیشتر می‌کنه؛ برای همین توی پک‌های ویتاپلن آهن معمولاً همراه ویتامین C میاد.","کلسیم هم با آهن رقابت می‌کنه، به همین خاطر این دو توی ساشه‌های جدا (صبح و شب) قرار می‌گیرن."]}];
+function article(a){const dr=document.createElement("div");dr.className="drawer";
+ dr.innerHTML=`<div class="pane artbody" role="dialog" aria-label="${esc(a.t)}"><div class="navrow" style="margin-top:0"><span class="tg" style="font-size:.75rem;border:1px solid var(--line-2);color:var(--lime);border-radius:999px;padding:2px 10px">${a.tag}</span><button class="ghost" id="cl">بستن</button></div><h1 class="qtitle">${a.t}</h1><small class="qhint">${a.m} دقیقه مطالعه · تیم ویتاپلن</small>${a.p.map(x=>`<p>${x}</p>`).join("")}<p class="disc">این مطلب جنبه‌ی آموزشی داره و جایگزین مشاوره‌ی پزشکی نیست.</p><div class="cta-row"><button class="btn" id="go2">ساخت پک من <span class="arr">${ICON.arrow}</span></button></div></div>`;
+ const close=()=>dr.remove();dr.onclick=e=>{if(e.target===dr)close()};dr.querySelector("#cl").onclick=close;dr.querySelector("#go2").onclick=()=>{close();startFlow()};
+ document.body.append(dr);dr.querySelector("#cl").focus()}
+
+/* ---------------- start / reset / resume ---------------- */
+function hasProgress(){return !!(S.b.name||Object.keys(S.a).length)}
+function freshStart(){const keepRef=S.ref;S=blank();S.cid=newCid();S.ref=keepRef;lastA=-1;vitaKey="";save()}
+function startFlow(){
+ if(!hasProgress()){go(()=>{S.view="basic"});return}
+ const m=document.createElement("div");m.className="modal";
+ m.innerHTML=`<div class="box" role="dialog" aria-label="ارزیابی قبلی"><h3>ارزیابی قبلیت ذخیره‌ست</h3><p>${S.b.name?esc(S.b.name.split(" ")[0])+"، ":""}می‌خوای از همون جایی که بودی ادامه بدی یا از اول شروع کنی؟</p>
+  <div class="cta-row"><button class="btn" id="m-new">شروع از اول <span class="arr">${ICON.arrow}</span></button><button class="btn line" id="m-go">ادامه‌ی قبلی</button></div></div>`;
+ document.body.append(m);
+ m.onclick=e=>{if(e.target===m)m.remove()};
+ m.querySelector("#m-new").onclick=()=>{m.remove();freshStart();go(()=>{S.view="basic"})};
+ m.querySelector("#m-go").onclick=()=>{m.remove();go(()=>{S.view=S.b.name&&S.b.age&&S.b.sex?((S.a.G||[]).length?"hub":"goals"):"basic"})};
+ m.querySelector("#m-new").focus()}
+function resumeLater(){saveLead("in_progress");
+ const link=location.origin+location.pathname+"#r-"+S.cid;
+ const m=document.createElement("div");m.className="modal";
+ m.innerHTML=`<div class="box" role="dialog" aria-label="ادامه‌ی بعداً"><h3>پاسخ‌هات ذخیره شد</h3><p>این لینک رو برای خودت بفرست یا ذخیره کن. هر وقت بازش کنی، از همین‌جا ادامه می‌دی، حتی روی یه گوشی دیگه.</p>
+  <div class="inp latin" id="m-link" style="margin-top:14px;direction:ltr;text-align:left;font-size:.82rem;word-break:break-all;user-select:all">${esc(link)}</div>
+  <div class="cta-row"><button class="btn" id="m-cp">کپی لینک <span class="arr">${ICON.arrow}</span></button><button class="btn line" id="m-x">ادامه‌ی پرسشنامه</button></div></div>`;
+ document.body.append(m);m.onclick=e=>{if(e.target===m)m.remove()};m.querySelector("#m-x").onclick=()=>m.remove();
+ m.querySelector("#m-cp").onclick=async e=>{try{await navigator.clipboard.writeText(link);e.currentTarget.firstChild.textContent="کپی شد "}catch(_){const r=document.createRange();r.selectNodeContents(m.querySelector("#m-link"));getSelection().removeAllRanges();getSelection().addRange(r)}}}
+async function tryResume(){const h=location.hash;if(!API||!/^#r-[\w-]{8,64}$/.test(h))return false;const cid=h.slice(3);
+ try{const j=await (await fetch(API+"/api/state?cid="+encodeURIComponent(cid))).json();if(!j.state)return false;
+  S=Object.assign(blank(),j.state,{cid,view:"hub"});save();history.replaceState(null,"",location.pathname);render();return true}catch(e){return false}}
+
+/* ---------------- labs upload ---------------- */
+async function uploadLab(file,lab){if(!file||!API)return;lab.textContent="در حال آماده‌سازی…";
+ try{let dataUrl;
+  if(file.type==="application/pdf"){if(file.size>2.6e6){lab.textContent="فایل PDF باید کمتر از ۲٫۵ مگابایت باشه.";return}dataUrl=await new Promise((r,j)=>{const f=new FileReader();f.onload=()=>r(f.result);f.onerror=j;f.readAsDataURL(file)})}
+  else{const img=await createImageBitmap(file);const k=Math.min(1,1600/Math.max(img.width,img.height));const c=document.createElement("canvas");c.width=img.width*k;c.height=img.height*k;c.getContext("2d").drawImage(img,0,0,c.width,c.height);dataUrl=c.toDataURL("image/jpeg",.78)}
+  lab.textContent="در حال ارسال…";
+  const r=await fetch(API+"/api/upload",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({cid:S.cid,name:file.name,file:dataUrl})});
+  if(!r.ok)throw 0;S.labs.file=true;save();saveLead("completed");lab.textContent="فایل آزمایش فرستاده شد ✓ داروساز بررسیش می‌کنه.";
+ }catch(e){lab.textContent="ارسال انجام نشد. اینترنت رو چک کن و دوباره فایل رو انتخاب کن."}}
+
+/* ---------------- calendar reminder ---------------- */
+function icsFile(out){const d=new Date();d.setDate(d.getDate()+1);const ymd=d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
+ const st=new Date().toISOString().replace(/[-:]/g,"").slice(0,15)+"Z";
+ const ev=(id,hh,title)=>["BEGIN:VEVENT","UID:"+id+"-"+S.cid+"@vitaplan","DTSTAMP:"+st,"DTSTART:"+ymd+"T"+hh+"0000","DURATION:PT10M","RRULE:FREQ=DAILY;COUNT=28","SUMMARY:"+title,"DESCRIPTION:ویتاپلن · @vitaplan.ir","BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+title,"TRIGGER:PT0M","END:VALARM","END:VEVENT"].join("\r\n");
+ const ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//VitaPlan//FA","CALSCALE:GREGORIAN",ev("am","08","ساشه‌ی صبح ویتاپلن ☀️"),ev("pm","22","ساشه‌ی شب ویتاپلن 🌙"),"END:VCALENDAR"].join("\r\n");
+ const url=URL.createObjectURL(new Blob([ics],{type:"text/calendar"}));
+ const a=document.createElement("a");a.href=url;a.download="vitaplan-reminder.ics";document.body.append(a);a.click();a.remove();
+ out.innerHTML=`<span class="qhint">اگه تقویم باز نشد، <a href="${url}" download="vitaplan-reminder.ics" style="color:var(--lime)">این فایل</a> رو باز کن.</span>`}
+
+/* ---------------- chat fab ---------------- */
+function chatFab(){const C=CFG.contact,L=[];
+ if(C.instagram)L.push(`<a href="https://ig.me/m/${esc(C.instagram)}" target="_blank" rel="noopener"><span>دایرکت اینستاگرام</span><span class="latin">@${esc(C.instagram)}</span></a>`);
+ if(C.whatsapp)L.push(`<a href="https://wa.me/${esc(C.whatsapp)}" target="_blank" rel="noopener"><span>واتساپ</span><span>←</span></a>`);
+ if(C.telegram)L.push(`<a href="https://t.me/${esc(C.telegram)}" target="_blank" rel="noopener"><span>تلگرام</span><span>←</span></a>`);
+ if(C.phone)L.push(`<div class="num"><span>تماس</span><span class="latin" style="user-select:all">${esc(C.phone)}</span></div>`);
+ if(!L.length)return;const el=document.createElement("div");el.className="chatfab";
+ el.innerHTML=`<div class="panel hide" role="dialog" aria-label="مشاوره با داروساز"><b>مشاوره با داروساز ویتاپلن</b><p class="qhint" style="font-size:.82rem">سؤالی درباره‌ی پکت یا داروهات داری؟ بپرس.</p>${L.join("")}</div><button class="fab" aria-label="مشاوره با داروساز">${SVGI('<path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"/>')}</button>`;
+ document.body.append(el);const p=el.querySelector(".panel");el.querySelector(".fab").onclick=()=>p.classList.toggle("hide")}
+
 /* ---------------- views ---------------- */
 function render(){
  strip();
@@ -984,19 +1144,44 @@ function home(){
   </div></div>
  </section>
  <section class="band">
-  <span class="sec-tag">04 — MODELS</span>
+  <span class="sec-tag">04 — WHY</span>
+  <h2 class="reveal">ویتاپلن چه فرقی با مولتی‌ویتامین معمولی داره؟</h2>
+  <div class="cmp glass reveal"><table><thead><tr><th>ویژگی</th><th class="us">ویتاپلن</th><th style="text-align:center">مولتی‌ویتامین معمولی</th></tr></thead><tbody>
+   <tr><td>بر اساس شرایط خود تو</td><td class="us">✓</td><td class="th">—</td></tr>
+   <tr><td>بررسی تداخل با داروها و بیماری‌ها</td><td class="us">✓</td><td class="th">—</td></tr>
+   <tr><td>جدا برای صبح و شب</td><td class="us">✓</td><td class="th">—</td></tr>
+   <tr><td>بازبینی داروساز قبل از ارسال</td><td class="us">✓</td><td class="th">—</td></tr>
+   <tr><td>بدون شمردن قرص؛ یک ساشه در هر نوبت</td><td class="us">✓</td><td class="th">—</td></tr>
+  </tbody></table></div>
+  <div class="trust">${trustHTML()}</div>
+ </section>
+ <section class="band">
+  <span class="sec-tag">05 — MODELS</span>
   <h2 class="reveal">سه مدل همکاری</h2>
   <div class="lines">
    <div class="line glass reveal"><div class="k">Customised</div><p>SportPlan، SlimPlan و BeautyPlan؛ طراحی‌شده برای نیاز مشترک یک گروه، مثل ورزشکارها یا مسیر کاهش وزن.</p></div>
    <div class="line glass reveal"><div class="k">Expert Plan</div><p>فرمولاسیونی که با همکاری یک متخصص تغذیه، سلامت یا ورزش برای کلینیک‌ها و باشگاه‌ها طراحی می‌شه.</p></div>
    <div class="line glass hl reveal"><div class="k">Personalised</div><p>برنامه‌ی کاملاً شخصی بر اساس رژیم غذایی، سبک زندگی و تاریخچه‌ی پزشکی خودت. همین ارزیابی شروعشه.</p></div>
   </div>
+  </section>
+ <section class="band">
+  <span class="sec-tag">06 — JOURNAL</span>
+  <h2 class="reveal">مجله‌ی ویتاپلن</h2>
+  <p class="sub reveal">نکته‌های کوتاه درباره‌ی مصرف درست مکمل‌ها.</p>
+  <div class="mag">${ARTICLES.map((a,i)=>`<button class="art glass reveal" data-a="${i}"><span class="tg">${a.tag}</span><h3>${a.t}</h3><small>${a.m} دقیقه مطالعه</small></button>`).join("")}</div>
+ </section>
+ ${CFG.reviews.length?`<section class="band"><span class="sec-tag">07 — REVIEWS</span><h2 class="reveal">تجربه‌ی خریدارها</h2><div class="reviews">${CFG.reviews.map(r=>`<div class="rv glass reveal"><div class="st">${"★".repeat(r.stars)}${"☆".repeat(5-r.stars)}</div><p>«${esc(r.text)}»</p><b>${esc(r.name)}</b> · <span class="latin">${esc(r.plan)}</span><br><small>✓ خرید تأییدشده</small></div>`).join("")}</div></section>`:""}
+ <section class="band">
+  <span class="sec-tag">FAQ</span>
+  <h2 class="reveal">سؤالات پرتکرار</h2>
+  <div class="faq">${FAQ.map(f=>`<details class="glass reveal"><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join("")}</div>
   <div class="cta-band glass reveal"><h2>آماده‌ای ترکیب خودت رو ببینی؟</h2><p class="sub" style="margin:10px auto 0">ارزیابی رایگانه و نتیجه رو همون لحظه می‌بینی.</p>
    <div class="cta-row"><button class="btn" id="start2">شروع ارزیابی <span class="arr">${ICON.arrow}</span></button></div></div>
  </section>
  <footer class="foot"><span class="latin">www.vitaplan.ir</span><span>این ارزیابی جایگزین ویزیت پزشک نیست.</span></footer>`);
  const st=()=>go(()=>{S.view=S.b.name&&S.b.age&&S.b.sex?((S.a.G||[]).length?"hub":"goals"):"basic"});
- d.querySelector("#start").onclick=st;d.querySelector("#start2").onclick=st;
+ d.querySelector("#start").onclick=startFlow;d.querySelector("#start2").onclick=startFlow;
+ d.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>article(ARTICLES[+b.dataset.a]));
  d.querySelectorAll(".plan").forEach(p=>{p.onpointermove=e=>{const r=p.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;p.style.transform=`rotateY(${x*10}deg) rotateX(${-y*10}deg) translateY(-4px)`};p.onpointerleave=()=>p.style.transform=""});
  return d;
 }
@@ -1010,6 +1195,7 @@ function basic(){
   <div class="grid2"><div class="field"><label for="f-name">نام و نام خانوادگی</label><input class="inp" id="f-name" value="${esc(b.name)}" autocomplete="name"></div>
   <div class="field"><label for="f-ph0">شماره‌ی موبایل</label><input class="inp latin" id="f-ph0" inputmode="tel" autocomplete="tel" placeholder="09120000000" value="${esc(S.phone)}" style="text-align:right"></div></div>
   <p class="qhint" style="margin-top:6px">نتیجه و برنامه‌ات با این شماره ذخیره می‌شه تا داروساز بتونه باهات تماس بگیره.</p>
+  <div class="field"><label for="f-ref">کد معرف (اختیاری)</label><input class="inp latin" id="f-ref" placeholder="VP-XXXXX" value="${esc(S.ref)}" style="text-align:right;text-transform:uppercase"></div>
   <div class="grid2">
    <div class="field"><label for="f-age">سن (سال)</label><input class="inp" id="f-age" inputmode="numeric" value="${esc(b.age)}"></div>
    <div class="field"><label>جنسیت</label><div class="opts" style="margin:0;grid-template-columns:1fr 1fr">
@@ -1033,6 +1219,7 @@ function basic(){
   if(hh&&(+hh<100||+hh>230))return e.textContent="قد را به سانتی‌متر وارد کن، مثلاً ۱۷۲.";
   if(ww&&(+ww<30||+ww>250))return e.textContent="وزن را به کیلوگرم وارد کن، مثلاً ۶۸.";
   if(S.phone&&toEn(S.phone).replace(/[\s-]/g,"")!==ph)S.cid=newCid();
+  const rf=toEn(d.querySelector("#f-ref").value).trim().toUpperCase();if(rf&&!/^VP-[A-Z0-9]{5}$/.test(rf))return e.textContent="کد معرف باید شبیه VP-7X7EP باشه. اگه نداری خالیش بذار.";S.ref=rf===S.code?"":rf;
   go(()=>{Object.assign(S.b,{name,age:String(age),h:hh,w:ww});S.phone=ph;S.view=age<18?"blocked":"goals"});if(age>=18)saveLead("started");
  };
  return d;
@@ -1137,7 +1324,7 @@ function question(){
   ${q.other?`<div class="field"><label for="f-oth">${q.other}</label><input class="inp" id="f-oth" value="${esc(S.txt[q.id+"o"]||"")}"></div>`:""}
   ${q.why?`<details class="why"><summary>چرا این سؤال مهم است؟</summary><p>${q.why}</p></details>`:""}
   <div class="err"></div>
-  <div class="navrow"><button class="back" id="bk">${ICON.back} ${S.qi||selCats().indexOf(cat.id)>0?"قبلی":"دسته‌ها"}</button>
+  <div class="navrow"><span style="display:flex;gap:14px;align-items:center"><button class="back" id="bk">${ICON.back} ${S.qi||selCats().indexOf(cat.id)>0?"قبلی":"دسته‌ها"}</button>${API?'<button class="later" id="later">ادامه‌ی بعداً</button>':""}</span>
   <button class="btn" id="nx">${S.qi===qs.length-1?(nextCat(cat.id)?"دسته‌ی بعدی":"ساخت پک من"):"بعدی"} <span class="arr">${ICON.arrow}</span></button></div></div></div>`);
  const next=()=>{const cur=S.a[q.id];if(cur===undefined||(Array.isArray(cur)&&!cur.length)){d.querySelector(".err").textContent="یک گزینه را انتخاب کن.";return}
   const nqs=visibleQs(cat);const at=nqs.findIndex(x=>x.id===q.id);
@@ -1152,6 +1339,7 @@ function question(){
  d.querySelector("#f-oth")&&(d.querySelector("#f-oth").oninput=e=>{S.txt[q.id+"o"]=e.target.value;save()});
  d.querySelector("#bk").onclick=()=>go(()=>{S.dir=-1;if(S.qi){S.qi--;return}const sl=selCats(),i=sl.indexOf(cat.id);if(i>0){const pv=sl[i-1];S.cat=pv;S.qi=visibleQs(CATS.find(c=>c.id===pv)).length-1}else S.view="hub"});
  d.querySelector("#nx").onclick=next;
+ d.querySelector("#later")&&(d.querySelector("#later").onclick=resumeLater);
  return d;
 }
 
@@ -1186,21 +1374,39 @@ function result(){
  </div></section>
  <section class="sec reveal"><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="supps">
   ${R.list.map((x,i)=>`<div class="supp ${S.off[x.k]?"off":""}" data-k="${x.k}" style="animation-delay:${i*70}ms"><span class="dot" style="background:${x.c};color:${x.c}"></span>
-   <div><h3>${esc(x.n)}</h3><p>${esc((x.why||[]).slice(0,3).join(" · "))}</p><div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
+   <div><h3>${esc(x.n)}</h3><span class="brand">برند: ${esc(CFG.brandMap[x.k]||"انتخاب داروساز")}</span><p>${esc((x.why||[]).slice(0,3).join(" · "))}</p><div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
    <span class="t">${x.t==="am"?"صبح":"شب"}</span><button class="sw" role="switch" aria-checked="${!S.off[x.k]}" aria-label="${esc(x.n)} در پک من"></button></div>`).join("")}
- </div><p class="disc">دوز نهایی هر مکمل پس از بازبینی داروساز و با توجه به مکمل‌های فعلی تو تعیین می‌شود.</p></section>
+ </div><p class="disc">مکمل‌ها از برندهای معتبر و دارای مجوز بازار ایران${CFG.brands.length?" مثل "+CFG.brands.join(" و "):""} انتخاب می‌شن. دوز نهایی هر مکمل پس از بازبینی داروساز و با توجه به مکمل‌های فعلی تو تعیین می‌شود.</p></section>
+ <section class="sec reveal"><h2>دقیق‌ترش کن با آزمایش <span class="n">اختیاری</span></h2><p class="qhint">اگه آزمایش خون اخیر (سه ماه گذشته) داری، عددها رو وارد کن تا ترکیبت دقیق‌تر بشه.</p>
+  <div class="labs">
+   <div class="field"><label for="lb-d">ویتامین D (ng/mL)</label><input class="inp latin" id="lb-d" inputmode="decimal" value="${esc(S.labs.d||"")}"></div>
+   <div class="field"><label for="lb-f">فریتین (ng/mL)</label><input class="inp latin" id="lb-f" inputmode="decimal" value="${esc(S.labs.f||"")}"></div>
+   <div class="field"><label for="lb-b">ویتامین B12 (pg/mL)</label><input class="inp latin" id="lb-b" inputmode="decimal" value="${esc(S.labs.b||"")}"></div>
+   <div class="field"><label for="lb-t">TSH (mIU/L)</label><input class="inp latin" id="lb-t" inputmode="decimal" value="${esc(S.labs.t||"")}"></div>
+  </div>
+  ${API?`<label class="drop"><input type="file" id="lb-file" accept="image/*,application/pdf"><span>${ICON.arrow}</span><span id="lb-fn">${S.labs.file?"فایل آزمایش فرستاده شد ✓":"یا عکس / PDF آزمایش رو بفرست تا داروساز ببینه"}</span></label>`:""}
+  <div class="cta-row" style="margin-top:14px"><button class="btn line" id="lb-go">به‌روزرسانی ترکیب <span class="arr">${ICON.arrow}</span></button><span class="qhint" id="lb-msg"></span></div></section>
+ <section class="sec reveal"><h2>نوع اشتراک</h2><div class="subs">${[["m3","اشتراک سه‌ماهه","پیشنهادی",CFG.prices.m3],["m1","یک‌ماهه","",CFG.prices.m1]].map(([k,t,tag,p])=>`<button class="sub ${S.sub===k?"on":""}" data-s="${k}">${tag?`<span class="tag2">${tag}</span>`:""}<b>${t}</b><div class="pr">${p?`روزی <span>${fa(p.toLocaleString("en-US").replace(/,/g,"٬"))}</span> تومان`:'<small>قیمت بعد از بازبینی داروساز اعلام می‌شه</small>'}</div><small>${k==="m3"?"۳ بسته‌ی ۲۸ روزه":"یک بسته‌ی ۲۸ روزه"}</small></button>`).join("")}</div></section>
+ <section class="sec reveal"><h2>یادآور مصرف</h2><p class="qhint">ساشه‌ی صبح ساعت ۸ و ساشه‌ی شب ساعت ۲۲، به مدت ۲۸ روز توی تقویم گوشیت.</p><div class="cta-row" style="margin-top:12px"><button class="btn line" id="ics">افزودن به تقویم گوشی <span class="arr">${ICON.arrow}</span></button><span id="icsout"></span></div></section>
  ${R.exList.length?`<section class="sec reveal"><h2>حذف‌شده برای ایمنی تو</h2><div class="ex">${R.exList.map(x=>`<span>${esc(x.n)}<em>${esc(x.r)}</em></span>`).join("")}</div></section>`:""}
  ${R.flags.length||R.notes.length?`<section class="sec reveal"><h2>نکات ایمنی و مصرف</h2>${R.flags.map(f=>`<div class="flag ${f.bad?"bad":""}">${esc(f.t)}</div>`).join("")}${R.notes.map(n=>`<div class="flag note">${esc(n)}</div>`).join("")}</section>`:""}
  <section class="submitbox reveal"><h2>ارسال برای بازبینی داروساز</h2><p>شماره‌ات رو وارد کن تا داروساز ویتاپلن برنامه رو بررسی کنه و برای سفارش بسته‌ی ۲۸ روزه باهات تماس بگیره.</p>
   <div class="grid2" style="margin-top:14px"><div class="field"><label for="f-ph" style="color:inherit">شماره‌ی موبایل</label><input class="inp" id="f-ph" inputmode="tel" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" value="${esc(S.phone)}"></div>
   <div class="field"><label for="f-em" style="color:inherit">ایمیل (اختیاری)</label><input class="inp" id="f-em" inputmode="email" value="${esc(S.email)}"></div></div>
   <div class="storyrow"><button class="btn story" id="story">ساخت کارت استوری <span class="arr">${ICON.arrow}</span></button><span class="qhint">نتیجه‌ات رو استوری کن و پیج <b class="latin">@vitaplan.ir</b> رو تگ کن</span></div>
-  <div class="codebox"><span>کد تخفیف اختصاصی تو برای دوستات</span><b class="latin" id="mycode">${myCode()}</b><button class="ghost" id="cpy">کپی</button></div><div id="storyout"></div>
+  <div class="codebox"><span>کد ${CFG.discount?"تخفیف "+CFG.discount:"تخفیف"} اختصاصی تو برای دوستات</span><b class="latin" id="mycode">${myCode()}</b><button class="ghost" id="cpy">کپی</button></div>
+  ${API?`<div class="refbox"><div class="pf"><b id="ref-n">—</b><small>دوست با کدت شروع کردن</small></div><div class="pf"><b id="ref-s">—</b><small>ثبت نهایی کردن</small></div></div>`:""}<div id="storyout"></div>
   <div class="cta-row"><button class="btn lime" id="send">ثبت و ارسال <span class="arr">${ICON.arrow}</span></button><button class="ghost" id="edit" style="color:inherit;border-color:currentColor">ویرایش پاسخ‌ها</button></div>
   <div class="ok" id="ok" role="status"></div></section>
  <p class="disc">این ارزیابی بر پایه‌ی پاسخ‌های خود تو انجام شده و جایگزین تشخیص یا درمان پزشکی نیست. در صورت بیماری یا مصرف دارو، پیش از شروع هر مکمل با پزشک معالج مشورت کن.</p>`);
  d.querySelector("#edit").onclick=()=>go(()=>S.view="hub");
  d.querySelector("#cpy").onclick=async e=>{try{await navigator.clipboard.writeText(myCode());e.target.textContent="کپی شد"}catch(_){const r=document.createRange();r.selectNodeContents(d.querySelector("#mycode"));getSelection().removeAllRanges();getSelection().addRange(r)}};
+ d.querySelectorAll(".sub").forEach(b=>b.onclick=()=>{S.sub=b.dataset.s;save();d.querySelectorAll(".sub").forEach(x=>x.classList.toggle("on",x===b));saveLead("completed",R,mine())});
+ d.querySelector("#ics").onclick=()=>icsFile(d.querySelector("#icsout"));
+ d.querySelector("#lb-go").onclick=()=>{const v=id=>{const n=parseFloat(toEn(d.querySelector(id).value).replace(/[^\d.]/g,""));return isFinite(n)?n:""};
+  Object.assign(S.labs,{d:v("#lb-d"),f:v("#lb-f"),b:v("#lb-b"),t:v("#lb-t")});save();render();setTimeout(()=>{const m=document.getElementById("lb-msg");m&&(m.textContent="ترکیبت با عددهای آزمایش به‌روز شد.");m&&m.closest(".sec").scrollIntoView({block:"center"})},100)};
+ d.querySelector("#lb-file")&&(d.querySelector("#lb-file").onchange=e=>uploadLab(e.target.files[0],d.querySelector("#lb-fn")));
+ if(API)fetch(API+"/api/ref?code="+myCode()).then(r=>r.json()).then(j=>{if(j.ok){d.querySelector("#ref-n").textContent=fa(j.joined);d.querySelector("#ref-s").textContent=fa(j.submitted)}}).catch(()=>{});
  d.querySelector("#story").onclick=()=>storyCard(R,mine(),P,d.querySelector("#storyout"));
  d.querySelectorAll(".supp .sw").forEach(b=>b.onclick=()=>{const row=b.closest(".supp"),k=row.dataset.k;S.off[k]=!S.off[k];save();row.classList.toggle("off",!!S.off[k]);b.setAttribute("aria-checked",!S.off[k]);d.querySelector("#sachs").innerHTML=sachHTML();d.querySelector("#pc").textContent=fa(mine().length)});
  d.querySelector("#send").onclick=async()=>{
@@ -1221,7 +1427,9 @@ function answersText(){const o={};Object.keys(S.a).forEach(k=>{const q=QBY[k];if
 function leadPayload(stage,R,list){const p={cid:S.cid,name:S.b.name,phone:toEn(S.phone).replace(/[\s-]/g,""),age:+S.b.age||null,sex:S.b.sex,stage,
   data:{height:+S.b.h||null,weight:+S.b.w||null,goals:(S.a.G||[]).map(i=>GOALS.o[i]),selectedCats:selCats().map(id=>CATS.find(c=>c.id===id).title),answers:answersText(),texts:S.txt}};
  if(R){p.plan=PLANS[R.plan].k;p.needsReview=R.review;Object.assign(p.data,{supplements:(list||R.list).map(x=>x.n),removedByUser:R.removedByUser||R.list.filter(x=>S.off&&S.off[x.k]).map(x=>x.n),excluded:R.exList.map(x=>x.n+" — "+x.r),flags:R.flags.map(f=>(f.bad?"[مهم] ":"")+f.t),notes:R.notes})}
- if(S.email)p.data.email=S.email;if(S.code)p.data.code=S.code;return p}
+ if(S.email)p.data.email=S.email;if(S.code)p.data.code=S.code;if(S.ref)p.data.ref=S.ref;p.data.subscription=S.sub==="m1"?"یک‌ماهه":"سه‌ماهه";
+ const lb=S.labs||{};if(lb.d!==undefined)p.data.labs={"ویتامین D":lb.d,"فریتین":lb.f,"B12":lb.b,"TSH":lb.t};
+ p.data.state={b:S.b,a:S.a,txt:S.txt,sel:S.sel,done:S.done,phone:S.phone,ref:S.ref,code:S.code,labs:S.labs,sub:S.sub};return p}
 async function saveLead(stage,R,list){if(!API||!S.phone)return true;
  try{const r=await fetch(API+"/api/save",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(leadPayload(stage,R,list)),keepalive:stage!=="submitted"});return r.ok}catch(e){return false}}
 let DB=null,USER=null;
@@ -1266,7 +1474,7 @@ function admin(){
   const load=async()=>{k=box.querySelector("#f-key").value.trim();if(!k)return;tb.innerHTML='<tr><td colspan="7"><div class="empty">در حال بارگذاری… (اولین بار ممکن است تا یک دقیقه طول بکشد)</div></td></tr>';
    try{const r=await fetch(API+"/api/leads",{headers:{"x-admin-key":k}});if(r.status===401){tb.innerHTML='<tr><td colspan="7"><div class="empty">رمز اشتباه است.</div></td></tr>';return}
     const j=await r.json();try{localStorage.setItem("vp-admin",k)}catch(e){}box.hidden=true;
-    ROWS=j.rows.map(x=>Object.assign({},x.data||{},{name:x.name,age:x.age,sex:x.sex,phone:x.phone,plan:x.plan||STG[x.stage]||x.stage,needsReview:x.needs_review,createdAt:x.updated_at,stage:STG[x.stage]||x.stage}));draw()}
+    ROWS=j.rows.map(x=>Object.assign({},x.data||{},{cid:x.cid,name:x.name,age:x.age,sex:x.sex,phone:x.phone,plan:x.plan||STG[x.stage]||x.stage,needsReview:x.needs_review,createdAt:x.updated_at,stage:STG[x.stage]||x.stage}));draw()}
    catch(e){tb.innerHTML='<tr><td colspan="7"><div class="empty">اتصال به سرور برقرار نشد. چند ثانیه بعد دوباره «ورود» را بزن.</div></td></tr>'}};
   box.querySelector("#kgo").onclick=load;if(k)load();else tb.innerHTML='<tr><td colspan="7"><div class="empty">رمز پنل را وارد کن.</div></td></tr>';
   return d}
@@ -1284,8 +1492,13 @@ function detail(r){
  const ans=Object.entries(r.answers||{}).map(([k,v])=>`<div class="qa"><small>${k} · ${esc(QBY[k]?.t||"")}</small>${esc(Array.isArray(v)?v.join("، "):v)}${r.texts?.[k]?` — <b>${esc(r.texts[k])}</b>`:""}${r.texts?.[k+"o"]?` — <b>${esc(r.texts[k+"o"])}</b>`:""}</div>`).join("");
  dr.innerHTML=`<div class="pane" role="dialog" aria-label="جزئیات پاسخ"><div class="navrow" style="margin-top:0"><h1 class="qtitle" style="margin:0">${esc(r.name)}</h1><button class="ghost" id="cl">بستن</button></div>
   <div class="profile" style="margin-top:12px"><div class="pf"><small>پلن</small><b>${esc(r.plan)}</b></div><div class="pf"><small>سن</small><b>${fa(r.age)}</b></div><div class="pf"><small>موبایل</small><b class="latin">${esc(r.phone)}</b></div>${r.code?`<div class="pf"><small>کد تخفیف</small><b class="latin">${esc(r.code)}</b></div>`:""}${r.email?`<div class="pf"><small>ایمیل</small><b class="latin" style="font-size:.8rem">${esc(r.email)}</b></div>`:""}</div>
+  ${r.subscription||r.ref||r.labs?`<div class="profile" style="margin-top:10px">${r.subscription?`<div class="pf"><small>اشتراک</small><b>${esc(r.subscription)}</b></div>`:""}${r.ref?`<div class="pf"><small>کد معرف</small><b class="latin">${esc(r.ref)}</b></div>`:""}${r.labs?Object.entries(r.labs).filter(([k,v])=>v!==""&&v!=null).map(([k,v])=>`<div class="pf"><small>${esc(k)}</small><b class="latin">${esc(v)}</b></div>`).join(""):""}</div>`:""}
+  ${API?`<div style="margin-top:10px"><button class="ghost" id="files">فایل آزمایش</button><div id="fileout"></div></div>`:""}
   ${lst("هدف‌ها",r.goals)}${lst("مکمل‌های پیشنهادی",r.supplements)}${lst("حذف‌شده",r.excluded)}${lst("هشدارها",r.flags)}${lst("نکات مصرف",r.notes)}
   <div class="sec"><h2 style="font-size:1.05rem">همه‌ی پاسخ‌ها</h2>${ans}</div></div>`;
+ const fb=dr.querySelector("#files");if(fb)fb.onclick=async()=>{const o=dr.querySelector("#fileout");o.textContent="در حال دریافت…";let k="";try{k=localStorage.getItem("vp-admin")||""}catch(e){}
+  try{const j=await (await fetch(API+"/api/upload?cid="+encodeURIComponent(r.cid||""),{headers:{"x-admin-key":k}})).json();
+   o.innerHTML=j.files&&j.files.length?j.files.map(f=>f.url.startsWith("data:image")?`<img src="${f.url}" alt="" style="max-width:100%;border-radius:12px;margin-top:8px">`:`<a class="ghost" href="${f.url}" download="${esc(f.name||"lab.pdf")}" style="display:inline-block;margin-top:8px">دانلود ${esc(f.name||"PDF")}</a>`).join(""):"فایلی فرستاده نشده."}catch(e){o.textContent="دریافت فایل انجام نشد."}};
  const close=()=>dr.remove();
  dr.onclick=e=>{if(e.target===dr)close()};dr.querySelector("#cl").onclick=close;
  document.addEventListener("keydown",function k(e){if(e.key==="Escape"){close();document.removeEventListener("keydown",k)}});
@@ -1317,7 +1530,9 @@ document.getElementById("adminBtn").onclick=()=>go(()=>S.view="admin");
 const route=()=>{if(location.hash==="#admin"&&S.view!=="admin"){S.view="admin";render()}};
 addEventListener("hashchange",route);
 if(location.hash==="#admin")S.view="admin";
-render();
+try{const rf=new URLSearchParams(location.search).get("ref");if(rf&&/^VP-[A-Z0-9]{5}$/i.test(rf)&&!S.ref)S.ref=rf.toUpperCase()}catch(e){}
+render();chatFab();tryResume();
+if(API&&BUILD.indexOf("%%")<0)fetch("version.json",{cache:"no-store"}).then(r=>r.json()).then(j=>{if(j.v&&j.v!==BUILD){let k="";try{k=sessionStorage.getItem("vp-reload")}catch(e){}if(k!==j.v){try{sessionStorage.setItem("vp-reload",j.v)}catch(e){}location.replace(location.pathname+"?v="+j.v+location.hash)}}}).catch(()=>{});
 })();
 </script>
 
