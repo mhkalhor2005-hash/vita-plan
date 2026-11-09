@@ -73,7 +73,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .strip-label{font-family:var(--mono);font-size:.72rem;color:var(--stone);white-space:nowrap}
 
 /* views + transitions */
-main{padding-block:12px 80px;position:relative}
+main{padding-block:12px 150px;position:relative}
 .view{animation:enter .8s var(--ease) both}
 @keyframes enter{from{opacity:0;transform:translateY(22px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
 .top{view-transition-name:topbar}
@@ -390,6 +390,63 @@ main{padding-block:12px 80px;position:relative}
 .packsum{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-radius:16px;border:1px solid var(--line-2);background:var(--lime-soft);margin-bottom:12px;font-size:.9rem}
 .packsum b{font-family:var(--latin);color:var(--lime);font-size:1.1rem}
 @media (max-width:520px){.homebtn span{display:none}.homebtn{padding:8px}.sc{width:32px;height:46px}.roll .track{height:56px}.supp{grid-template-columns:auto 1fr auto}.supp .t{display:none}}
+
+/* 12 time of day */
+:root{--tod:rgba(166,240,74,.14)}
+:root.tod-m{--tod:rgba(242,209,75,.20)}
+:root.tod-e{--tod:rgba(255,140,60,.16)}
+:root.tod-n{--tod:rgba(124,140,255,.20)}
+.aura{background:radial-gradient(600px circle at var(--mx) var(--my),rgba(166,240,74,.07),transparent 60%),radial-gradient(900px 600px at 85% -10%,var(--tod),transparent 60%),radial-gradient(700px 500px at 0% 110%,rgba(124,140,255,.10),transparent 60%),var(--bg);transition:background 1s}
+.greet{display:flex;align-items:center;gap:12px;margin-bottom:16px;animation:enter .9s .1s var(--ease) both}
+.greet .gi{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--tod);border:1px solid var(--line);color:var(--cocoa)}
+.greet .gi svg{animation:spin 30s linear infinite}
+:root.tod-n .greet .gi svg,:root.tod-e .greet .gi svg{animation:float 4s ease-in-out infinite}
+.greet b{display:block;font-family:var(--display);font-size:1.05rem}
+.greet small{color:var(--cocoa-2);font-size:.85rem}
+/* 5 mascot */
+#vita{position:fixed;left:max(14px,env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:15;display:flex;flex-direction:column-reverse;align-items:flex-start;gap:8px;direction:ltr;pointer-events:none}
+#vita .bod{width:74px;height:84px;pointer-events:auto;cursor:pointer;background:none;border:0;padding:0;filter:drop-shadow(0 10px 24px rgba(0,0,0,.6)) drop-shadow(0 0 18px rgba(166,240,74,.25));animation:bob 3.2s ease-in-out infinite;transform-origin:50% 100%}
+#vita .bod.hop{animation:hop .6s var(--ease)}
+@keyframes bob{50%{transform:translateY(-6px) rotate(-2deg)}}
+@keyframes hop{30%{transform:translateY(-18px) scale(1.05,.95)}60%{transform:translateY(0) scale(.95,1.05)}}
+#vita .bub{direction:rtl;max-width:220px;padding:10px 14px;border-radius:16px 16px 16px 4px;margin-left:30px;font-size:.84rem;line-height:1.6;pointer-events:auto;background:rgba(14,20,22,.92);border:1px solid var(--line-2);box-shadow:0 14px 40px -12px rgba(0,0,0,.8);transform-origin:0 100%;transition:opacity .35s,transform .45s var(--ease)}
+#vita .bub.hide{opacity:0;transform:scale(.6) translateY(10px);pointer-events:none}
+#vita .bub b{color:var(--lime);font-weight:700}
+@media (max-width:520px){#vita .bod{width:54px;height:62px}#vita .bub{max-width:180px;font-size:.78rem}}
+/* 8 badge */
+.badgefx{position:fixed;inset:0;z-index:25;display:grid;place-items:center;pointer-events:none}
+.badgefx .card{text-align:center;padding:26px 30px;border-radius:28px;background:rgba(10,16,19,.9);border:1px solid var(--line-2);box-shadow:0 0 80px -20px var(--lime-glow),var(--shadow);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);animation:bdgIn .6s var(--ease) both}
+.badgefx.out .card{animation:bdgOut .45s var(--ease) forwards}
+@keyframes bdgIn{from{opacity:0;transform:scale(.6) translateY(30px)}}
+@keyframes bdgOut{to{opacity:0;transform:scale(.9) translateY(-30px)}}
+.badgefx .ic{width:84px;height:84px;margin:0 auto 14px;border-radius:26px;background:var(--lime);color:#071003;display:grid;place-items:center;box-shadow:0 0 50px -6px var(--lime-glow);animation:pop2 .8s .15s var(--ease) both}
+.badgefx .ic svg{width:40px;height:40px}
+@keyframes pop2{from{transform:scale(0) rotate(-40deg)}70%{transform:scale(1.15) rotate(6deg)}}
+.badgefx h3{font-size:1.25rem;font-weight:900}
+.badgefx p{color:var(--cocoa-2);font-size:.9rem;margin-top:4px}
+.badgefx .cf{position:absolute;left:50%;top:50%;width:18px;height:8px;border-radius:5px;animation:conf 1.4s var(--ease) both}
+.badgefx .cf.r{width:10px;height:10px;border-radius:50%}
+@keyframes conf{from{transform:translate(-50%,-50%) rotate(0);opacity:1}to{transform:translate(var(--tx),var(--ty)) rotate(var(--tr));opacity:0}}
+/* 11 day timeline */
+.day{margin-top:36px;border-radius:28px;padding:30px 26px}
+.dbar{height:10px;border-radius:10px;background:rgba(255,255,255,.06);overflow:hidden;direction:ltr}
+.dbar i{display:block;height:100%;width:100%;border-radius:10px;background:linear-gradient(90deg,#2a3a7a,#F2D14B 28%,#A6F04A 52%,#FF8C3C 76%,#2a3a7a);transition:width 2.2s var(--ease) .3s}
+.day.pre:not(.in) .dbar i{width:0}
+.dstops{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px;direction:ltr}
+.dstop{text-align:center;direction:rtl;transition:opacity .6s,transform .7s var(--ease)}
+.day.pre:not(.in) .dstop{opacity:0;transform:translateY(16px)}
+.dstop:nth-child(2){transition-delay:.5s}.dstop:nth-child(3){transition-delay:1s}.dstop:nth-child(4){transition-delay:1.5s}
+.dstop .di{width:50px;height:50px;margin:0 auto 10px;border-radius:16px;display:grid;place-items:center;border:1px solid var(--line);background:rgba(255,255,255,.04)}
+.dstop .di svg{width:24px;height:24px}
+.dstop b{display:block;font-family:var(--latin);font-size:1.05rem}
+.dstop span{display:block;font-weight:700;margin-top:2px}
+.dstop small{color:var(--stone);font-size:.8rem}
+@media (max-width:620px){.dstops{grid-template-columns:1fr 1fr;row-gap:24px}}
+/* 9 story */
+.storyrow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px}
+.btn.story{background:linear-gradient(100deg,#FF5FA2,#B48CFF);color:#fff;box-shadow:0 10px 40px -10px rgba(255,95,162,.6)}
+.btn.story .arr{background:rgba(0,0,0,.3);color:#fff}
+.storyprev{max-width:200px;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow)}
 </style>
 </head>
 <body>
@@ -404,6 +461,7 @@ main{padding-block:12px 80px;position:relative}
   <button class="ghost" id="adminBtn" hidden>پنل مدیریت</button>
 </div></header>
 <main id="app" class="wrap"></main>
+<div id="vita" hidden><button class="bod" aria-label="ویتا"></button><div class="bub hide" role="status"></div></div>
 
 <script>
 (()=>{
@@ -759,11 +817,93 @@ function strip(){
  lab.textContent=fa(on)+" از ۲۸";
 }
 
+
+/* ---------------- 12 greeting ---------------- */
+function tod(){const h=new Date().getHours();return h>=5&&h<11?"m":h>=11&&h<16?"d":h>=16&&h<20?"e":"n"}
+document.documentElement.classList.add("tod-"+tod());
+function greetHTML(){const t=tod(),n=S.b.name?"، "+esc(S.b.name.split(" ")[0]):"";
+ const G={m:["صبح بخیر","بهترین وقت برای شروع یه عادت سالم"],d:["روز بخیر","یه وقفه‌ی ۷ دقیقه‌ای برای خودت"],e:["عصر بخیر","روزت چطور گذشت؟ بیا انرژیت رو بسنجیم"],n:["شب بخیر","خوابت خوب نیست؟ از بخش خواب شروع کن"]}[t];
+ return `<div class="greet"><span class="gi">${t==="n"||t==="e"?ICON.moon:ICON.sun}</span><div><b>${G[0]}${n}!</b><small>${G[1]}</small></div></div>`}
+
+/* ---------------- 5 mascot ---------------- */
+function vitaSVG(m){
+ const eyes={happy:'<circle cx="34" cy="38" r="5" fill="#EEF4EA"/><circle cx="56" cy="38" r="5" fill="#EEF4EA"/><circle cx="35" cy="39" r="2.2" fill="#05080A"/><circle cx="57" cy="39" r="2.2" fill="#05080A"/>',
+  sleepy:'<path d="M29 39q5 4 10 0M51 39q5 4 10 0" stroke="#EEF4EA" stroke-width="2.6" fill="none" stroke-linecap="round"/><text x="66" y="22" fill="#7C8CFF" font-size="12" font-weight="700">z</text><text x="73" y="13" fill="#7C8CFF" font-size="9" font-weight="700">z</text>',
+  strong:'<path d="M28 33l11 4M62 33l-11 4" stroke="#EEF4EA" stroke-width="2.6" stroke-linecap="round"/><circle cx="34" cy="41" r="4" fill="#EEF4EA"/><circle cx="56" cy="41" r="4" fill="#EEF4EA"/><circle cx="35" cy="42" r="2" fill="#05080A"/><circle cx="57" cy="42" r="2" fill="#05080A"/>',
+  love:'<path d="M34 44l-6-6a3.5 3.5 0 016-4 3.5 3.5 0 016 4z" fill="#FF5FA2"/><path d="M56 44l-6-6a3.5 3.5 0 016-4 3.5 3.5 0 016 4z" fill="#FF5FA2"/>',
+  think:'<circle cx="34" cy="38" r="5" fill="#EEF4EA"/><circle cx="56" cy="38" r="5" fill="#EEF4EA"/><circle cx="36" cy="36" r="2.2" fill="#05080A"/><circle cx="58" cy="36" r="2.2" fill="#05080A"/>',
+  wow:'<circle cx="34" cy="37" r="6.5" fill="#EEF4EA"/><circle cx="56" cy="37" r="6.5" fill="#EEF4EA"/><circle cx="34" cy="38" r="3" fill="#05080A"/><circle cx="56" cy="38" r="3" fill="#05080A"/>'}[m];
+ const mouth={happy:'<path d="M37 52q8 8 16 0" stroke="#A6F04A" stroke-width="3" fill="none" stroke-linecap="round"/>',sleepy:'<ellipse cx="45" cy="54" rx="4" ry="3" fill="#A6F04A"/>',strong:'<path d="M36 52q9 6 18 0z" fill="#A6F04A"/>',love:'<path d="M37 52q8 8 16 0" stroke="#A6F04A" stroke-width="3" fill="none" stroke-linecap="round"/>',think:'<path d="M39 54h12" stroke="#A6F04A" stroke-width="3" stroke-linecap="round"/>',wow:'<ellipse cx="45" cy="55" rx="5" ry="6" fill="#A6F04A"/>'}[m];
+ return `<svg viewBox="0 0 90 102" width="100%" height="100%"><defs><linearGradient id="vg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="rgba(255,255,255,.28)"/><stop offset="1" stop-color="rgba(255,255,255,.08)"/></linearGradient></defs>
+ <rect x="8" y="10" width="74" height="84" rx="10" fill="url(#vg)" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/><path d="M8 17h74M8 87h74" stroke="rgba(255,255,255,.4)" stroke-dasharray="2 3"/>
+ <circle cx="24" cy="50" r="5" fill="#FF5FA2" opacity=".45"/><circle cx="66" cy="50" r="5" fill="#FF5FA2" opacity=".45"/>${eyes}${mouth}
+ <rect x="24" y="68" width="16" height="8" rx="4" fill="#F2D14B"/><circle cx="48" cy="72" r="4.5" fill="#59B7D6"/><rect x="56" y="68" width="12" height="8" rx="4" fill="#C98A2E"/></svg>`}
+const VITA_CAT={sleep:["sleepy","سؤال‌های خواب… <b>خمیازه!</b> صادقانه جواب بده تا شب‌هات بهتر بشه."],mind:["think","یه نفس عمیق 🌿 این بخش درباره‌ی <b>ذهن و استرس</b>ـه."],activity:["strong","بزن بریم! <b>بخش ورزش</b> 💪"],hormone:["think","این بخش خصوصیه و <b>فقط برای چیدن پکت</b> استفاده می‌شه."],gut:["happy","شکم راضی، دل راضی! <b>بخش گوارش</b>"],nutrition:["wow","بگو چی می‌خوری تا ببینیم <b>چی کم داری</b>."],beauty:["love","بخش <b>پوست، مو و ناخن</b> ✨"],clinical:["think","این بخش <b>مهم‌ترینه</b>؛ جلوی تداخل دارو و مکمل رو می‌گیره."]};
+let vitaKey="",vitaT=null;
+function vita(){const el=document.getElementById("vita");if(!el)return;
+ if(S.view==="home"||S.view==="admin"){el.hidden=true;return}el.hidden=false;
+ let mood="happy",msg="",first=esc((S.b.name||"").split(" ")[0]);
+ if(S.view==="basic")msg="سلام! من <b>ویتا</b>م 👋 قراره با هم پکت رو بچینیم.";
+ else if(S.view==="goals")msg=`${first} جان، <b>حداکثر سه هدف</b> انتخاب کن؛ بقیه‌ش با من!`;
+ else if(S.view==="hub"){mood="wow";msg="هر دسته‌ای که تیک بزنی، <b>ترکیبت دقیق‌تر</b> می‌شه."}
+ else if(S.view==="q"){[mood,msg]=VITA_CAT[S.cat]||["happy",""]}
+ else if(S.view==="result"){mood="love";msg=`${first}، <b>پکت آماده‌ست!</b> 🎉 هر مکملی نخواستی خاموشش کن.`}
+ else if(S.view==="blocked"){mood="think";msg="فعلاً پک‌ها برای ۱۸ سال به بالاست."}
+ const bod=el.querySelector(".bod"),bub=el.querySelector(".bub"),key=S.view+(S.view==="q"?S.cat:"");
+ bod.innerHTML=vitaSVG(mood);
+ if(key!==vitaKey){vitaKey=key;bub.innerHTML=msg;bub.classList.remove("hide");bod.classList.remove("hop");void bod.offsetWidth;bod.classList.add("hop");
+  clearTimeout(vitaT);vitaT=setTimeout(()=>bub.classList.add("hide"),6500)}
+ bod.onclick=()=>{bub.classList.toggle("hide");bod.classList.remove("hop");void bod.offsetWidth;bod.classList.add("hop");clearTimeout(vitaT)};
+}
+
+/* ---------------- 8 badge ---------------- */
+function badge(cat,left){
+ if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+ const o=document.createElement("div");o.className="badgefx";o.setAttribute("role","status");
+ const C=["#F2D14B","#FF5FA2","#59B7D6","#A6F04A","#C98A2E","#B48CFF"];
+ const cf=Array.from({length:22},(_,i)=>{const a=Math.random()*Math.PI*2,d=140+Math.random()*160;return `<i class="cf ${i%3===0?"r":""}" style="background:${C[i%6]};--tx:calc(-50% + ${Math.cos(a)*d}px);--ty:calc(-50% + ${Math.sin(a)*d}px);--tr:${Math.random()*720-360}deg;animation-delay:${.1+Math.random()*.2}s"></i>`}).join("");
+ o.innerHTML=`${cf}<div class="card"><div class="ic">${ICON[cat.icon]}</div><h3>بخش ${cat.title} تموم شد!</h3><p>${left?fa(left)+" بخش دیگه تا پک کاملت":"فقط یه قدم تا پک کاملت"}</p></div>`;
+ document.body.append(o);setTimeout(()=>o.classList.add("out"),1700);setTimeout(()=>o.remove(),2200);
+}
+
+/* ---------------- 9 story card ---------------- */
+async function storyCard(R,list,P,out){
+ try{await document.fonts.ready}catch(e){}
+ const W=1080,H=1920,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
+ const g=x.createLinearGradient(0,0,W*.4,H);g.addColorStop(0,"#16260a");g.addColorStop(.55,"#05080A");g.addColorStop(1,"#070b0d");x.fillStyle=g;x.fillRect(0,0,W,H);
+ const rg=x.createRadialGradient(W*.8,120,0,W*.8,120,900);rg.addColorStop(0,"rgba(166,240,74,.35)");rg.addColorStop(1,"rgba(166,240,74,0)");x.fillStyle=rg;x.fillRect(0,0,W,H);
+ x.fillStyle="rgba(166,240,74,.6)";for(let i=0;i<60;i++){x.beginPath();x.arc(Math.random()*W,Math.random()*H,Math.random()*3+1,0,7);x.fill()}
+ const logo=new Image();logo.src=IMG.logo;await new Promise(r=>{logo.onload=r;logo.onerror=r});
+ x.direction="rtl";x.textAlign="right";const R0=W-90;
+ try{x.drawImage(logo,R0-110,110,110,110)}catch(e){}
+ x.fillStyle="#A6F04A";x.font="700 44px Sora, Vazirmatn, sans-serif";x.direction="ltr";x.textAlign="left";x.fillText("VITAPLAN",90,185);x.direction="rtl";x.textAlign="right";
+ x.fillStyle="#EEF4EA";x.font="900 96px Vazirmatn, sans-serif";x.fillText("پک شخصی",R0,420);
+ x.fillStyle="#A6F04A";x.fillText((S.b.name||"").split(" ")[0]||"من",R0,540);
+ x.fillStyle="#A9B6AE";x.font="500 46px Vazirmatn, sans-serif";x.fillText(P.fa+" · ۲۸ روز",R0,630);
+ // sachet
+ const sx=90,sy=720,sw=W-180,sh=420;x.fillStyle="rgba(255,255,255,.07)";x.strokeStyle="rgba(255,255,255,.3)";x.lineWidth=3;
+ x.beginPath();x.roundRect(sx,sy,sw,sh,28);x.fill();x.stroke();
+ x.setLineDash([8,10]);x.beginPath();x.moveTo(sx,sy+30);x.lineTo(sx+sw,sy+30);x.moveTo(sx,sy+sh-30);x.lineTo(sx+sw,sy+sh-30);x.stroke();x.setLineDash([]);
+ list.slice(0,10).forEach((it,i)=>{const col=i%5,row=Math.floor(i/5),px=sx+110+col*((sw-220)/4),py=sy+150+row*120;
+  x.save();x.translate(px,py);x.rotate((i%3-1)*.35);x.shadowColor=it.c;x.shadowBlur=30;x.fillStyle=it.c;x.beginPath();
+  if(it.r)x.arc(0,0,30,0,7);else x.roundRect(-55,-24,110,48,24);x.fill();x.restore()});
+ x.fillStyle="#EEF4EA";x.font="700 48px Vazirmatn, sans-serif";let y=1270;
+ list.slice(0,6).forEach(it=>{x.fillStyle=it.c;x.beginPath();x.arc(R0-14,y-16,14,0,7);x.fill();x.fillStyle="#EEF4EA";x.fillText(it.n.replace(/\s*\(.*\)/,""),R0-50,y);y+=78});
+ if(list.length>6){x.fillStyle="#6E7D76";x.font="500 40px Vazirmatn, sans-serif";x.fillText("+ "+fa(list.length-6)+" مکمل دیگه",R0-50,y)}
+ x.fillStyle="#A6F04A";x.font="700 50px Vazirmatn, sans-serif";x.textAlign="center";x.fillText("پک خودت رو بساز",W/2,H-215);x.direction="ltr";x.fillText("vitaplan.onrender.com",W/2,H-150);x.direction="rtl";
+ x.fillStyle="#6E7D76";x.font="400 34px Vazirmatn, sans-serif";x.fillText("طراحی با هوش مصنوعی · تأیید داروساز",W/2,H-90);
+ let blob;try{blob=await new Promise((r,j)=>{try{c.toBlob(r,"image/png")}catch(e){j(e)}})}catch(e){blob=null}
+ if(!blob){out.innerHTML='<p class="qhint">ساخت عکس انجام نشد. صفحه را یک بار تازه کن و دوباره امتحان کن.</p>';return}const file=new File([blob],"vitaplan-story.png",{type:"image/png"});
+ try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"پک ویتاپلن من"});return}}catch(e){if(e&&e.name==="AbortError")return}
+ const url=URL.createObjectURL(blob);
+ out.innerHTML=`<div class="storyrow"><img class="storyprev" src="${url}" alt="کارت استوری ویتاپلن"><div><a class="btn line" href="${url}" download="vitaplan-story.png">دانلود عکس <span class="arr">${ICON.arrow}</span></a><p class="qhint" style="margin-top:8px">روی گوشی می‌تونی عکس رو نگه داری و ذخیره کنی.</p></div></div>`;
+}
+
 /* ---------------- views ---------------- */
 function render(){
  strip();
  const v={home,basic,goals,hub,q:question,result,blocked,admin}[S.view]||home;
- app.innerHTML="";app.append(v());armReveal(app);
+ app.innerHTML="";app.append(v());armReveal(app);vita();
 }
 let revIO=null;
 function armReveal(root){
@@ -786,7 +926,7 @@ function home(){
  const d=h(`
  <section class="hero">
   <div>
-   <span class="eyebrow">طراحی ترکیب با هوش مصنوعی · تأیید داروساز</span>
+   ${greetHTML()}<span class="eyebrow">طراحی ترکیب با هوش مصنوعی · تأیید داروساز</span>
    <h1>ویتامین‌هایی که<br><span class="grad">فقط برای تو</span><br>طراحی می‌شن</h1>
    <p class="lede">به سؤال‌هایی درباره‌ی خواب، انرژی، تغذیه و سلامتت جواب بده. ترکیب مکمل‌هات طراحی می‌شه، داروساز بازبینیش می‌کنه و ۲۸ ساشه‌ی روزانه، جدا برای صبح و شب، به دستت می‌رسه.</p>
    <div class="cta-row">
@@ -825,7 +965,18 @@ function home(){
   </div>
  </section>
  <section class="band">
-  <span class="sec-tag">03 — MODELS</span>
+  <span class="sec-tag">03 — A DAY</span>
+  <h2 class="reveal">یه روز با ویتاپلن</h2>
+  <p class="sub reveal">دو ساشه در روز؛ بدون شمردن قرص و بدون یادت رفتن.</p>
+  <div class="day glass reveal"><div class="dbar"><i></i></div><div class="dstops">
+   <div class="dstop"><div class="di" style="color:#F2D14B">${ICON.sun}</div><b>08:00</b><span>ساشه‌ی صبح</span><small>همراه صبحانه</small></div>
+   <div class="dstop"><div class="di" style="color:var(--lime)">${ICON.activity}</div><b>11:00</b><span>انرژی پایدار</span><small>تمرکز در طول روز</small></div>
+   <div class="dstop"><div class="di" style="color:#FF8C3C">${ICON.mind}</div><b>18:00</b><span>عصر سبک‌تر</span><small>ورزش و ریکاوری</small></div>
+   <div class="dstop"><div class="di" style="color:var(--indigo)">${ICON.moon}</div><b>22:00</b><span>ساشه‌ی شب</span><small>بعد از شام</small></div>
+  </div></div>
+ </section>
+ <section class="band">
+  <span class="sec-tag">04 — MODELS</span>
   <h2 class="reveal">سه مدل همکاری</h2>
   <div class="lines">
    <div class="line glass reveal"><div class="k">Customised</div><p>SportPlan، SlimPlan و BeautyPlan؛ طراحی‌شده برای نیاز مشترک یک گروه، مثل ورزشکارها یا مسیر کاهش وزن.</p></div>
@@ -982,7 +1133,7 @@ function question(){
   <button class="btn" id="nx">${S.qi===qs.length-1?(nextCat(cat.id)?"دسته‌ی بعدی":"ساخت پک من"):"بعدی"} <span class="arr">${ICON.arrow}</span></button></div></div></div>`);
  const next=()=>{const cur=S.a[q.id];if(cur===undefined||(Array.isArray(cur)&&!cur.length)){d.querySelector(".err").textContent="یک گزینه را انتخاب کن.";return}
   const nqs=visibleQs(cat);const at=nqs.findIndex(x=>x.id===q.id);
-  if(at>=nqs.length-1){S.done[cat.id]=true;saveLead("in_progress");const nx=nextCat(cat.id)||nextCat(null);if(!nx){save();packThen();return}go(()=>{S.dir=1;S.cat=nx;S.qi=firstOpen(nx)});return}
+  if(at>=nqs.length-1){S.done[cat.id]=true;saveLead("in_progress");const nx=nextCat(cat.id)||nextCat(null);if(!nx){save();packThen();return}badge(cat,selCats().filter(id=>firstOpen(id)>=0&&id!==cat.id).length);go(()=>{S.dir=1;S.cat=nx;S.qi=firstOpen(nx)});return}
   go(()=>{S.dir=1;S.qi=at+1})};
  bindOpts(d,q,i=>{const needTx=q.text&&q.text.when.some(w=>multi?(S.a[q.id]||[]).includes(w):S.a[q.id]===w);
   const w=d.querySelector("#txw");
@@ -1035,10 +1186,12 @@ function result(){
  <section class="submitbox reveal"><h2>ارسال برای بازبینی داروساز</h2><p>شماره‌ات رو وارد کن تا داروساز ویتاپلن برنامه رو بررسی کنه و برای سفارش بسته‌ی ۲۸ روزه باهات تماس بگیره.</p>
   <div class="grid2" style="margin-top:14px"><div class="field"><label for="f-ph" style="color:inherit">شماره‌ی موبایل</label><input class="inp" id="f-ph" inputmode="tel" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" value="${esc(S.phone)}"></div>
   <div class="field"><label for="f-em" style="color:inherit">ایمیل (اختیاری)</label><input class="inp" id="f-em" inputmode="email" value="${esc(S.email)}"></div></div>
+  <div class="storyrow"><button class="btn story" id="story">ساخت کارت استوری <span class="arr">${ICON.arrow}</span></button><span class="qhint">نتیجه‌ات رو با دوستات به اشتراک بذار</span></div><div id="storyout"></div>
   <div class="cta-row"><button class="btn lime" id="send">ثبت و ارسال <span class="arr">${ICON.arrow}</span></button><button class="ghost" id="edit" style="color:inherit;border-color:currentColor">ویرایش پاسخ‌ها</button></div>
   <div class="ok" id="ok" role="status"></div></section>
  <p class="disc">این ارزیابی بر پایه‌ی پاسخ‌های خود تو انجام شده و جایگزین تشخیص یا درمان پزشکی نیست. در صورت بیماری یا مصرف دارو، پیش از شروع هر مکمل با پزشک معالج مشورت کن.</p>`);
  d.querySelector("#edit").onclick=()=>go(()=>S.view="hub");
+ d.querySelector("#story").onclick=()=>storyCard(R,mine(),P,d.querySelector("#storyout"));
  d.querySelectorAll(".supp .sw").forEach(b=>b.onclick=()=>{const row=b.closest(".supp"),k=row.dataset.k;S.off[k]=!S.off[k];save();row.classList.toggle("off",!!S.off[k]);b.setAttribute("aria-checked",!S.off[k]);d.querySelector("#sachs").innerHTML=sachHTML();d.querySelector("#pc").textContent=fa(mine().length)});
  d.querySelector("#send").onclick=async()=>{
   const ok=d.querySelector("#ok"),ph=toEn(d.querySelector("#f-ph").value).replace(/[\s-]/g,"");
