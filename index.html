@@ -165,9 +165,8 @@ main{padding-block:12px 80px;position:relative}
 .cta-band h2{font-size:clamp(1.6rem,3.6vw,2.6rem);font-weight:800}
 .cta-band .cta-row{justify-content:center}
 .foot{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;padding-block:30px;border-top:1px solid var(--line);color:var(--stone);font-size:.82rem;margin-top:60px}
-.reveal{animation:rise linear both;animation-timeline:view();animation-range:entry 0% cover 25%}
-@keyframes rise{from{opacity:0;transform:translateY(50px) scale(.97);filter:blur(6px)}}
-@supports not (animation-timeline:view()){.reveal{animation:none}}
+.reveal.pre{opacity:0;transform:translateY(46px) scale(.98)}
+.reveal.pre.in{opacity:1;transform:none;transition:opacity .9s var(--ease) var(--rd,0ms),transform 1s var(--ease) var(--rd,0ms)}
 
 /* quiz */
 .qwrap{max-width:740px;margin:0 auto;padding-top:28px}
@@ -764,7 +763,18 @@ function strip(){
 function render(){
  strip();
  const v={home,basic,goals,hub,q:question,result,blocked,admin}[S.view]||home;
- app.innerHTML="";app.append(v());
+ app.innerHTML="";app.append(v());armReveal(app);
+}
+let revIO=null;
+function armReveal(root){
+ if(matchMedia("(prefers-reduced-motion:reduce)").matches||!("IntersectionObserver" in window))return;
+ revIO&&revIO.disconnect();
+ revIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");revIO.unobserve(e.target)}}),{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+ root.querySelectorAll(".reveal").forEach(el=>{
+  if(el.getBoundingClientRect().top<innerHeight*.92)return;
+  const sib=[...el.parentElement.children].filter(x=>x.classList.contains("reveal"));
+  el.style.setProperty("--rd",Math.min(sib.indexOf(el),5)*110+"ms");
+  el.classList.add("pre");revIO.observe(el)});
 }
 const h=(html)=>{const d=document.createElement("div");d.className="view";d.innerHTML=html;return d};
 
@@ -1008,21 +1018,21 @@ function result(){
   </div>
   <div class="sachets" id="sachs">${sachHTML()}</div>
  </section>
- <section class="sec"><h2>پروفایل تو</h2><div class="profile">
+ <section class="sec reveal"><h2>پروفایل تو</h2><div class="profile">
   <div class="pf"><small>سن</small><b>${fa(S.b.age)} سال</b></div>
   <div class="pf"><small>جنسیت</small><b>${S.b.sex==="f"?"زن":"مرد"}</b></div>
   ${bmi?`<div class="pf"><small>شاخص توده‌ی بدنی (BMI)</small><b>${fa(bmi.toFixed(1))}</b></div>`:""}
   <div class="pf" style="grid-column:span 2"><small>هدف‌ها</small><b style="font-size:.9rem">${g.map(esc).join("، ")}</b></div>
   <div class="pf" style="grid-column:span 2"><small>دسته‌های پاسخ داده‌شده</small><b style="font-size:.9rem">${answered.join("، ")}</b></div>
  </div></section>
- <section class="sec"><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="supps">
+ <section class="sec reveal"><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="supps">
   ${R.list.map((x,i)=>`<div class="supp ${S.off[x.k]?"off":""}" data-k="${x.k}" style="animation-delay:${i*70}ms"><span class="dot" style="background:${x.c};color:${x.c}"></span>
    <div><h3>${esc(x.n)}</h3><p>${esc((x.why||[]).slice(0,3).join(" · "))}</p><div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
    <span class="t">${x.t==="am"?"صبح":"شب"}</span><button class="sw" role="switch" aria-checked="${!S.off[x.k]}" aria-label="${esc(x.n)} در پک من"></button></div>`).join("")}
  </div><p class="disc">دوز نهایی هر مکمل پس از بازبینی داروساز و با توجه به مکمل‌های فعلی تو تعیین می‌شود.</p></section>
- ${R.exList.length?`<section class="sec"><h2>حذف‌شده برای ایمنی تو</h2><div class="ex">${R.exList.map(x=>`<span>${esc(x.n)}<em>${esc(x.r)}</em></span>`).join("")}</div></section>`:""}
- ${R.flags.length||R.notes.length?`<section class="sec"><h2>نکات ایمنی و مصرف</h2>${R.flags.map(f=>`<div class="flag ${f.bad?"bad":""}">${esc(f.t)}</div>`).join("")}${R.notes.map(n=>`<div class="flag note">${esc(n)}</div>`).join("")}</section>`:""}
- <section class="submitbox"><h2>ارسال برای بازبینی داروساز</h2><p>شماره‌ات رو وارد کن تا داروساز ویتاپلن برنامه رو بررسی کنه و برای سفارش بسته‌ی ۲۸ روزه باهات تماس بگیره.</p>
+ ${R.exList.length?`<section class="sec reveal"><h2>حذف‌شده برای ایمنی تو</h2><div class="ex">${R.exList.map(x=>`<span>${esc(x.n)}<em>${esc(x.r)}</em></span>`).join("")}</div></section>`:""}
+ ${R.flags.length||R.notes.length?`<section class="sec reveal"><h2>نکات ایمنی و مصرف</h2>${R.flags.map(f=>`<div class="flag ${f.bad?"bad":""}">${esc(f.t)}</div>`).join("")}${R.notes.map(n=>`<div class="flag note">${esc(n)}</div>`).join("")}</section>`:""}
+ <section class="submitbox reveal"><h2>ارسال برای بازبینی داروساز</h2><p>شماره‌ات رو وارد کن تا داروساز ویتاپلن برنامه رو بررسی کنه و برای سفارش بسته‌ی ۲۸ روزه باهات تماس بگیره.</p>
   <div class="grid2" style="margin-top:14px"><div class="field"><label for="f-ph" style="color:inherit">شماره‌ی موبایل</label><input class="inp" id="f-ph" inputmode="tel" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" value="${esc(S.phone)}"></div>
   <div class="field"><label for="f-em" style="color:inherit">ایمیل (اختیاری)</label><input class="inp" id="f-em" inputmode="email" value="${esc(S.email)}"></div></div>
   <div class="cta-row"><button class="btn lime" id="send">ثبت و ارسال <span class="arr">${ICON.arrow}</span></button><button class="ghost" id="edit" style="color:inherit;border-color:currentColor">ویرایش پاسخ‌ها</button></div>
