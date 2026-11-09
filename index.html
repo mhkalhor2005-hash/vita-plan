@@ -452,7 +452,8 @@ main{padding-block:12px 150px;position:relative}
 
 /* --- round 3 features --- */
 .cmp{margin-top:30px;overflow-x:auto;border-radius:24px}
-.cmp table{width:100%;border-collapse:collapse;min-width:520px}
+.cmp table{width:100%;border-collapse:collapse;table-layout:fixed}
+.cmp col.ck{width:22%}
 .cmp th,.cmp td{padding:14px 18px;text-align:right;border-bottom:1px solid var(--line);font-size:.95rem}
 .cmp th{font-weight:600;color:var(--stone);font-size:.8rem}
 .cmp th.us,.cmp td.us{color:var(--lime);text-align:center;background:var(--lime-soft)}
@@ -513,7 +514,7 @@ main{padding-block:12px 150px;position:relative}
 .refbox .pf b{font-family:var(--latin);font-size:1.5rem;color:var(--lime)}
 .later{background:none;border:0;color:var(--cyan);font-size:.85rem;padding:6px 2px;text-decoration:underline;text-underline-offset:4px}
 @media (max-width:900px){.trust{grid-template-columns:1fr 1fr}.mag,.reviews{grid-template-columns:1fr}.labs{grid-template-columns:1fr 1fr}}
-@media (max-width:520px){.subs{grid-template-columns:1fr}#vita{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+@media (max-width:520px){.cmp th,.cmp td{padding:12px 10px;font-size:.84rem;line-height:1.6}.cmp th{font-size:.72rem}.cmp col.ck{width:20%}.cmp .lg{display:none}.subs{grid-template-columns:1fr}#vita{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
 </style>
 </head>
 <body>
@@ -542,7 +543,7 @@ const CFG={
  brandMap:{},           // برند هر مکمل، مثلاً {d3:"یوروویتال",omega3:"عبیدی"}
  reviews:[]             // فقط نظر واقعی: {name:"سارا",plan:"BeautyPlan",stars:5,text:"..."}
 };
-const BUILD="1794256667";
+const BUILD="1794256960";
 const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
@@ -1146,7 +1147,7 @@ function home(){
  <section class="band">
   <span class="sec-tag">04 — WHY</span>
   <h2 class="reveal">ویتاپلن چه فرقی با مولتی‌ویتامین معمولی داره؟</h2>
-  <div class="cmp glass reveal"><table><thead><tr><th>ویژگی</th><th class="us">ویتاپلن</th><th style="text-align:center">مولتی‌ویتامین معمولی</th></tr></thead><tbody>
+  <div class="cmp glass reveal"><table><colgroup><col><col class="ck"><col class="ck"></colgroup><thead><tr><th>ویژگی</th><th class="us">ویتاپلن</th><th style="text-align:center"><span class="lg">مولتی‌ویتامین<br></span>معمولی</th></tr></thead><tbody>
    <tr><td>بر اساس شرایط خود تو</td><td class="us">✓</td><td class="th">—</td></tr>
    <tr><td>بررسی تداخل با داروها و بیماری‌ها</td><td class="us">✓</td><td class="th">—</td></tr>
    <tr><td>جدا برای صبح و شب</td><td class="us">✓</td><td class="th">—</td></tr>
