@@ -446,6 +446,8 @@ main{padding-block:12px 150px;position:relative}
 .storyrow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px}
 .btn.story{background:linear-gradient(100deg,#FF5FA2,#B48CFF);color:#fff;box-shadow:0 10px 40px -10px rgba(255,95,162,.6)}
 .btn.story .arr{background:rgba(0,0,0,.3);color:#fff}
+.codebox{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:14px;padding:12px 16px;border-radius:16px;border:1.5px dashed var(--lime);background:var(--lime-soft);font-size:.88rem}
+.codebox b{font-size:1.25rem;color:var(--cocoa);letter-spacing:.08em}
 .storyprev{max-width:200px;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow)}
 </style>
 </head>
@@ -786,7 +788,7 @@ function compute(S){
 }
 
 /* ---------------- state ---------------- */
-const blank=()=>({view:"home",b:{name:"",age:"",sex:"",h:"",w:""},a:{},txt:{},cat:null,qi:0,done:{},dir:1,phone:"",email:"",sel:null,off:{},cid:""});
+const blank=()=>({view:"home",b:{name:"",age:"",sex:"",h:"",w:""},a:{},txt:{},cat:null,qi:0,done:{},dir:1,phone:"",email:"",sel:null,off:{},cid:"",code:""});
 let S=window.claude?.hot?.data?.S||blank();
 try{const sv=localStorage.getItem("vp-draft");if(sv&&!window.claude?.hot?.data?.S)S=Object.assign(blank(),JSON.parse(sv))}catch(e){}
 window.claude?.hot?.snapshot?.(()=>({S}));
@@ -867,6 +869,7 @@ function badge(cat,left){
 }
 
 /* ---------------- 9 story card ---------------- */
+function myCode(){if(!S.code){const A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let c="";const r=new Uint32Array(5);try{crypto.getRandomValues(r)}catch(e){for(let i=0;i<5;i++)r[i]=Math.random()*1e9}r.forEach(v=>c+=A[v%A.length]);S.code="VP-"+c;save()}return S.code}
 async function storyCard(R,list,P,out){
  try{await document.fonts.ready}catch(e){}
  const W=1080,H=1920,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
@@ -881,17 +884,22 @@ async function storyCard(R,list,P,out){
  x.fillStyle="#A6F04A";x.fillText((S.b.name||"").split(" ")[0]||"من",R0,540);
  x.fillStyle="#A9B6AE";x.font="500 46px Vazirmatn, sans-serif";x.fillText(P.fa+" · ۲۸ روز",R0,630);
  // sachet
- const sx=90,sy=720,sw=W-180,sh=420;x.fillStyle="rgba(255,255,255,.07)";x.strokeStyle="rgba(255,255,255,.3)";x.lineWidth=3;
+ const sx=90,sy=720,sw=W-180,sh=300;x.fillStyle="rgba(255,255,255,.07)";x.strokeStyle="rgba(255,255,255,.3)";x.lineWidth=3;
  x.beginPath();x.roundRect(sx,sy,sw,sh,28);x.fill();x.stroke();
  x.setLineDash([8,10]);x.beginPath();x.moveTo(sx,sy+30);x.lineTo(sx+sw,sy+30);x.moveTo(sx,sy+sh-30);x.lineTo(sx+sw,sy+sh-30);x.stroke();x.setLineDash([]);
- list.slice(0,10).forEach((it,i)=>{const col=i%5,row=Math.floor(i/5),px=sx+110+col*((sw-220)/4),py=sy+150+row*120;
+ list.slice(0,10).forEach((it,i)=>{const col=i%5,row=Math.floor(i/5),px=sx+110+col*((sw-220)/4),py=sy+105+row*110;
   x.save();x.translate(px,py);x.rotate((i%3-1)*.35);x.shadowColor=it.c;x.shadowBlur=30;x.fillStyle=it.c;x.beginPath();
   if(it.r)x.arc(0,0,30,0,7);else x.roundRect(-55,-24,110,48,24);x.fill();x.restore()});
- x.fillStyle="#EEF4EA";x.font="700 48px Vazirmatn, sans-serif";let y=1270;
- list.slice(0,6).forEach(it=>{x.fillStyle=it.c;x.beginPath();x.arc(R0-14,y-16,14,0,7);x.fill();x.fillStyle="#EEF4EA";x.fillText(it.n.replace(/\s*\(.*\)/,""),R0-50,y);y+=78});
- if(list.length>6){x.fillStyle="#6E7D76";x.font="500 40px Vazirmatn, sans-serif";x.fillText("+ "+fa(list.length-6)+" مکمل دیگه",R0-50,y)}
- x.fillStyle="#A6F04A";x.font="700 50px Vazirmatn, sans-serif";x.textAlign="center";x.fillText("پک خودت رو بساز",W/2,H-215);x.direction="ltr";x.fillText("vitaplan.onrender.com",W/2,H-150);x.direction="rtl";
- x.fillStyle="#6E7D76";x.font="400 34px Vazirmatn, sans-serif";x.fillText("طراحی با هوش مصنوعی · تأیید داروساز",W/2,H-90);
+ x.fillStyle="#EEF4EA";x.font="700 46px Vazirmatn, sans-serif";let y=1120;
+ list.slice(0,4).forEach(it=>{x.fillStyle=it.c;x.beginPath();x.arc(R0-14,y-16,14,0,7);x.fill();x.fillStyle="#EEF4EA";x.fillText(it.n.replace(/\s*\(.*\)/,""),R0-50,y);y+=72});
+ if(list.length>4){x.fillStyle="#6E7D76";x.font="500 40px Vazirmatn, sans-serif";x.fillText("+ "+fa(list.length-4)+" مکمل دیگه",R0-50,y)}
+ const code=myCode(),bx=W/2-330,by=H-475,bw=660,bh=170;
+ x.fillStyle="rgba(166,240,74,.10)";x.strokeStyle="#A6F04A";x.lineWidth=4;x.setLineDash([18,12]);x.beginPath();x.roundRect(bx,by,bw,bh,28);x.fill();x.stroke();x.setLineDash([]);
+ x.textAlign="center";x.fillStyle="#A9B6AE";x.font="500 38px Vazirmatn, sans-serif";x.fillText("کد تخفیف دوستانم",W/2,by+62);
+ x.direction="ltr";x.fillStyle="#EEF4EA";x.font="700 66px Sora, monospace";x.fillText(code,W/2,by+138);x.direction="rtl";
+ x.fillStyle="#A6F04A";x.font="800 52px Vazirmatn, sans-serif";x.fillText("پک خودت رو بساز",W/2,H-215);
+ x.direction="ltr";x.fillStyle="#EEF4EA";x.font="700 46px Sora, sans-serif";x.fillText("@vitaplan.ir",W/2,H-145);
+ x.fillStyle="#6E7D76";x.font="400 32px Sora, sans-serif";x.fillText("vitaplan.onrender.com",W/2,H-90);x.direction="rtl";
  let blob;try{blob=await new Promise((r,j)=>{try{c.toBlob(r,"image/png")}catch(e){j(e)}})}catch(e){blob=null}
  if(!blob){out.innerHTML='<p class="qhint">ساخت عکس انجام نشد. صفحه را یک بار تازه کن و دوباره امتحان کن.</p>';return}const file=new File([blob],"vitaplan-story.png",{type:"image/png"});
  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"پک ویتاپلن من"});return}}catch(e){if(e&&e.name==="AbortError")return}
@@ -1151,7 +1159,7 @@ function bmiOf(){const hh=+S.b.h/100,ww=+S.b.w;return hh&&ww?ww/(hh*hh):null}
 function result(){
  const R=compute(S),P=PLANS[R.plan],first=S.b.name.split(" ")[0];
  const bmi=bmiOf();
- S.off=S.off||{};const mine=()=>R.list.filter(x=>!S.off[x.k]);
+ S.off=S.off||{};myCode();const mine=()=>R.list.filter(x=>!S.off[x.k]);
  saveLead("completed",R,mine());
  const sachHTML=()=>{const L=mine();return sach("ساشه‌ی صبح، همراه صبحانه","sun",L.filter(x=>x.t==="am"))+sach("ساشه‌ی شب، بعد از شام","moon",L.filter(x=>x.t==="pm"))};
  const pills=arr=>arr.map((x,i)=>`<span class="pill ${x.r?"r":""}" style="background:${x.c};color:${x.c};animation-delay:${400+i*90}ms"></span>`).join("");
@@ -1186,11 +1194,13 @@ function result(){
  <section class="submitbox reveal"><h2>ارسال برای بازبینی داروساز</h2><p>شماره‌ات رو وارد کن تا داروساز ویتاپلن برنامه رو بررسی کنه و برای سفارش بسته‌ی ۲۸ روزه باهات تماس بگیره.</p>
   <div class="grid2" style="margin-top:14px"><div class="field"><label for="f-ph" style="color:inherit">شماره‌ی موبایل</label><input class="inp" id="f-ph" inputmode="tel" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" value="${esc(S.phone)}"></div>
   <div class="field"><label for="f-em" style="color:inherit">ایمیل (اختیاری)</label><input class="inp" id="f-em" inputmode="email" value="${esc(S.email)}"></div></div>
-  <div class="storyrow"><button class="btn story" id="story">ساخت کارت استوری <span class="arr">${ICON.arrow}</span></button><span class="qhint">نتیجه‌ات رو با دوستات به اشتراک بذار</span></div><div id="storyout"></div>
+  <div class="storyrow"><button class="btn story" id="story">ساخت کارت استوری <span class="arr">${ICON.arrow}</span></button><span class="qhint">نتیجه‌ات رو استوری کن و پیج <b class="latin">@vitaplan.ir</b> رو تگ کن</span></div>
+  <div class="codebox"><span>کد تخفیف اختصاصی تو برای دوستات</span><b class="latin" id="mycode">${myCode()}</b><button class="ghost" id="cpy">کپی</button></div><div id="storyout"></div>
   <div class="cta-row"><button class="btn lime" id="send">ثبت و ارسال <span class="arr">${ICON.arrow}</span></button><button class="ghost" id="edit" style="color:inherit;border-color:currentColor">ویرایش پاسخ‌ها</button></div>
   <div class="ok" id="ok" role="status"></div></section>
  <p class="disc">این ارزیابی بر پایه‌ی پاسخ‌های خود تو انجام شده و جایگزین تشخیص یا درمان پزشکی نیست. در صورت بیماری یا مصرف دارو، پیش از شروع هر مکمل با پزشک معالج مشورت کن.</p>`);
  d.querySelector("#edit").onclick=()=>go(()=>S.view="hub");
+ d.querySelector("#cpy").onclick=async e=>{try{await navigator.clipboard.writeText(myCode());e.target.textContent="کپی شد"}catch(_){const r=document.createRange();r.selectNodeContents(d.querySelector("#mycode"));getSelection().removeAllRanges();getSelection().addRange(r)}};
  d.querySelector("#story").onclick=()=>storyCard(R,mine(),P,d.querySelector("#storyout"));
  d.querySelectorAll(".supp .sw").forEach(b=>b.onclick=()=>{const row=b.closest(".supp"),k=row.dataset.k;S.off[k]=!S.off[k];save();row.classList.toggle("off",!!S.off[k]);b.setAttribute("aria-checked",!S.off[k]);d.querySelector("#sachs").innerHTML=sachHTML();d.querySelector("#pc").textContent=fa(mine().length)});
  d.querySelector("#send").onclick=async()=>{
@@ -1211,7 +1221,7 @@ function answersText(){const o={};Object.keys(S.a).forEach(k=>{const q=QBY[k];if
 function leadPayload(stage,R,list){const p={cid:S.cid,name:S.b.name,phone:toEn(S.phone).replace(/[\s-]/g,""),age:+S.b.age||null,sex:S.b.sex,stage,
   data:{height:+S.b.h||null,weight:+S.b.w||null,goals:(S.a.G||[]).map(i=>GOALS.o[i]),selectedCats:selCats().map(id=>CATS.find(c=>c.id===id).title),answers:answersText(),texts:S.txt}};
  if(R){p.plan=PLANS[R.plan].k;p.needsReview=R.review;Object.assign(p.data,{supplements:(list||R.list).map(x=>x.n),removedByUser:R.removedByUser||R.list.filter(x=>S.off&&S.off[x.k]).map(x=>x.n),excluded:R.exList.map(x=>x.n+" — "+x.r),flags:R.flags.map(f=>(f.bad?"[مهم] ":"")+f.t),notes:R.notes})}
- if(S.email)p.data.email=S.email;return p}
+ if(S.email)p.data.email=S.email;if(S.code)p.data.code=S.code;return p}
 async function saveLead(stage,R,list){if(!API||!S.phone)return true;
  try{const r=await fetch(API+"/api/save",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(leadPayload(stage,R,list)),keepalive:stage!=="submitted"});return r.ok}catch(e){return false}}
 let DB=null,USER=null;
@@ -1273,7 +1283,7 @@ function detail(r){
  const lst=(t,a)=>a&&a.length?`<div class="sec"><h2 style="font-size:1.05rem">${t}</h2>${a.map(x=>`<div class="qa">${esc(x)}</div>`).join("")}</div>`:"";
  const ans=Object.entries(r.answers||{}).map(([k,v])=>`<div class="qa"><small>${k} · ${esc(QBY[k]?.t||"")}</small>${esc(Array.isArray(v)?v.join("، "):v)}${r.texts?.[k]?` — <b>${esc(r.texts[k])}</b>`:""}${r.texts?.[k+"o"]?` — <b>${esc(r.texts[k+"o"])}</b>`:""}</div>`).join("");
  dr.innerHTML=`<div class="pane" role="dialog" aria-label="جزئیات پاسخ"><div class="navrow" style="margin-top:0"><h1 class="qtitle" style="margin:0">${esc(r.name)}</h1><button class="ghost" id="cl">بستن</button></div>
-  <div class="profile" style="margin-top:12px"><div class="pf"><small>پلن</small><b>${esc(r.plan)}</b></div><div class="pf"><small>سن</small><b>${fa(r.age)}</b></div><div class="pf"><small>موبایل</small><b class="latin">${esc(r.phone)}</b></div>${r.email?`<div class="pf"><small>ایمیل</small><b class="latin" style="font-size:.8rem">${esc(r.email)}</b></div>`:""}</div>
+  <div class="profile" style="margin-top:12px"><div class="pf"><small>پلن</small><b>${esc(r.plan)}</b></div><div class="pf"><small>سن</small><b>${fa(r.age)}</b></div><div class="pf"><small>موبایل</small><b class="latin">${esc(r.phone)}</b></div>${r.code?`<div class="pf"><small>کد تخفیف</small><b class="latin">${esc(r.code)}</b></div>`:""}${r.email?`<div class="pf"><small>ایمیل</small><b class="latin" style="font-size:.8rem">${esc(r.email)}</b></div>`:""}</div>
   ${lst("هدف‌ها",r.goals)}${lst("مکمل‌های پیشنهادی",r.supplements)}${lst("حذف‌شده",r.excluded)}${lst("هشدارها",r.flags)}${lst("نکات مصرف",r.notes)}
   <div class="sec"><h2 style="font-size:1.05rem">همه‌ی پاسخ‌ها</h2>${ans}</div></div>`;
  const close=()=>dr.remove();
