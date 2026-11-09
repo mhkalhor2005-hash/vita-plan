@@ -729,10 +729,12 @@ function compute(S){
 }
 
 /* ---------------- state ---------------- */
-const blank=()=>({view:"home",b:{name:"",age:"",sex:"",h:"",w:""},a:{},txt:{},cat:null,qi:0,done:{},dir:1,phone:"",email:"",sel:null,off:{}});
+const blank=()=>({view:"home",b:{name:"",age:"",sex:"",h:"",w:""},a:{},txt:{},cat:null,qi:0,done:{},dir:1,phone:"",email:"",sel:null,off:{},cid:""});
 let S=window.claude?.hot?.data?.S||blank();
 try{const sv=localStorage.getItem("vp-draft");if(sv&&!window.claude?.hot?.data?.S)S=Object.assign(blank(),JSON.parse(sv))}catch(e){}
 window.claude?.hot?.snapshot?.(()=>({S}));
+const newCid=()=>{try{return crypto.randomUUID()}catch(e){return "c"+Date.now().toString(36)+Math.random().toString(36).slice(2,10)}};
+if(!S.cid)S.cid=newCid();
 const save=()=>{try{localStorage.setItem("vp-draft",JSON.stringify(S))}catch(e){}};
 const app=document.getElementById("app");
 const go=(fn)=>{const run=()=>{fn();save();render();window.scrollTo({top:0,behavior:"instant"})};
@@ -778,7 +780,7 @@ function home(){
    <h1>ویتامین‌هایی که<br><span class="grad">فقط برای تو</span><br>طراحی می‌شن</h1>
    <p class="lede">به سؤال‌هایی درباره‌ی خواب، انرژی، تغذیه و سلامتت جواب بده. ترکیب مکمل‌هات طراحی می‌شه، داروساز بازبینیش می‌کنه و ۲۸ ساشه‌ی روزانه، جدا برای صبح و شب، به دستت می‌رسه.</p>
    <div class="cta-row">
-    <button class="btn" id="start">${S.b.name?"ادامه‌ی ارزیابی":"شروع ارزیابی رایگان"} <span class="arr">${ICON.arrow}</span></button>
+    <button class="btn" id="start">شروع ارزیابی <span class="arr">${ICON.arrow}</span></button>
     <span class="meta">حدود ۷ تا ۱۰ دقیقه</span>
    </div>
    <div class="kpis">
@@ -836,7 +838,9 @@ function basic(){
   <div class="kicker">بخش اول · اطلاعات پایه</div>
   <h1 class="qtitle">بیا با خودت شروع کنیم</h1>
   <p class="qhint">از اینجا به بعد سؤال‌ها با اسم خودت پرسیده می‌شه.</p>
-  <div class="field"><label for="f-name">نام و نام خانوادگی</label><input class="inp" id="f-name" value="${esc(b.name)}" autocomplete="name"></div>
+  <div class="grid2"><div class="field"><label for="f-name">نام و نام خانوادگی</label><input class="inp" id="f-name" value="${esc(b.name)}" autocomplete="name"></div>
+  <div class="field"><label for="f-ph0">شماره‌ی موبایل</label><input class="inp latin" id="f-ph0" inputmode="tel" autocomplete="tel" placeholder="09120000000" value="${esc(S.phone)}" style="text-align:right"></div></div>
+  <p class="qhint" style="margin-top:6px">نتیجه و برنامه‌ات با این شماره ذخیره می‌شه تا داروساز بتونه باهات تماس بگیره.</p>
   <div class="grid2">
    <div class="field"><label for="f-age">سن (سال)</label><input class="inp" id="f-age" inputmode="numeric" value="${esc(b.age)}"></div>
    <div class="field"><label>جنسیت</label><div class="opts" style="margin:0;grid-template-columns:1fr 1fr">
@@ -852,13 +856,15 @@ function basic(){
  d.querySelector("#bk").onclick=()=>go(()=>S.view="home");
  d.querySelector("#nx").onclick=()=>{
   const name=d.querySelector("#f-name").value.trim(),age=+toEn(d.querySelector("#f-age").value),hh=toEn(d.querySelector("#f-h").value),ww=toEn(d.querySelector("#f-w").value);
-  const e=d.querySelector("#err");
+  const e=d.querySelector("#err"),ph=toEn(d.querySelector("#f-ph0").value).replace(/[\s-]/g,"");
   if(!name)return e.textContent="نامت رو بنویس تا برنامه به اسم خودت ساخته بشه.";
+  if(!/^(\+98|0)?9\d{9}$/.test(ph))return e.textContent="شماره‌ی موبایل را کامل وارد کن، مثلاً ۰۹۱۲۳۴۵۶۷۸۹.";
   if(!age||age<1||age>110)return e.textContent="سن را به عدد وارد کن، مثلاً ۲۸.";
   if(!S.b.sex)return e.textContent="جنسیت را انتخاب کن؛ بخشی از سؤال‌ها به آن بستگی دارد.";
   if(hh&&(+hh<100||+hh>230))return e.textContent="قد را به سانتی‌متر وارد کن، مثلاً ۱۷۲.";
   if(ww&&(+ww<30||+ww>250))return e.textContent="وزن را به کیلوگرم وارد کن، مثلاً ۶۸.";
-  go(()=>{Object.assign(S.b,{name,age:String(age),h:hh,w:ww});S.view=age<18?"blocked":"goals"});
+  if(S.phone&&toEn(S.phone).replace(/[\s-]/g,"")!==ph)S.cid=newCid();
+  go(()=>{Object.assign(S.b,{name,age:String(age),h:hh,w:ww});S.phone=ph;S.view=age<18?"blocked":"goals"});if(age>=18)saveLead("started");
  };
  return d;
 }
@@ -966,7 +972,7 @@ function question(){
   <button class="btn" id="nx">${S.qi===qs.length-1?(nextCat(cat.id)?"دسته‌ی بعدی":"ساخت پک من"):"بعدی"} <span class="arr">${ICON.arrow}</span></button></div></div></div>`);
  const next=()=>{const cur=S.a[q.id];if(cur===undefined||(Array.isArray(cur)&&!cur.length)){d.querySelector(".err").textContent="یک گزینه را انتخاب کن.";return}
   const nqs=visibleQs(cat);const at=nqs.findIndex(x=>x.id===q.id);
-  if(at>=nqs.length-1){S.done[cat.id]=true;const nx=nextCat(cat.id)||nextCat(null);if(!nx){save();packThen();return}go(()=>{S.dir=1;S.cat=nx;S.qi=firstOpen(nx)});return}
+  if(at>=nqs.length-1){S.done[cat.id]=true;saveLead("in_progress");const nx=nextCat(cat.id)||nextCat(null);if(!nx){save();packThen();return}go(()=>{S.dir=1;S.cat=nx;S.qi=firstOpen(nx)});return}
   go(()=>{S.dir=1;S.qi=at+1})};
  bindOpts(d,q,i=>{const needTx=q.text&&q.text.when.some(w=>multi?(S.a[q.id]||[]).includes(w):S.a[q.id]===w);
   const w=d.querySelector("#txw");
@@ -985,6 +991,7 @@ function result(){
  const R=compute(S),P=PLANS[R.plan],first=S.b.name.split(" ")[0];
  const bmi=bmiOf();
  S.off=S.off||{};const mine=()=>R.list.filter(x=>!S.off[x.k]);
+ saveLead("completed",R,mine());
  const sachHTML=()=>{const L=mine();return sach("ساشه‌ی صبح، همراه صبحانه","sun",L.filter(x=>x.t==="am"))+sach("ساشه‌ی شب، بعد از شام","moon",L.filter(x=>x.t==="pm"))};
  const pills=arr=>arr.map((x,i)=>`<span class="pill ${x.r?"r":""}" style="background:${x.c};color:${x.c};animation-delay:${400+i*90}ms"></span>`).join("");
  const sach=(lab,ic,arr)=>`<div class="sachet"><div class="when"><span>${lab}</span><img src="${IMG.logo}" alt=""></div><div class="pills">${arr.length?pills(arr):'<span class="qhint">—</span>'}</div><ul>${arr.map(x=>`<li>${esc(x.n)}</li>`).join("")}</ul></div>`;
@@ -1028,17 +1035,27 @@ function result(){
   S.phone=d.querySelector("#f-ph").value;S.email=d.querySelector("#f-em").value.trim();save();
   if(!/^(\+98|0)?9\d{9}$/.test(ph)){ok.style.color="var(--warn)";ok.textContent="شماره‌ی موبایل را کامل وارد کن، مثلاً ۰۹۱۲۳۴۵۶۷۸۹.";return}
   ok.style.color="";ok.textContent="در حال ثبت…";
-  const res=await submit({...R,list:mine(),removedByUser:R.list.filter(x=>S.off[x.k]).map(x=>x.n)},ph);
+  S.phone=ph;const res=await submit({...R,list:mine(),removedByUser:R.list.filter(x=>S.off[x.k]).map(x=>x.n)},ph);
   ok.textContent=res;
  };
  return d;
 }
 
 /* ---------------- storage ---------------- */
+const API=/onrender\.com$/.test(location.hostname)?"https://vitaplan-api.onrender.com":null;
+if(API)fetch(API+"/health").catch(()=>{});
+function answersText(){const o={};Object.keys(S.a).forEach(k=>{const q=QBY[k];if(!q)return;const v=S.a[k];o[k]=Array.isArray(v)?v.map(i=>q.o[i]):q.o[v]});return o}
+function leadPayload(stage,R,list){const p={cid:S.cid,name:S.b.name,phone:toEn(S.phone).replace(/[\s-]/g,""),age:+S.b.age||null,sex:S.b.sex,stage,
+  data:{height:+S.b.h||null,weight:+S.b.w||null,goals:(S.a.G||[]).map(i=>GOALS.o[i]),selectedCats:selCats().map(id=>CATS.find(c=>c.id===id).title),answers:answersText(),texts:S.txt}};
+ if(R){p.plan=PLANS[R.plan].k;p.needsReview=R.review;Object.assign(p.data,{supplements:(list||R.list).map(x=>x.n),removedByUser:R.removedByUser||R.list.filter(x=>S.off&&S.off[x.k]).map(x=>x.n),excluded:R.exList.map(x=>x.n+" — "+x.r),flags:R.flags.map(f=>(f.bad?"[مهم] ":"")+f.t),notes:R.notes})}
+ if(S.email)p.data.email=S.email;return p}
+async function saveLead(stage,R,list){if(!API||!S.phone)return true;
+ try{const r=await fetch(API+"/api/save",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(leadPayload(stage,R,list)),keepalive:stage!=="submitted"});return r.ok}catch(e){return false}}
 let DB=null,USER=null;
 const ready=(async()=>{try{[DB,USER]=await Promise.all([window.claude?.use?.("db"),window.claude?.use?.("user")])}catch(e){}
  try{if(USER&&(await USER.canEdit()))document.getElementById("adminBtn").hidden=false}catch(e){}})();
 async function submit(R,ph){
+ if(API){const ok=await saveLead("submitted",R,R.list);return ok?"ثبت شد. داروساز ویتاپلن برنامه‌ات را بررسی می‌کند و با همین شماره تماس می‌گیرد.":"ثبت انجام نشد. اتصال اینترنت را بررسی کن و دوباره «ثبت و ارسال» را بزن."}
  await ready;
  if(!DB||!USER)return "ذخیره‌ی آنلاین در این نما در دسترس نیست. برای ثبت، صفحه را با حساب claude.ai باز کن.";
  try{
@@ -1056,17 +1073,30 @@ async function submit(R,ph){
 let unsub=null,ROWS=[];
 function admin(){
  const d=h(`<div class="adm"><div class="hubhead"><div><div class="kicker">پنل مدیریت</div><h1>پاسخ‌های پرسشنامه</h1></div><button class="ghost" id="bk">بازگشت به سایت</button></div>
-  <div class="stats" id="stats"></div><div class="tbl"><table><thead><tr><th>نام</th><th>سن</th><th>جنسیت</th><th>پلن</th><th>موبایل</th><th>نیاز به بازبینی</th><th>تاریخ</th></tr></thead><tbody id="tb"><tr><td colspan="7"><div class="empty">در حال بارگذاری پاسخ‌ها…</div></td></tr></tbody></table></div></div>`);
+  <div class="stats" id="stats"></div><div class="tbl"><table><thead><tr><th>نام</th><th>سن</th><th>جنسیت</th><th>پلن</th><th>موبایل</th><th>نیاز به بازبینی</th><th>مرحله / تاریخ</th></tr></thead><tbody id="tb"><tr><td colspan="7"><div class="empty">در حال بارگذاری پاسخ‌ها…</div></td></tr></tbody></table></div></div>`);
  d.querySelector("#bk").onclick=()=>{unsub&&unsub();unsub=null;go(()=>S.view="home")};
  const draw=()=>{
   const tb=d.querySelector("#tb");
   const n=ROWS.length,rev=ROWS.filter(r=>r.needsReview).length,cnt=k=>ROWS.filter(r=>r.plan===k).length;
-  d.querySelector("#stats").innerHTML=[["کل پاسخ‌ها",n],["نیازمند بازبینی",rev],["SportPlan",cnt("SportPlan")],["SlimPlan",cnt("SlimPlan")],["BeautyPlan",cnt("BeautyPlan")],["Personalized",cnt("Personalized")]].map(([l,v])=>`<div class="stat"><b>${fa(v)}</b><small>${l}</small></div>`).join("");
+  d.querySelector("#stats").innerHTML=[["کل پاسخ‌ها",n],["ثبت نهایی",ROWS.filter(r=>r.stage==="ثبت نهایی").length],["نیمه‌کاره",ROWS.filter(r=>r.stage==="شروع کرده"||r.stage==="نیمه‌کاره").length],["نیازمند بازبینی",rev],["SportPlan",cnt("SportPlan")],["SlimPlan",cnt("SlimPlan")],["BeautyPlan",cnt("BeautyPlan")],["Personalized",cnt("Personalized")]].map(([l,v])=>`<div class="stat"><b>${fa(v)}</b><small>${l}</small></div>`).join("");
   if(!n){tb.innerHTML='<tr><td colspan="7"><div class="empty">هنوز پاسخی ثبت نشده. وقتی کسی پرسشنامه را تمام کند و «ثبت و ارسال» را بزند، اینجا نمایش داده می‌شود.</div></td></tr>';return}
   const col={SportPlan:"var(--indigo)",SlimPlan:"var(--lime-ink)",BeautyPlan:"var(--rose)",Personalized:"var(--violet)"};
-  tb.innerHTML=ROWS.map((r,i)=>`<tr class="click" data-i="${i}" tabindex="0"><td>${esc(r.name)}</td><td>${fa(r.age||"")}</td><td>${r.sex==="f"?"زن":"مرد"}</td><td><span class="pillb" style="color:${col[r.plan]||"var(--stone)"}">${esc(r.plan)}</span></td><td class="latin">${esc(r.phone)}</td><td>${r.needsReview?'<span style="color:var(--bad)">بله</span>':"خیر"}</td><td>${new Date(r.createdAt).toLocaleDateString("fa-IR")}</td></tr>`).join("");
+  tb.innerHTML=ROWS.map((r,i)=>`<tr class="click" data-i="${i}" tabindex="0"><td>${esc(r.name)}</td><td>${fa(r.age||"")}</td><td>${r.sex==="f"?"زن":r.sex==="m"?"مرد":"—"}</td><td><span class="pillb" style="color:${col[r.plan]||"var(--stone)"}">${esc(r.plan)}</span></td><td class="latin">${esc(r.phone)}</td><td>${r.needsReview?'<span style="color:var(--bad)">بله</span>':"خیر"}</td><td>${r.stage?esc(r.stage)+" · ":""}${new Date(r.createdAt).toLocaleDateString("fa-IR")}</td></tr>`).join("");
   tb.querySelectorAll("tr.click").forEach(tr=>{const op=()=>detail(ROWS[+tr.dataset.i]);tr.onclick=op;tr.onkeydown=e=>{if(e.key==="Enter")op()}});
  };
+ if(API){const tb=d.querySelector("#tb");
+  const STG={started:"شروع کرده",in_progress:"نیمه‌کاره",completed:"نتیجه را دیده",submitted:"ثبت نهایی"};
+  const box=document.createElement("div");box.className="hubfoot glass";box.style.marginTop="18px";
+  box.innerHTML='<div class="field" style="margin:0;flex:1;min-width:200px"><label for="f-key">رمز پنل مدیریت</label><input class="inp latin" id="f-key" type="password" autocomplete="current-password"></div><button class="btn" id="kgo">ورود <span class="arr">'+ICON.arrow+'</span></button>';
+  d.querySelector(".hubhead").after(box);
+  let k="";try{k=localStorage.getItem("vp-admin")||""}catch(e){}box.querySelector("#f-key").value=k;
+  const load=async()=>{k=box.querySelector("#f-key").value.trim();if(!k)return;tb.innerHTML='<tr><td colspan="7"><div class="empty">در حال بارگذاری… (اولین بار ممکن است تا یک دقیقه طول بکشد)</div></td></tr>';
+   try{const r=await fetch(API+"/api/leads",{headers:{"x-admin-key":k}});if(r.status===401){tb.innerHTML='<tr><td colspan="7"><div class="empty">رمز اشتباه است.</div></td></tr>';return}
+    const j=await r.json();try{localStorage.setItem("vp-admin",k)}catch(e){}box.hidden=true;
+    ROWS=j.rows.map(x=>Object.assign({},x.data||{},{name:x.name,age:x.age,sex:x.sex,phone:x.phone,plan:x.plan||STG[x.stage]||x.stage,needsReview:x.needs_review,createdAt:x.updated_at,stage:STG[x.stage]||x.stage}));draw()}
+   catch(e){tb.innerHTML='<tr><td colspan="7"><div class="empty">اتصال به سرور برقرار نشد. چند ثانیه بعد دوباره «ورود» را بزن.</div></td></tr>'}};
+  box.querySelector("#kgo").onclick=load;if(k)load();else tb.innerHTML='<tr><td colspan="7"><div class="empty">رمز پنل را وارد کن.</div></td></tr>';
+  return d}
  (async()=>{await ready;
   if(!DB){d.querySelector("#tb").innerHTML='<tr><td colspan="7"><div class="empty">پایگاه داده در این نما در دسترس نیست.</div></td></tr>';return}
   const t=setTimeout(()=>{if(!ROWS.length)draw()},10000);
