@@ -1,5 +1,7 @@
 // VitaPlan API: stores questionnaire leads in Neon Postgres
 const http = require("http");
+const zlib = require("zlib");
+let CAT = null, CAT_AT = 0;
 const { Pool } = require("pg");
 const pool = new Pool({ connectionString: process.env.DATABASE_URL, max: 3 });
 const ADMIN_KEY = process.env.ADMIN_KEY || "";
@@ -15,7 +17,7 @@ function cors(req, res) {
 }
 function send(res, code, obj) { res.writeHead(code, { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" }); res.end(JSON.stringify(obj)); }
 function body(req) {
-  return new Promise((ok, bad) => { let d = ""; req.on("data", c => { d += c; if (d.length > 4000000) { bad(new Error("too large")); req.destroy(); } }); req.on("end", () => { try { ok(JSON.parse(d || "{}")); } catch (e) { bad(e); } }); });
+  return new Promise((ok, bad) => { let d = ""; req.on("data", c => { d += c; if (d.length > 6000000) { bad(new Error("too large")); req.destroy(); } }); req.on("end", () => { try { ok(JSON.parse(d || "{}")); } catch (e) { bad(e); } }); });
 }
 function limited(ip) {
   const now = Date.now(), w = hits.get(ip) || [];
@@ -76,9 +78,27 @@ http.createServer(async (req, res) => {
       const r = await pool.query("SELECT id, mime, name, encode(data,'base64') AS b64, created_at FROM uploads WHERE cid=$1 ORDER BY id DESC LIMIT 5", [url.searchParams.get("cid") || ""]);
       return send(res, 200, { ok: true, files: r.rows.map(x => ({ id: x.id, name: x.name, url: "data:" + x.mime + ";base64," + x.b64, at: x.created_at })) });
     }
+    if (url.pathname === "/api/catalog" && req.method === "POST") {
+      const b = await body(req);
+      if (!ADMIN_KEY || b.key !== ADMIN_KEY) return send(res, 401, { ok: false });
+      if (!/^[a-z0-9-]{2,40}$/.test(String(b.src || "")) || !Array.isArray(b.items)) return send(res, 400, { ok: false });
+      await pool.query("CREATE TABLE IF NOT EXISTS catalog (src text PRIMARY KEY, items jsonb NOT NULL, updated_at timestamptz DEFAULT now())");
+      await pool.query("INSERT INTO catalog (src,items) VALUES ($1,$2) ON CONFLICT (src) DO UPDATE SET items=EXCLUDED.items, updated_at=now()", [b.src, JSON.stringify(b.items)]);
+      CAT = null;
+      return send(res, 200, { ok: true, n: b.items.length });
+    }
+    if (url.pathname === "/api/catalog" && req.method === "GET") {
+      if (!CAT || Date.now() - CAT_AT > 3600000) {
+        const r = await pool.query("SELECT src, items, updated_at FROM catalog ORDER BY src");
+        CAT = zlib.gzipSync(JSON.stringify({ ok: true, sources: r.rows.map(x => ({ src: x.src, at: x.updated_at, items: x.items })) }));
+        CAT_AT = Date.now();
+      }
+      res.writeHead(200, { "content-type": "application/json; charset=utf-8", "content-encoding": "gzip", "cache-control": "public, max-age=3600" });
+      return res.end(CAT);
+    }
     if (url.pathname === "/api/leads" && req.method === "GET") {
       if (!ADMIN_KEY || req.headers["x-admin-key"] !== ADMIN_KEY) return send(res, 401, { ok: false });
-      const r = await pool.query("SELECT * FROM leads ORDER BY updated_at DESC LIMIT 1000");
+      const r = await pool.query("SELECT * FROM leads WHERE cid NOT LIKE 'catalog-%' ORDER BY updated_at DESC LIMIT 1000");
       return send(res, 200, { ok: true, rows: r.rows });
     }
     send(res, 404, { ok: false });
