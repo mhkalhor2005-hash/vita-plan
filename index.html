@@ -520,6 +520,8 @@ main{padding-block:12px 150px;position:relative}
 .ev{display:inline-block;margin:6px 6px 0 0;font-size:.7rem;border:1px solid var(--ec);color:var(--ec);border-radius:999px;padding:1px 9px}
 .evd{margin-top:6px}.evd summary{cursor:pointer;font-size:.76rem;color:var(--stone);list-style:none}.evd summary::-webkit-details-marker{display:none}.evd summary::before{content:"＋ "}.evd[open] summary::before{content:"－ "}
 .evd p{font-size:.8rem;margin-top:4px}
+.mkt summary{color:var(--cyan)}.mk{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:5px}.mk li{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:7px 10px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);font-size:.78rem}.mk li span{display:grid;min-width:0}.mk li b{font-weight:600;overflow-wrap:anywhere}.mk li small{color:var(--stone);font-size:.7rem;direction:ltr;text-align:right}.mk li em{font-style:normal;color:var(--lime);white-space:nowrap;font-size:.74rem}
+.mktsum{margin:-4px 0 14px;font-size:.84rem;color:var(--stone)}.mktsum b{color:var(--lime)}
 .srcs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .srcs a{font-size:.68rem;color:var(--cyan);border:1px solid rgba(79,227,224,.3);border-radius:8px;padding:1px 8px;text-decoration:none;font-family:var(--latin);direction:ltr}
 .srcs a:hover{border-color:var(--cyan)}
@@ -560,7 +562,7 @@ const CFG={
  brandMap:{},           // برند هر مکمل، مثلاً {d3:"یوروویتال",omega3:"عبیدی"}
  reviews:[]             // فقط نظر واقعی: {name:"سارا",plan:"BeautyPlan",stars:5,text:"..."}
 };
-const BUILD="1794503026";
+const BUILD="1794504532";
 const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
@@ -748,36 +750,67 @@ const SRC={
  efsa:["EFSA (2018) – Scientific opinion on the safety of green tea catechins","https://www.efsa.europa.eu/en/efsajournal/pub/5239"],
  uspstf:["USPSTF (2023) – Folic Acid Supplementation to Prevent Neural Tube Defects","https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/folic-acid-for-the-prevention-of-neural-tube-defects-preventive-medication"],
  issn:["ISSN Position Stand (2017) – Safety and efficacy of creatine supplementation","https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0173-z"],
- pcos:["International Evidence-based Guideline for PCOS (2023)","https://www.monash.edu/medicine/mchri/pcos/guideline"]
+ pcos:["International Evidence-based Guideline for PCOS (2023)","https://www.monash.edu/medicine/mchri/pcos/guideline"],
+ pmD:["Jolliffe 2025 – Vitamin D & acute respiratory infection, IPD meta-analysis (Lancet Diabetes Endocrinol)","https://pubmed.ncbi.nlm.nih.gov/39993397/"],
+ pmDpe:["2024 – Vitamin D supplementation in pregnancy & preeclampsia, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/39716171/"],
+ pmMg:["Mah 2021 – Oral magnesium for insomnia in older adults, systematic review & meta-analysis","https://pubmed.ncbi.nlm.nih.gov/33865376/"],
+ pmMel:["De Crescenzo 2022 – Pharmacological treatments for insomnia, network meta-analysis (Lancet)","https://pubmed.ncbi.nlm.nih.gov/35843245/"],
+ pmO3d:["2025 – Omega-3 for depression: dose-response meta-analysis (EPA 1–1.5 g)","https://pubmed.ncbi.nlm.nih.gov/40049535/"],
+ pmO3t:["2023 – Omega-3 dose-response & triglycerides, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/37264945/"],
+ pmFe:["2025 – Oral iron for iron-deficiency anaemia, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/39951396/"],
+ pmFeA:["2024 – Iron supplementation in iron-deficient athletes, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/39536912/"],
+ pmB12:["2022 – Metformin & vitamin B12 deficiency: supplementation, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/36240684/"],
+ pmB12s:["2022 – Metformin-associated B12 deficiency: screening, systematic review","https://pubmed.ncbi.nlm.nih.gov/35440313/"],
+ pmZn:["Cochrane 2024 – Zinc for the prevention and treatment of the common cold","https://pubmed.ncbi.nlm.nih.gov/38719213/"],
+ pmAcne:["2023 – Dietary supplements for acne, systematic review & meta-analysis","https://pubmed.ncbi.nlm.nih.gov/37878272/"],
+ pmPro:["2021 – Probiotics for antibiotic-associated diarrhoea, meta-analysis (GRADE moderate)","https://pubmed.ncbi.nlm.nih.gov/34385227/"],
+ pmProE:["2022 – Probiotics for AAD in older adults, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/35794520/"],
+ pmIBS:["2023 – Probiotics for IBS, strain-specific network meta-analysis","https://pubmed.ncbi.nlm.nih.gov/37541528/"],
+ pmAsh:["2024 – Ashwagandha for stress & anxiety, meta-analysis (PSS, HAM-A, cortisol)","https://pubmed.ncbi.nlm.nih.gov/39348746/"],
+ pmCr:["2024 – Creatine & resistance training on muscle strength, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/39519498/"],
+ pmCol:["2023 – Hydrolysed collagen & skin hydration/elasticity, meta-analysis of 26 RCTs","https://pubmed.ncbi.nlm.nih.gov/37432180/"],
+ pmCol2:["2021 – Oral collagen supplementation & skin ageing, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/33742704/"],
+ pmIno:["Fitz 2024 – Inositol for PCOS, systematic review & meta-analysis (JCEM)","https://pubmed.ncbi.nlm.nih.gov/38163998/"],
+ pmIno2:["2023 – Myo-inositol & menstrual cycle regularity in PCOS, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/36703143/"],
+ pmQ10:["Tsai 2022 – Coenzyme Q10 for fatigue, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/36091835/"],
+ pmQ10s:["2025 – Coenzyme Q10 for statin-associated muscle symptoms, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/41158831/"],
+ pmCur:["2021 – Curcumin for knee osteoarthritis, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/34017975/"],
+ pmCur2:["2022 – Curcumin for arthritis, systematic review & meta-analysis","https://pubmed.ncbi.nlm.nih.gov/35935936/"],
+ pmVal:["2024 – Herbal medicines for insomnia (valerian), umbrella review","https://pubmed.ncbi.nlm.nih.gov/38359657/"],
+ pmC:["2023 – Vitamin C & common cold severity, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/38082300/"],
+ pmFol:["USPSTF 2023 – Folic acid for prevention of neural tube defects (JAMA)","https://pubmed.ncbi.nlm.nih.gov/37526714/"],
+ pmMVM:["COSMOS 2024 – Multivitamin & memory, meta-analysis of 3 RCTs","https://pubmed.ncbi.nlm.nih.gov/38244989/"],
+ pmMVM2:["USPSTF 2022 – Vitamin, mineral & multivitamin supplements for CVD & cancer (JAMA)","https://pubmed.ncbi.nlm.nih.gov/35727272/"],
+ pmWhey:["2024 – Whey protein in sarcopenia, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/38350303/"]
 };
 /* g: سطح شواهد برای کاربرد اصلی در ویتاپلن — A قوی، B متوسط، C محدود. dose/ul مرجع برای داروساز */
 const META={
- multi:{g:"C",dose:"یک واحد روزانه",src:["odsMVM"],e:"برای پر کردن فاصله‌ی رژیم غذایی؛ کارآزمایی‌ها اثر پیشگیرانه‌ی قطعی نشون ندادن"},
- d3:{g:"A",dose:"۱۰۰۰ تا ۲۰۰۰ واحد؛ با آزمایش تنظیم می‌شه",ul:"۴۰۰۰ واحد در روز",src:["odsD"],e:"اصلاح کمبود و سلامت استخوان؛ شواهد قوی"},
- omega3:{g:"B",dose:"۵۰۰ تا ۱۰۰۰ میلی‌گرم EPA+DHA",src:["odsO3"],e:"برای تری‌گلیسرید و قلب شواهد متوسط؛ برای خلق و تمرکز شواهد متناقض"},
- mg:{g:"B",dose:"۲۰۰ تا ۳۵۰ میلی‌گرم",ul:"۳۵۰ میلی‌گرم از مکمل",src:["odsMg"],e:"اصلاح کمبود؛ برای خواب شواهد محدود"},
+ multi:{g:"C",dose:"یک واحد روزانه",src:["odsMVM","pmMVM2","pmMVM"],e:"برای پر کردن فاصله‌ی رژیم غذایی. USPSTF 2022: اثر قلبی‌عروقی ندارد و کاهش سرطان کوچک است؛ COSMOS 2024: بهبود جزئی حافظه در سالمندان"},
+ d3:{g:"A",dose:"۱۰۰۰ تا ۲۰۰۰ واحد؛ با آزمایش تنظیم می‌شه",ul:"۴۰۰۰ واحد در روز",src:["odsD","pmD","pmDpe"],e:"اصلاح کمبود و سلامت استخوان: شواهد قوی. متاآنالیز ۲۰۲۵ (Lancet Diabetes Endocrinol) برای پیشگیری از عفونت تنفسی اثر معنادار نشون نداد (OR ۰٫۹۴، ۰٫۸۸ تا ۱٫۰۰)، پس فقط برای «ایمنی» پیشنهاد نمی‌شه"},
+ omega3:{g:"B",dose:"قلب و تری‌گلیسرید: ۱ تا ۲ گرم EPA+DHA · خلق: ۱ تا ۱٫۵ گرم با غلبه‌ی EPA",src:["odsO3","pmO3t","pmO3d"],e:"تری‌گلیسرید: کاهش تقریباً خطی با دوز، بیشترین اثر بالای ۲ گرم. افسردگی: اثر کوچک (SMD ‎−۰٫۲۶) با EPA ۱ تا ۱٫۵ گرم و نسبت EPA:DHA بین ۱:۱ تا ۲:۱ در ۸ هفته"},
+ mg:{g:"B",dose:"۲۰۰ تا ۳۵۰ میلی‌گرم",ul:"۳۵۰ میلی‌گرم از مکمل",src:["odsMg","pmMg"],e:"اصلاح کمبود: شواهد خوب. خواب: حدود ۱۷ دقیقه زودتر به خواب رفتن در ۳ کارآزمایی کوچک با کیفیت پایین"},
  bcomplex:{g:"C",dose:"یک واحد روزانه",src:["odsB12"],e:"فقط در کمبود یا نیاز بالاتر مؤثره"},
- b12:{g:"A",dose:"۲۵۰ تا ۱۰۰۰ میکروگرم",src:["odsB12"],e:"در گیاه‌خواری، متفورمین، داروهای ضداسید و کمبود ثابت‌شده شواهد قوی"},
- iron:{g:"A",dose:"بر اساس فریتین و تصمیم داروساز",ul:"۴۵ میلی‌گرم (بدون نظارت پزشک)",src:["odsFe"],e:"درمان کمبود آهن؛ شواهد قوی"},
- folic:{g:"A",dose:"۴۰۰ تا ۸۰۰ میکروگرم",ul:"۱۰۰۰ میکروگرم اسید فولیک",src:["uspstf","odsFol"],e:"پیشگیری از نقص لوله‌ی عصبی؛ توصیه‌ی رسمی USPSTF"},
- coq10:{g:"C",dose:"۱۰۰ میلی‌گرم",src:["q10"],e:"شواهد محدود برای انرژی"},
- vitc:{g:"B",dose:"۲۵۰ تا ۵۰۰ میلی‌گرم",ul:"۲۰۰۰ میلی‌گرم",src:["odsC"],e:"کاهش جزئی طول دوره‌ی سرماخوردگی؛ نیاز بالاتر در افراد سیگاری"},
- zinc:{g:"B",dose:"۸ تا ۱۵ میلی‌گرم",ul:"۴۰ میلی‌گرم",src:["odsZn"],e:"نقش در ایمنی و پوست؛ شواهد متوسط"},
- probiotic:{g:"B",dose:"سویه‌ی مشخص، طبق محصول",src:["odsPro"],e:"پیشگیری از اسهال ناشی از آنتی‌بیوتیک؛ اثر وابسته به سویه"},
+ b12:{g:"A",dose:"۲۵۰ تا ۱۰۰۰ میکروگرم",src:["odsB12","pmB12","pmB12s"],e:"گیاه‌خواری، داروهای ضداسید و کمبود ثابت‌شده. متفورمین: متاآنالیزها غربالگری و مکمل B12 رو توصیه می‌کنن"},
+ iron:{g:"A",dose:"بر اساس فریتین و تصمیم داروساز",ul:"۴۵ میلی‌گرم (بدون نظارت پزشک)",src:["odsFe","pmFe","pmFeA"],e:"کم‌خونی فقر آهن: افزایش هموگلوبین حدود ۲ گرم در دسی‌لیتر، بهترین پاسخ در ۳ ماه اول. ورزشکاران با کمبود آهن: بهبود ذخایر و عملکرد"},
+ folic:{g:"A",dose:"۴۰۰ تا ۸۰۰ میکروگرم",ul:"۱۰۰۰ میکروگرم اسید فولیک",src:["pmFol","uspstf","odsFol"],e:"پیشگیری از نقص لوله‌ی عصبی در زنان در سن باروری؛ توصیه‌ی سطح A از USPSTF 2023"},
+ coq10:{g:"B",dose:"۱۰۰ تا ۲۰۰ میلی‌گرم همراه غذای چرب",src:["q10","pmQ10","pmQ10s"],e:"خستگی: اثر متوسط و وابسته به دوز (g ‎−۰٫۴). علائم عضلانی ناشی از استاتین: کاهش درد در متاآنالیز ۲۰۲۵"},
+ vitc:{g:"B",dose:"۲۵۰ تا ۵۰۰ میلی‌گرم",ul:"۲۰۰۰ میلی‌گرم",src:["odsC","pmC"],e:"مصرف منظم شدت سرماخوردگی رو حدود ۱۵٪ کم می‌کنه؛ نیاز بالاتر در افراد سیگاری"},
+ zinc:{g:"B",dose:"۸ تا ۱۵ میلی‌گرم",ul:"۴۰ میلی‌گرم",src:["odsZn","pmZn","pmAcne"],e:"نقش در ایمنی و پوست؛ کاکرین ۲۰۲۴ (۳۴ کارآزمایی) شواهد کم‌قطعیت برای سرماخوردگی. در آکنه عوارض گوارشی گزارش شده، پس دوز پایین"},
+ probiotic:{g:"B",dose:"سویه‌ی مشخص، طبق محصول",src:["odsPro","pmPro","pmProE","pmIBS"],e:"اسهال ناشی از آنتی‌بیوتیک: کاهش ۳۷٪ (RR ۰٫۶۳، کیفیت متوسط)، بهتر با شروع زودهنگام. IBS: اثر کاملاً وابسته به سویه"},
  enzyme:{g:"C",dose:"همراه غذا",src:[],e:"شواهد محدود"},
- biotin:{g:"C",dose:"۳۰ میکروگرم تا دوز پایین",src:["odsBio","fdaBio"],e:"در افراد بدون کمبود، شواهد کافی برای مو و ناخن وجود نداره"},
- collagen:{g:"C",dose:"۲٫۵ تا ۱۰ گرم",src:[],e:"چند کارآزمایی کوچک برای خاصیت ارتجاعی پوست؛ شواهد محدود"},
+ biotin:{g:"C",dose:"۳۰ میکروگرم تا دوز پایین",src:["odsBio","fdaBio"],e:"متاآنالیزی برای مو و ناخن در افراد بدون کمبود پیدا نشد؛ دوز بالا جواب آزمایش‌ها (تیروئید، تروپونین) رو خراب می‌کنه"},
+ collagen:{g:"B",dose:"۲٫۵ تا ۱۰ گرم کلاژن هیدرولیز، حداقل ۹۰ روز",src:["pmCol","pmCol2"],e:"متاآنالیز ۲۶ کارآزمایی (۱۷۲۱ نفر): بهبود رطوبت و خاصیت ارتجاعی پوست؛ کاهش چین‌وچروک بعد از ۹۰ روز"},
  calcium:{g:"A",dose:"۵۰۰ میلی‌گرم یا کمتر در هر نوبت",ul:"۲۵۰۰ میلی‌گرم (۱۹ تا ۵۰ سال)",src:["odsCa"],e:"وقتی دریافت غذایی کمه، برای استخوان شواهد قوی"},
- herbal:{g:"C",dose:"طبق محصول",src:["odsVal"],e:"شواهد ناکافی برای بی‌خوابی"},
- melatonin:{g:"B",dose:"۰٫۵ تا ۳ میلی‌گرم",src:["mel"],e:"کوتاه کردن زمان به خواب رفتن و جت‌لگ؛ اثر کوچک"},
- ashwa:{g:"B",dose:"۲۵۰ تا ۶۰۰ میلی‌گرم عصاره",src:["odsAsh","lt"],e:"کاهش استرس در کارآزمایی‌های کوچک؛ گزارش‌های نادر آسیب کبدی"},
- creatine:{g:"A",dose:"۳ تا ۵ گرم",src:["issn","odsEx"],e:"مؤثرترین مکمل برای قدرت و حجم عضله؛ شواهد قوی"},
- protein:{g:"B",dose:"بر اساس وزن و تمرین",src:["odsEx"],e:"کمک به رسیدن به پروتئین روزانه"},
+ herbal:{g:"C",dose:"طبق محصول",src:["pmVal","odsVal"],e:"مرور چتری ۲۰۲۴: سنبل‌الطیب برای بی‌خوابی اثر ثابت‌شده نداره؛ فقط وقتی خودت ترکیب گیاهی بخوای پیشنهاد می‌شه"},
+ melatonin:{g:"B",dose:"۰٫۵ تا ۳ میلی‌گرم",src:["mel","pmMel"],e:"کوتاه کردن زمان به خواب رفتن و جت‌لگ؛ در متاآنالیز شبکه‌ای Lancet 2022 اثرش از داروهای خواب کمتره ولی عوارضش هم کمتر"},
+ ashwa:{g:"B",dose:"۲۵۰ تا ۶۰۰ میلی‌گرم عصاره",src:["odsAsh","pmAsh","lt"],e:"متاآنالیز ۲۰۲۴: کاهش نمره‌ی استرس (PSS ‎−۴٫۷)، اضطراب و کورتیزول؛ گزارش‌های نادر آسیب کبدی"},
+ creatine:{g:"A",dose:"۳ تا ۵ گرم",src:["issn","odsEx","pmCr"],e:"همراه تمرین مقاومتی: حدود ۴٫۴ کیلو قدرت بیشتر بالاتنه و ۱۱ کیلو پایین‌تنه؛ مؤثرترین مکمل ورزشی"},
+ protein:{g:"B",dose:"بر اساس وزن و تمرین",src:["odsEx","pmWhey"],e:"کمک به رسیدن به پروتئین روزانه؛ پروتئین وی در سارکوپنی (کاهش عضله با سن) مؤثر بوده"},
  electro:{g:"C",dose:"در تمرین طولانی و تعریق زیاد",src:["odsEx"],e:"فقط در تعریق شدید"},
- inositol:{g:"B",dose:"۲ تا ۴ گرم میو-اینوزیتول",src:["pcos"],e:"PCOS: بهبود برخی شاخص‌های متابولیک؛ شواهد متوسط تا محدود"},
+ inositol:{g:"C",dose:"۲ تا ۴ گرم میو-اینوزیتول",src:["pcos","pmIno","pmIno2"],e:"PCOS: متاآنالیز JCEM 2024 شواهد رو محدود و نامطمئن دونست؛ یک متاآنالیز دیگه بهبود نظم قاعدگی (RR ۱٫۷۹) دیده"},
  chromium:{g:"C",dose:"۲۰۰ میکروگرم",src:["odsCr"],e:"اثر کوچک و نامطمئن روی وزن و قند"},
  greentea:{g:"C",dose:"—",src:["gt","efsa"],e:"اثر ناچیز روی وزن؛ عصاره‌ی غلیظ خطر آسیب کبدی داره"},
- curcumin:{g:"C",dose:"طبق محصول",src:["tur","lt"],e:"شواهد محدود برای درد مفصل؛ گزارش‌های نادر آسیب کبدی"}
+ curcumin:{g:"B",dose:"فرم با جذب بالا (مثل نانوکورکومین)، طبق محصول",src:["tur","pmCur","pmCur2","lt"],e:"آرتروز زانو: کاهش درد و بهبود عملکرد با عوارض مشابه دارونما؛ کیفیت کارآزمایی‌ها متوسط. گزارش‌های نادر آسیب کبدی"}
 };
 const GR={A:["شواهد قوی","var(--lime)"],B:["شواهد متوسط","var(--cyan)"],C:["شواهد محدود","var(--warn)"]};
 function compute(S){
@@ -801,7 +834,7 @@ function compute(S){
  if(med(6)){["herbal","ashwa","melatonin"].forEach(k=>no(k,"احتیاط با داروهای ضدافسردگی و آرام‌بخش",["msd"]))}
  if(med(7)){no("electro","پتاسیم همراه برخی داروهای فشار و ادرارآورهای نگه‌دارنده‌ی پتاسیم خطر افزایش پتاسیم دارد",["odsK"]);note("داروهای فشار خون: کوآنزیم Q10 و اشواگاندا ممکن است فشار را بیشتر پایین بیاورند؛ ادرارآورهای تیازیدی همراه کلسیم و ویتامین D خطر افزایش کلسیم دارند.",["msd","odsCa"])}
  if(med(8)){["probiotic","ashwa","coq10","curcumin","greentea","herbal"].forEach(k=>no(k,"سرکوب ایمنی یا شیمی‌درمانی",k==="probiotic"?["odsPro"]:["msd"]));flag("سرکوب ایمنی یا شیمی‌درمانی: فقط با تأیید پزشک معالج. پروبیوتیک و عصاره‌های گیاهی حذف شد.",true,["odsPro","msd"])}
- if(med(9))no("greentea","چای سبز اثر آتورواستاتین را کم می‌کند",["msd"]);
+ if(med(9)){no("greentea","چای سبز اثر آتورواستاتین را کم می‌کند",["msd"]);add("coq10",2,"مصرف استاتین؛ کمک به علائم عضلانی");note("استاتین: کوآنزیم Q10 در متاآنالیز ۲۰۲۵ درد عضلانی ناشی از استاتین رو کم کرد.",["pmQ10s"])}
  if(med(11))note("داروی پوکی استخوان: کلسیم، منیزیم و آهن حداقل ۲ ساعت با بیس‌فسفونات‌ها فاصله داشته باشند.",["odsCa","odsMg"]);
  if(hasA("WH07",2))no("electro","پتاسیم همراه اسپیرونولاکتون خطر افزایش پتاسیم دارد",["odsK"]);
  if(hasA("CL02",6)){["mg","electro","creatine","calcium"].forEach(k=>no(k,"بیماری کلیوی",k==="mg"?["odsMg"]:k==="creatine"?["issn"]:k==="calcium"?["odsCa"]:["odsK"]));no("vitc","دوز بالای ویتامین C در بیماری کلیوی خطر سنگ دارد",["odsC"]);flag("بیماری کلیوی: منیزیم، پتاسیم، کلسیم و کراتین حذف شد. برنامه فقط با تأیید پزشک قابل ارسال است.",true,["odsMg"])}
@@ -816,7 +849,7 @@ function compute(S){
 
  add("multi",2,"پایه‌ی هر برنامه برای پوشش کمبودهای رایج");
  if(G(0)){add("bcomplex",2,"هدف شما افزایش انرژی است");add("coq10",1,"حمایت از تولید انرژی سلولی");add("d3",1,"کمبود ویتامین D از علل شایع خستگی است")}
- if(G(1)){add("mg",2,"هدف شما بهبود خواب است");add("herbal",1,"کمک به آرامش پیش از خواب")}
+ if(G(1)){add("mg",2,"هدف شما بهبود خواب است")}
  if(G(2)){add("omega3",2,"هدف شما تمرکز و عملکرد ذهنی است");add("bcomplex",1,"نقش در عملکرد سیستم عصبی")}
  if(G(3)){add("vitc",2,"هدف شما تقویت ایمنی است");add("zinc",2,"نقش زینک در ایمنی");add("d3",2,"ویتامین D و ایمنی")}
  if(G(4)){add("biotin",2,"هدف شما سلامت پوست، مو و ناخن است");add("collagen",2,"حمایت از ساختار پوست");add("zinc",1);add("vitc",1,"نقش در ساخت کلاژن");plan.beauty+=4}
@@ -828,7 +861,7 @@ function compute(S){
  if(G(10)){add("multi",1);add("d3",1,"پیشگیری از شایع‌ترین کمبود")}
 
  // sleep
- if(has("SLP01",1)){add("mg",2,"دیر به خواب رفتن");add("herbal",1,"دیر به خواب رفتن")}
+ if(has("SLP01",1)){add("mg",2,"دیر به خواب رفتن");add("melatonin",1,"دیر به خواب رفتن")}
  if(has("SLP01",2))add("mg",2,"بیدار شدن‌های شبانه");
  if(has("SLP01",3)){add("d3",1);add("bcomplex",1,"خستگی صبحگاهی")}
  if(has("SLP02",0))add("mg",1,"خواب کمتر از ۵ ساعت");
@@ -1082,6 +1115,15 @@ async function storyCard(R,list,P,out,withChar=true){
 }
 
 /* ---------------- science ---------------- */
+const CATALOG={src:"داروکده",date:"آبان ۱۴۰۵",p:{"d3":[["ویتامین د3 تهران دارو ۲۰۰۰ واحد","Tehran Darou","softgel",43600],["ویتامین د3 او پی دی فارما ۲۰۰۰ واحد","OPD Pharma","softgel",95700],["دی‌ویژل دانا ۱۰۰۰ واحد","Daana","softgel",184800],["ویتامین د3 کیمیاگر طوس ۲۰۰۰ واحد","Kimiagar Toos","softgel",298000]],"mg":[["منیزیم ۲۵۰ میلی‌گرم کارن","Karen","effervescent",187000],["منیزیم و ویتامین B6 گلوک ویت","Gluck Vit","tablet",412500],["منیزیم دایرکت","Health And More","sachet",486000],["مگنیفورت","Arian Salamat Sina","capsule",642400]],"omega3":[["مگا امگا باریویتال","Barivital","softgel",360000],["امگا ۳ ریچ فورمولا ۵۰۰","Rich Formula","softgel",422400],["امگا ۳ جالینوس ۵۰۰","Jalinous","softgel",745800],["امگا ۳ گلدن سیز کارن","Karen","softgel",814000],["امگا ۳ یوروویتال","Eurho Vital","softgel",990000]],"b12":[["ویتامین B12 آپوویتال ۵۰۰ میکروگرم","Apovital","tablet",244200],["ویتامین B12 های هلث ۱۰۰۰ میکروگرم","Hi Health","tablet",283800],["B12 لیپوزومال کیور ساپورت","Cure Support","oral",385000],["ویتامین B12 نیچرز پلنتی ۵۰۰","Natures Plenty","tablet",419100],["ویتامین B12 مگنوم ۱۰۰۰","Magnum Vitamins","tablet",580000]],"bcomplex":[["ب کمپلکس داروپخش","Darou Pakhsh","tablet",104500],["B1+B6+B12 نوراپاد","Nutri Pad","tablet",110000],["ربیون نوتریتریس","Nutritrace","tablet",380000],["ب کمپلکس آنتی‌ایجینگ","Antiaging","softgel",491600]],"iron":[["فروس سولفات ۵۰ میلی‌گرم رزاویت","RozaVit","tablet",50000],["فروس فومارات الحاوی","Alhavi","tablet",149600],["آیرون بیس‌گلیسینات هلث اید","Health Aid","tablet",463400],["فرورال گلدن لایف","Golden Life","tablet",623200],["سیدرال","Pharmanutra","capsule",1650000]],"folic":[["ید و فولیک اسید امی ویتال","Ami Vital","tablet",92400],["اسید فولیک ۸۰۰ میکروگرم آپوویتال","Apovital","tablet",108900],["فولیک اسید و ید او پی دی","OPD Pharma","tablet",181500],["فولیک اسید ۱ میلی‌گرم جالینوس","Jalinous","tablet",270000],["روفولیک رگولار عبیدی","Abidi","tablet",379500]],"zinc":[["زینک پلاس گلدن اسکور","Golden Score","tablet",129000],["زینک دینه","Dineh","tablet",182000],["زینک گلوکونات ۳۵ میلی‌گرم آلفا","Alfa Vitamins","tablet",314100],["زینک مگنوم","Magnum Vitamins","tablet",400000]],"vitc":[["ویتامین C جوشان اسوه","Osve","effervescent",93500],["ویتامین C ۱۰۰۰ هلثی‌مین","Healthimin","effervescent",264000],["ویتامین C ۱۰۰۰ لایف‌پلن","LifePlan","effervescent",319000],["ویتاسین (C + زینک)","Sina Pishgam Darou","effervescent",352000]],"calcium":[["کلسیم و ویتامین D جوشان اسوه","Osve","effervescent",84700],["کلسیم ۵۰۰ جوشان نیچرز پلنتی","Natures Plenty","effervescent",283900],["کلسیم سیترات آلفا","Alfa Vitamins","tablet",528000],["کلسی‌هیل","X Mart","tablet",782500]],"biotin":[["بیوتین ۱۰۰۰ میکروگرم هلث اید","Health Aid","capsule",218300],["بیوتین ۱۰۰۰ رزاویت","RozaVit","tablet",228100],["بیوتین ۲۵۰۰ آپوویتال","Apovital","tablet",385000],["بیوتین ۲۵۰۰ حکیم","Hakim Pharmaceutical","tablet",435600]],"collagen":[["کلارینک کلاژن پلاس","simorgh darou Attar","capsule",373000],["کلاژن زینک دانا","Daana","tablet",455400],["کلاژن و ویتامین C مای نوتریشن","My Nutrition","capsule",1087500],["کلاژن سمانیک","Samanik","sachet",1980000]],"coq10":[["کوآنزیم Q10 دانا ۳۰ میلی‌گرم","Daana","softgel",253800],["کوآنزیم Q10 ویتاول ۳۰","Vitawell","tablet",283800],["کیوتن ۳۰ پلاس نوتریفورت","Nutrifort","softgel",873700],["کیوتن پلاس سلنیوم نوتراکس","Nutrax","capsule",1287000],["کیوسنت","Arvand Pharmed","softgel",1848000]],"creatine":[["کراتین مونوهیدرات QNT ۲۰۰ گرم","QNT","powder",2140000],["کراتین مونوهیدرات فانتوم ۳۰۰ گرم","Phantom Nutrition","powder",2409500],["کراتین مونوهیدرات دوبیس ۳۰۰ گرم","Doobis","powder",3600000]],"curcumin":[["کورکوما دینه","Dineh","tablet",400000],["سیناکورکومین ۴۰ میلی‌گرم","Exir Nano Sina","softgel",400000],["کورکوژل","Daru vira iranian","softgel",540000],["کورکومکس هلث اید","Health Aid","capsule",600000]],"probiotic":[["پروفلور","Gostaresh Milad Pharmed","capsule",190000],["لاکتوگام","Zist Takhmir","lozenges",200000],["پایلوشات","BSK","capsule",420000],["لاکتول","Natures Only","tablet",1061500]],"melatonin":[["ملاتونین ۳ میلی‌گرم جالینوس","Jalinous","tablet",39600],["واناتونین ۳ میلی‌گرم","Norm Life","oral",198000],["ملاتونین ویتاول","Vitawell","tablet",283800],["ملاتونین ۳ اکسیر آفرین آریا","Exir Afarin Arya","tablet",480000]],"ashwa":[["آشواگاندا یوروویتال","Eurho Vital","capsule",858000],["آشواگاندا و فلفل سیاه امیتیس","Amitis Nik Darou","capsule",1650000]],"herbal":[["شربت سنبل‌الطیب زردبند","Zardband","syrup",420000]],"enzyme":[["دایجسترانگ","Sinafaravar","tablet",347000],["پرومینتا پلاس دایجست","Prominta Plus","softgel",384000],["دایجستیو اید گلدن لایف","Golden Life","tablet",1200000]],"chromium":[["کروم پلاس B3 آپوویتال","Apovital","tablet",244200],["کروم ۲۰۰ هلث اید","Health Aid","tablet",298100],["کروم ۲۰۰ مای متا","My Meta","tablet",422400]],"multiW":[["وان دیلی بانوان سان نچرال","Sun Natural","tablet",762300],["اکتی ومن","Abian Darou","tablet",808500],["کامپلیت وومن","Health Vault","tablet",990000]],"multiM":[["ویتاتنس ام","Ramona","tablet",522000],["منز کامپلیت","Bronson","tablet",561000],["مولتی ویتامین آقایان ویتاگیت","Vitagate","tablet",858000],["انرژکس گلدن لایف","Golden Life","tablet",1200000]],"multiP":[["مولتی پریناتال سیمرغ","simorgh darou Attar","tablet",126000],["مولتی پریناتال ویتاول","Vitawell","tablet",257400],["پرگویت پلاس","Vitane","tablet",660000],["پرناتال و DHA مای نوتریشن","My Nutrition","tablet",912600]]},st:{"d3":[54,35,43600,257400,775100],"mg":[113,63,159000,561000,1965500],"omega3":[59,44,360000,831600,3168000],"b12":[21,17,244200,506000,770000],"bcomplex":[42,26,104500,491600,1545500],"iron":[78,59,50000,635300,2706000],"folic":[28,19,92400,270000,759000],"zinc":[39,25,129000,481200,1320000],"vitc":[75,44,82500,319000,1250000],"calcium":[114,76,35600,528000,1782000],"biotin":[21,16,218300,385000,791000],"collagen":[48,30,373000,1749000,4800000],"coq10":[27,20,253800,885500,2134000],"creatine":[14,9,2140000,2990000,4980000],"curcumin":[6,6,240000,400000,600000],"probiotic":[24,7,190000,540000,1260000],"melatonin":[38,23,39600,341000,1210000],"ashwa":[2,2,858000,858000,1650000],"herbal":[1,1,420000,420000,420000],"enzyme":[4,4,347000,384000,1200000],"chromium":[19,15,154000,429000,704900],"multiW":[20,19,762300,990000,3774200],"multiM":[18,18,522000,973500,1869200],"multiP":[31,26,126000,877800,2439400]}};
+const FORMFA={tablet:"قرص",softgel:"سافت‌ژل",capsule:"کپسول",effervescent:"جوشان",sachet:"ساشه",powder:"پودر",syrup:"شربت",oral:"محلول خوراکی",chewable:"جویدنی",lozenges:"قرص مکیدنی",gummy:"پاستیل",shot:"شات",drink:"نوشیدنی"};
+function catKey(k){if(k!=="multi")return k;const preg=S.b.sex==="f"&&(hasAns("CL04",0)||hasAns("CL04",1));return preg?"multiP":S.b.sex==="f"?"multiW":"multiM"}
+function hasAns(id,i){const v=S.a[id];return Array.isArray(v)?v.includes(i):v===i}
+const tmn=n=>n>=1e6?fa((Math.round(n/1e5)/10).toString()).replace(".","٫")+" میلیون تومان":fa(Math.round(n/1000))+" هزار تومان";
+function mktHTML(k){const c=catKey(k),L=CATALOG.p[c],st=CATALOG.st[c];
+ if(!L||!L.length)return `<details class="evd mkt"><summary>در بازار ایران</summary><p>در زمان بررسی (${CATALOG.date}) محصولی از این مکمل در ${CATALOG.src} موجود نبود؛ داروساز جایگزین مناسب رو انتخاب می‌کنه یا از پک حذفش می‌کنه.</p></details>`;
+ return `<details class="evd mkt"><summary>در بازار ایران · ${fa(st?st[1]:L.length)} برند</summary><ul class="mk">${L.map(x=>`<li><span><b>${esc(x[0])}</b><small>${esc(x[1])} · ${FORMFA[x[2]]||x[2]}</small></span><em>${tmn(x[3])}</em></li>`).join("")}</ul>${st?`<p class="qhint">بازه‌ی قیمت هر بسته: ${tmn(st[2])} تا ${tmn(st[4])} · میانه ${tmn(st[3])}. قیمت بدون تخفیف، ${CATALOG.src}، ${CATALOG.date}.</p>`:""}</details>`}
+function mktTotal(list){let t=0,n=0;list.forEach(x=>{const st=CATALOG.st[catKey(x.k)];if(st){t+=st[3];n++}});return{t,n}}
 function srcLinks(s){if(!s||!s.length)return"";return `<span class="srcs">${s.filter(k=>SRC[k]).map(k=>`<a href="${SRC[k][1]}" target="_blank" rel="noopener" title="${esc(SRC[k][0])}">${esc(SRC[k][0].split(" – ")[0])}</a>`).join("")}</span>`}
 function science(){const dr=document.createElement("div");dr.className="drawer";
  dr.innerHTML=`<div class="pane artbody" role="dialog" aria-label="منابع علمی"><div class="navrow" style="margin-top:0"><h1 class="qtitle" style="margin:0">منابع علمی ویتاپلن</h1><button class="ghost" id="cl">بستن</button></div>
@@ -1483,6 +1525,7 @@ function result(){
  const sachHTML=()=>{const L=mine();return sach("ساشه‌ی صبح، همراه صبحانه","sun",L.filter(x=>x.t==="am"))+sach("ساشه‌ی شب، بعد از شام","moon",L.filter(x=>x.t==="pm"))};
  const pills=arr=>arr.map((x,i)=>`<span class="pill ${x.r?"r":""}" style="background:${x.c};color:${x.c};animation-delay:${400+i*90}ms"></span>`).join("");
  const sach=(lab,ic,arr)=>`<div class="sachet"><div class="when"><span>${lab}</span><img src="${IMG.logo}" alt=""></div><div class="pills">${arr.length?pills(arr):'<span class="qhint">—</span>'}</div><ul>${arr.map(x=>`<li>${esc(x.n)}</li>`).join("")}</ul></div>`;
+ const mktUpd=()=>{const e=d.querySelector("#mkt");if(!e)return;const{t,n}=mktTotal(mine());e.innerHTML=n?`خرید جداگانه‌ی همین ${fa(n)} مکمل از داروخونه (یک بسته از هر کدوم، قیمت میانه‌ی بازار بدون تخفیف): حدود <b>${tmn(t)}</b>`:""};
  const g=(S.a.G||[]).map(i=>GOALS.o[i]);
  const answered=CATS.filter(c=>catProgress(c).n).map(c=>c.title);
  const d=h(`
@@ -1503,9 +1546,9 @@ function result(){
   <div class="pf" style="grid-column:span 2"><small>هدف‌ها</small><b style="font-size:.9rem">${g.map(esc).join("، ")}</b></div>
   <div class="pf" style="grid-column:span 2"><small>دسته‌های پاسخ داده‌شده</small><b style="font-size:.9rem">${answered.join("، ")}</b></div>
  </div></section>
- <section class="sec reveal"><div class="sachets" id="sachs" style="margin-bottom:20px">${sachHTML()}</div><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="supps">
+ <section class="sec reveal"><div class="sachets" id="sachs" style="margin-bottom:20px">${sachHTML()}</div><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="mktsum" id="mkt"></div><div class="supps">
   ${R.list.map((x,i)=>`<div class="supp ${S.off[x.k]?"off":""}" data-k="${x.k}" style="animation-delay:${i*70}ms"><span class="dot" style="background:${x.c};color:${x.c}"></span>
-   <div><h3>${esc(x.n)}</h3><span class="brand">برند: ${esc(CFG.brandMap[x.k]||"انتخاب داروساز")}</span>${x.m.g?`<span class="ev" style="--ec:${GR[x.m.g][1]}">${GR[x.m.g][0]}</span>`:""}<p>${esc((x.why||[]).slice(0,3).join(" · "))}</p>${x.m.e?`<details class="evd"><summary>شواهد علمی و دوز</summary><p>${esc(x.m.e)}</p>${x.m.dose?`<p><b>دوز مرجع:</b> ${esc(x.m.dose)}${x.m.ul?` · <b>حداکثر مجاز:</b> ${esc(x.m.ul)}`:""}</p>`:""}${srcLinks(x.m.src)}</details>`:""}<div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
+   <div><h3>${esc(x.n)}</h3><span class="brand">برند: ${esc(CFG.brandMap[x.k]||"انتخاب داروساز از برندهای موجود")}</span>${x.m.g?`<span class="ev" style="--ec:${GR[x.m.g][1]}">${GR[x.m.g][0]}</span>`:""}<p>${esc((x.why||[]).slice(0,3).join(" · "))}</p>${x.m.e?`<details class="evd"><summary>شواهد علمی و دوز</summary><p>${esc(x.m.e)}</p>${x.m.dose?`<p><b>دوز مرجع:</b> ${esc(x.m.dose)}${x.m.ul?` · <b>حداکثر مجاز:</b> ${esc(x.m.ul)}`:""}</p>`:""}${srcLinks(x.m.src)}</details>`:""}${mktHTML(x.k)}<div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
    <span class="t">${x.t==="am"?"صبح":"شب"}</span><button class="sw" role="switch" aria-checked="${!S.off[x.k]}" aria-label="${esc(x.n)} در پک من"></button></div>`).join("")}
  </div><p class="disc">مکمل‌ها از برندهای معتبر و دارای مجوز بازار ایران${CFG.brands.length?" مثل "+CFG.brands.join(" و "):""} انتخاب می‌شن. دوز نهایی هر مکمل پس از بازبینی داروساز و با توجه به مکمل‌های فعلی تو تعیین می‌شود.</p></section>
  <section class="sec reveal"><h2>دقیق‌ترش کن با آزمایش <span class="n">اختیاری</span></h2><p class="qhint">اگه آزمایش خون اخیر (سه ماه گذشته) داری، عددها رو وارد کن تا ترکیبت دقیق‌تر بشه.</p>
@@ -1542,7 +1585,7 @@ function result(){
  d.querySelector("#lb-file")&&(d.querySelector("#lb-file").onchange=e=>uploadLab(e.target.files[0],d.querySelector("#lb-fn")));
  if(API)fetch(API+"/api/ref?code="+myCode()).then(r=>r.json()).then(j=>{if(j.ok){d.querySelector("#ref-n").textContent=fa(j.joined);d.querySelector("#ref-s").textContent=fa(j.submitted)}}).catch(()=>{});
  d.querySelector("#story").onclick=()=>storyCard(R,mine(),P,d.querySelector("#storyout"));
- d.querySelectorAll(".supp .sw").forEach(b=>b.onclick=()=>{const row=b.closest(".supp"),k=row.dataset.k;S.off[k]=!S.off[k];save();row.classList.toggle("off",!!S.off[k]);b.setAttribute("aria-checked",!S.off[k]);d.querySelector("#sachs").innerHTML=sachHTML();d.querySelector("#pc").textContent=fa(mine().length);rchar()});
+ d.querySelectorAll(".supp .sw").forEach(b=>b.onclick=()=>{const row=b.closest(".supp"),k=row.dataset.k;S.off[k]=!S.off[k];save();row.classList.toggle("off",!!S.off[k]);b.setAttribute("aria-checked",!S.off[k]);d.querySelector("#sachs").innerHTML=sachHTML();d.querySelector("#pc").textContent=fa(mine().length);mktUpd();rchar()});mktUpd();
  d.querySelector("#send").onclick=async()=>{
   const ok=d.querySelector("#ok"),ph=toEn(d.querySelector("#f-ph").value).replace(/[\s-]/g,"");
   S.phone=d.querySelector("#f-ph").value;S.email=d.querySelector("#f-em").value.trim();save();
