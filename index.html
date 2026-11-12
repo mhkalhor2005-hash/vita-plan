@@ -8,7 +8,7 @@
 <title>ویتاپلن</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800;900&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800;900&family=Lalezar&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 body{margin:0}[hidden]{display:none!important}img{max-width:100%}
 /* Layout concept: a dark lab at night — particles drift, glass panels float over a lime glow, the sachet strip is a neon progress bar */
@@ -516,6 +516,22 @@ main{padding-block:12px 150px;position:relative}
 .later{background:none;border:0;color:var(--cyan);font-size:.85rem;padding:6px 2px;text-decoration:underline;text-underline-offset:4px}
 @media (max-width:900px){.trust{grid-template-columns:1fr 1fr}.mag,.reviews{grid-template-columns:1fr}.labs{grid-template-columns:1fr 1fr}}
 @media (max-width:520px){.cmp th,.cmp td{padding:12px 10px;font-size:.84rem;line-height:1.6}.cmp th{font-size:.72rem}.cmp col.ck{width:20%}.cmp .lg{display:none}.subs{grid-template-columns:1fr}#vita{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+
+.ev{display:inline-block;margin:6px 6px 0 0;font-size:.7rem;border:1px solid var(--ec);color:var(--ec);border-radius:999px;padding:1px 9px}
+.evd{margin-top:6px}.evd summary{cursor:pointer;font-size:.76rem;color:var(--stone);list-style:none}.evd summary::-webkit-details-marker{display:none}.evd summary::before{content:"＋ "}.evd[open] summary::before{content:"－ "}
+.evd p{font-size:.8rem;margin-top:4px}
+.srcs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.srcs a{font-size:.68rem;color:var(--cyan);border:1px solid rgba(79,227,224,.3);border-radius:8px;padding:1px 8px;text-decoration:none;font-family:var(--latin);direction:ltr}
+.srcs a:hover{border-color:var(--cyan)}
+.flag span{display:block}
+.exsrc{margin-top:12px;display:grid;gap:6px;font-size:.82rem;color:var(--cocoa-2)}
+.charcard{text-align:center;animation:enter .9s var(--ease) both}
+.chimg{width:min(260px,70vw);margin:0 auto;filter:drop-shadow(0 20px 40px rgba(0,0,0,.6)) drop-shadow(0 0 40px rgba(166,240,74,.25))}
+.chimg svg{width:100%;height:auto;animation:chBob 3s ease-in-out infinite;transform-origin:50% 95%}
+@keyframes chBob{50%{transform:translateY(-8px) rotate(-1.5deg)}}
+.chname{font-family:"Lalezar","Vazirmatn",sans-serif;font-size:clamp(2.6rem,7vw,3.6rem);line-height:1.15;margin-top:6px;background:linear-gradient(100deg,#E9FFD0,var(--lime) 45%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 18px rgba(166,240,74,.35))}
+.chsub{color:var(--stone);font-size:.85rem}
+.scilink{background:none;border:0;color:var(--cyan);font-size:.85rem;text-decoration:underline;text-underline-offset:4px;padding:0}
 </style>
 </head>
 <body>
@@ -544,7 +560,7 @@ const CFG={
  brandMap:{},           // برند هر مکمل، مثلاً {d3:"یوروویتال",omega3:"عبیدی"}
  reviews:[]             // فقط نظر واقعی: {name:"سارا",plan:"BeautyPlan",stars:5,text:"..."}
 };
-const BUILD="1794257149";
+const BUILD="1794503026";
 const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
@@ -653,7 +669,7 @@ const CATS=[
 {id:"clinical",title:"ایمنی و وضعیت بالینی",desc:"بیماری‌ها، داروها، بارداری و مکمل‌های فعلی",icon:"shield",required:true,qs:[
  {id:"CL01",t:"آیا در حال حاضر بیماری زمینه‌ای یا مزمن دارید؟",o:["خیر","بله (یک بیماری)","بله (چند بیماری)","مطمئن نیستم"],other:"سایر توضیحات",why:"برخی بیماری‌ها (مثل تیروئید، دیابت، مشکلات کبدی یا هورمونی) نیاز بدن به ویتامین‌ها و مواد معدنی را تغییر می‌دهند و روی انتخاب مکمل اثر مستقیم دارند."},
  {id:"CL02",type:"multi",t:"آیا تاکنون یکی از موارد زیر برای شما تشخیص داده شده است؟",o:["کم‌خونی یا فقر آهن","بیماری تیروئید","دیابت یا پیش‌دیابت","PCOS","بیماری گوارشی مزمن","صرع یا تشنج","بیماری کلیوی","بیماری کبدی",NONE],other:"سایر",why:"برخی بیماری‌ها مستقیماً روی جذب یا نیاز بدن به ویتامین‌ها اثر دارند (مثل B12، D، فولات و آهن). در بیماری‌های کلیوی و کبدی، مکمل‌هایی مانند منیزیم، پتاسیم و برخی عصاره‌های گیاهی باید کاملاً محدود شوند."},
- {id:"CL03",type:"multi",t:"آیا در حال حاضر داروی خاصی مصرف می‌کنید؟",o:["خیر","داروهای تیروئید","داروهای قند خون (مثل متفورمین)","داروهای رقیق‌کننده‌ی خون (مثل وارفارین)","داروهای اعصاب یا ضدتشنج","داروهای پوست (مثل راکوتان)","داروهای ضدافسردگی یا ضداضطراب","داروهای فشار خون یا ادرارآور","داروهای سرکوب ایمنی یا شیمی‌درمانی"],noneIdx:0,other:"سایر داروها (نام ببرید)",why:"برخی داروها با مکمل‌ها تداخل دارند یا نیاز بدن به ویتامین‌ها را تغییر می‌دهند. مثلاً وارفارین به ویتامین K و کوآنزیم Q10 حساس است و راکوتان مصرف ویتامین A را محدود می‌کند."},
+ {id:"CL03",type:"multi",t:"آیا در حال حاضر داروی خاصی مصرف می‌کنید؟",o:["خیر","داروهای تیروئید","داروهای قند خون (مثل متفورمین)","داروهای رقیق‌کننده‌ی خون (مثل وارفارین)","داروهای اعصاب یا ضدتشنج","داروهای پوست (مثل راکوتان)","داروهای ضدافسردگی یا ضداضطراب","داروهای فشار خون یا ادرارآور","داروهای سرکوب ایمنی یا شیمی‌درمانی","داروهای چربی خون (مثل آتورواستاتین)","آسپرین یا داروهای ضدپلاکت (مثل کلوپیدوگرل)","داروهای پوکی استخوان (مثل آلندرونات)","آرام‌بخش یا داروی خواب (مثل آلپرازولام، کلونازپام)"],noneIdx:0,other:"سایر داروها (نام ببرید)",why:"برخی داروها با مکمل‌ها تداخل دارند یا نیاز بدن به ویتامین‌ها را تغییر می‌دهند. مثلاً وارفارین به ویتامین K و کوآنزیم Q10 حساس است و راکوتان مصرف ویتامین A را محدود می‌کند."},
  {id:"CL04",sex:"f",t:"آیا در حال حاضر باردار یا شیرده هستید یا قصد بارداری دارید؟",o:["باردار هستم","شیرده هستم","در شش ماه آینده قصد بارداری دارم",NONE],why:"در این شرایط برخی ویتامین‌ها (مثل ویتامین A با دوز بالا) و بعضی ترکیبات گیاهی باید حذف یا تنظیم شوند. برای قصد بارداری هم شروع اسید فولیک از قبل اهمیت دارد."},
  {id:"CL05",type:"multi",t:"آیا در حال حاضر مکمل مصرف می‌کنید؟",o:["خیر","مولتی‌ویتامین","مکمل پوست / مو / ناخن","مکمل ورزشی","آهن / ویتامین B12 / ویتامین D"],noneIdx:0,other:"سایر",why:"برای جلوگیری از مصرف تکراری یا بیش‌دوزی و تنظیم دقیق دوز مکمل‌های جدید بر اساس مصرف فعلی شما."},
  {id:"CL06",type:"multi",t:"در یک ماه اخیر کدام مورد را تجربه کرده‌اید؟",o:["خستگی مداوم یا بی‌انرژی بودن","ریزش موی شدید یا ناگهانی","تغییر وزن غیرعادی","تغییرات پوست یا خلق",NONE],why:"این علائم می‌توانند نشانه‌ی کمبودهای مهم (مثل آهن، B12، ویتامین D یا مشکلات تیروئید) باشند و مسیر انتخاب مکمل را هدفمندتر می‌کنند."},
@@ -701,12 +717,99 @@ const PLANS={
  expert:{k:"Personalized",fa:"برنامه‌ی کاملاً شخصی",c:"var(--violet)",img:null,line:"ترکیبی که فقط بر اساس پاسخ‌های خود تو چیده شده."}
 };
 
+/* ===== کتابخانه‌ی منابع علمی موتور ویتاپلن ===== */
+const ODS=n=>"https://ods.od.nih.gov/factsheets/"+n+"-HealthProfessional/";
+const SRC={
+ odsD:["NIH ODS – Vitamin D, Fact Sheet for Health Professionals",ODS("VitaminD")],
+ odsMg:["NIH ODS – Magnesium, Fact Sheet for Health Professionals",ODS("Magnesium")],
+ odsFe:["NIH ODS – Iron, Fact Sheet for Health Professionals",ODS("Iron")],
+ odsB12:["NIH ODS – Vitamin B12, Fact Sheet for Health Professionals",ODS("VitaminB12")],
+ odsFol:["NIH ODS – Folate, Fact Sheet for Health Professionals",ODS("Folate")],
+ odsZn:["NIH ODS – Zinc, Fact Sheet for Health Professionals",ODS("Zinc")],
+ odsO3:["NIH ODS – Omega-3 Fatty Acids, Fact Sheet for Health Professionals",ODS("Omega3FattyAcids")],
+ odsC:["NIH ODS – Vitamin C, Fact Sheet for Health Professionals",ODS("VitaminC")],
+ odsCa:["NIH ODS – Calcium, Fact Sheet for Health Professionals",ODS("Calcium")],
+ odsA:["NIH ODS – Vitamin A and Carotenoids, Fact Sheet for Health Professionals",ODS("VitaminA")],
+ odsK:["NIH ODS – Potassium, Fact Sheet for Health Professionals",ODS("Potassium")],
+ odsBio:["NIH ODS – Biotin, Fact Sheet for Health Professionals",ODS("Biotin")],
+ odsCr:["NIH ODS – Chromium, Fact Sheet for Health Professionals",ODS("Chromium")],
+ odsPro:["NIH ODS – Probiotics, Fact Sheet for Health Professionals",ODS("Probiotics")],
+ odsAsh:["NIH ODS – Ashwagandha, Fact Sheet for Health Professionals",ODS("Ashwagandha")],
+ odsVal:["NIH ODS – Valerian, Fact Sheet for Health Professionals",ODS("Valerian")],
+ odsEx:["NIH ODS – Dietary Supplements for Exercise and Athletic Performance",ODS("ExerciseAndAthleticPerformance")],
+ odsMVM:["NIH ODS – Multivitamin/mineral Supplements, Fact Sheet for Health Professionals",ODS("MVMS")],
+ mel:["NIH NCCIH – Melatonin: What You Need To Know","https://www.nccih.nih.gov/health/melatonin-what-you-need-to-know"],
+ tur:["NIH NCCIH – Turmeric","https://www.nccih.nih.gov/health/turmeric"],
+ gt:["NIH NCCIH – Green Tea","https://www.nccih.nih.gov/health/green-tea"],
+ q10:["NIH NCCIH – Coenzyme Q10","https://www.nccih.nih.gov/health/coenzyme-q10"],
+ lt:["NIH LiverTox – Clinical and Research Information on Drug-Induced Liver Injury","https://www.ncbi.nlm.nih.gov/books/NBK547852/"],
+ msd:["MSD Manual Professional – Some Possible Dietary Supplement–Medication Interactions","https://www.msdmanuals.com/professional/multimedia/table/some-possible-dietary-supplementmedication-interactions"],
+ fdaBio:["FDA Safety Communication – Biotin (Vitamin B7) may interfere with lab tests","https://www.fda.gov/medical-devices/safety-communications/update-fda-warns-biotin-may-interfere-lab-tests-fda-safety-communication"],
+ efsa:["EFSA (2018) – Scientific opinion on the safety of green tea catechins","https://www.efsa.europa.eu/en/efsajournal/pub/5239"],
+ uspstf:["USPSTF (2023) – Folic Acid Supplementation to Prevent Neural Tube Defects","https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/folic-acid-for-the-prevention-of-neural-tube-defects-preventive-medication"],
+ issn:["ISSN Position Stand (2017) – Safety and efficacy of creatine supplementation","https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0173-z"],
+ pcos:["International Evidence-based Guideline for PCOS (2023)","https://www.monash.edu/medicine/mchri/pcos/guideline"]
+};
+/* g: سطح شواهد برای کاربرد اصلی در ویتاپلن — A قوی، B متوسط، C محدود. dose/ul مرجع برای داروساز */
+const META={
+ multi:{g:"C",dose:"یک واحد روزانه",src:["odsMVM"],e:"برای پر کردن فاصله‌ی رژیم غذایی؛ کارآزمایی‌ها اثر پیشگیرانه‌ی قطعی نشون ندادن"},
+ d3:{g:"A",dose:"۱۰۰۰ تا ۲۰۰۰ واحد؛ با آزمایش تنظیم می‌شه",ul:"۴۰۰۰ واحد در روز",src:["odsD"],e:"اصلاح کمبود و سلامت استخوان؛ شواهد قوی"},
+ omega3:{g:"B",dose:"۵۰۰ تا ۱۰۰۰ میلی‌گرم EPA+DHA",src:["odsO3"],e:"برای تری‌گلیسرید و قلب شواهد متوسط؛ برای خلق و تمرکز شواهد متناقض"},
+ mg:{g:"B",dose:"۲۰۰ تا ۳۵۰ میلی‌گرم",ul:"۳۵۰ میلی‌گرم از مکمل",src:["odsMg"],e:"اصلاح کمبود؛ برای خواب شواهد محدود"},
+ bcomplex:{g:"C",dose:"یک واحد روزانه",src:["odsB12"],e:"فقط در کمبود یا نیاز بالاتر مؤثره"},
+ b12:{g:"A",dose:"۲۵۰ تا ۱۰۰۰ میکروگرم",src:["odsB12"],e:"در گیاه‌خواری، متفورمین، داروهای ضداسید و کمبود ثابت‌شده شواهد قوی"},
+ iron:{g:"A",dose:"بر اساس فریتین و تصمیم داروساز",ul:"۴۵ میلی‌گرم (بدون نظارت پزشک)",src:["odsFe"],e:"درمان کمبود آهن؛ شواهد قوی"},
+ folic:{g:"A",dose:"۴۰۰ تا ۸۰۰ میکروگرم",ul:"۱۰۰۰ میکروگرم اسید فولیک",src:["uspstf","odsFol"],e:"پیشگیری از نقص لوله‌ی عصبی؛ توصیه‌ی رسمی USPSTF"},
+ coq10:{g:"C",dose:"۱۰۰ میلی‌گرم",src:["q10"],e:"شواهد محدود برای انرژی"},
+ vitc:{g:"B",dose:"۲۵۰ تا ۵۰۰ میلی‌گرم",ul:"۲۰۰۰ میلی‌گرم",src:["odsC"],e:"کاهش جزئی طول دوره‌ی سرماخوردگی؛ نیاز بالاتر در افراد سیگاری"},
+ zinc:{g:"B",dose:"۸ تا ۱۵ میلی‌گرم",ul:"۴۰ میلی‌گرم",src:["odsZn"],e:"نقش در ایمنی و پوست؛ شواهد متوسط"},
+ probiotic:{g:"B",dose:"سویه‌ی مشخص، طبق محصول",src:["odsPro"],e:"پیشگیری از اسهال ناشی از آنتی‌بیوتیک؛ اثر وابسته به سویه"},
+ enzyme:{g:"C",dose:"همراه غذا",src:[],e:"شواهد محدود"},
+ biotin:{g:"C",dose:"۳۰ میکروگرم تا دوز پایین",src:["odsBio","fdaBio"],e:"در افراد بدون کمبود، شواهد کافی برای مو و ناخن وجود نداره"},
+ collagen:{g:"C",dose:"۲٫۵ تا ۱۰ گرم",src:[],e:"چند کارآزمایی کوچک برای خاصیت ارتجاعی پوست؛ شواهد محدود"},
+ calcium:{g:"A",dose:"۵۰۰ میلی‌گرم یا کمتر در هر نوبت",ul:"۲۵۰۰ میلی‌گرم (۱۹ تا ۵۰ سال)",src:["odsCa"],e:"وقتی دریافت غذایی کمه، برای استخوان شواهد قوی"},
+ herbal:{g:"C",dose:"طبق محصول",src:["odsVal"],e:"شواهد ناکافی برای بی‌خوابی"},
+ melatonin:{g:"B",dose:"۰٫۵ تا ۳ میلی‌گرم",src:["mel"],e:"کوتاه کردن زمان به خواب رفتن و جت‌لگ؛ اثر کوچک"},
+ ashwa:{g:"B",dose:"۲۵۰ تا ۶۰۰ میلی‌گرم عصاره",src:["odsAsh","lt"],e:"کاهش استرس در کارآزمایی‌های کوچک؛ گزارش‌های نادر آسیب کبدی"},
+ creatine:{g:"A",dose:"۳ تا ۵ گرم",src:["issn","odsEx"],e:"مؤثرترین مکمل برای قدرت و حجم عضله؛ شواهد قوی"},
+ protein:{g:"B",dose:"بر اساس وزن و تمرین",src:["odsEx"],e:"کمک به رسیدن به پروتئین روزانه"},
+ electro:{g:"C",dose:"در تمرین طولانی و تعریق زیاد",src:["odsEx"],e:"فقط در تعریق شدید"},
+ inositol:{g:"B",dose:"۲ تا ۴ گرم میو-اینوزیتول",src:["pcos"],e:"PCOS: بهبود برخی شاخص‌های متابولیک؛ شواهد متوسط تا محدود"},
+ chromium:{g:"C",dose:"۲۰۰ میکروگرم",src:["odsCr"],e:"اثر کوچک و نامطمئن روی وزن و قند"},
+ greentea:{g:"C",dose:"—",src:["gt","efsa"],e:"اثر ناچیز روی وزن؛ عصاره‌ی غلیظ خطر آسیب کبدی داره"},
+ curcumin:{g:"C",dose:"طبق محصول",src:["tur","lt"],e:"شواهد محدود برای درد مفصل؛ گزارش‌های نادر آسیب کبدی"}
+};
+const GR={A:["شواهد قوی","var(--lime)"],B:["شواهد متوسط","var(--cyan)"],C:["شواهد محدود","var(--warn)"]};
 function compute(S){
  const A=S.a, sc={}, why={}, ex={}, flags=[], notes=[];
  const has=(id,i)=>{const v=A[id];return Array.isArray(v)?v.includes(i):v===i};
  const add=(k,p,r)=>{sc[k]=(sc[k]||0)+p;(why[k]=why[k]||[]);if(r&&!why[k].includes(r))why[k].push(r)};
- const no=(k,r)=>{if(!ex[k])ex[k]=r};
- const flag=(t,bad)=>flags.push({t,bad:!!bad});
+ const exS={};
+ const no=(k,r,s)=>{if(!ex[k]){ex[k]=r;if(s)exS[k]=s}};
+ const flag=(t,bad,s)=>{if(!flags.some(f=>f.t===t))flags.push({t,bad:!!bad,s})};
+ const note=(t,s)=>{if(!notes.some(n=>(n.t||n)===t))notes.push({t,s})};
+ const female0=S.b.sex==="f",hasA=(id,i)=>{const v=A[id];return Array.isArray(v)?v.includes(i):v===i};
+ /* ===== قوانین مستند (اول اعمال می‌شن تا دلیلِ دارای منبع ثبت بشه) ===== */
+ const med=i=>hasA("CL03",i);
+ if(med(1)||hasA("CL02",1)){no("ashwa","اشواگاندا سطح هورمون تیروئید را بالا می‌برد",["msd","odsAsh"]);note("داروی تیروئید: آهن، کلسیم، منیزیم و کروم جذب لووتیروکسین را کم می‌کنند؛ ساشه‌ی صبح حداقل ۴ ساعت بعد از قرص تیروئید مصرف شود.",["odsFe","odsCa","msd"])}
+ if(med(2)||hasA("WH07",3)){no("chromium","کروم همراه داروهای دیابت خطر افت قند دارد",["msd","odsCr"]);add("b12",3,"متفورمین جذب ویتامین B12 را کم می‌کند");note("داروهای دیابت: اشواگاندا هم ممکن است قند خون را پایین بیاورد.",["msd"])}
+ if(med(3)){no("coq10","کوآنزیم Q10 اثر وارفارین را کم می‌کند",["msd","q10"]);no("greentea","چای سبز اثر وارفارین را کم می‌کند",["msd"]);no("melatonin","ملاتونین همراه ضدانعقاد خطر خونریزی را بالا می‌برد",["msd"]);no("curcumin","زردچوبه همراه ضدانعقاد خطر خونریزی دارد",["tur"]);no("omega3","امگا ۳ ممکن است اثر ضدانعقادی را تقویت کند",["odsO3"]);flag("مصرف داروی ضدانعقاد (وارفارین): کوآنزیم Q10، چای سبز، ملاتونین، زردچوبه و امگا ۳ حذف شد. هر تغییر در مکمل‌ها باید با پزشک هماهنگ شود.",true,["msd"])}
+ if(med(10)){no("curcumin","زردچوبه همراه داروهای ضدپلاکت خطر خونریزی دارد",["tur"]);note("داروی ضدپلاکت: امگا ۳ با دوز بالا ممکن است خطر خونریزی را بیشتر کند؛ دوز پایین و با نظر داروساز.",["odsO3"])}
+ if(med(4)||hasA("CL02",5)){no("melatonin","ملاتونین ممکن است اثر داروهای ضدتشنج را کم کند",["msd"]);no("herbal","سنبل‌الطیب با داروهای اعصاب خواب‌آلودگی را تشدید می‌کند",["msd","odsVal"]);no("ashwa","اشواگاندا با داروهای آرام‌بخش تداخل دارد",["msd"]);add("d3",2,"برخی داروهای ضدتشنج سطح ویتامین D را کاهش می‌دهند");note("داروهای ضدتشنج: اسید فولیک ممکن است سطح فنی‌توئین را تغییر دهد؛ دوز با نظر پزشک.",["odsFol"]);flag("داروهای اعصاب یا ضدتشنج: ترکیبات مؤثر بر سیستم عصبی حذف شد.",true,["msd"])}
+ if(med(12)||hasA("SLP05",3)||hasA("MNT06",3)){["melatonin","herbal","ashwa"].forEach(k=>no(k,"تشدید خواب‌آلودگی همراه داروهای آرام‌بخش",["msd"]))}
+ if(med(5)||hasA("SK06",0)){no("multiA","ایزوترتینوئین با ویتامین A اثر سمی هم‌افزا دارد",["odsA"]);flag("مصرف راکوتان (ایزوترتینوئین): مولتی‌ویتامین بدون ویتامین A انتخاب می‌شود.",true,["odsA"])}
+ if(med(6)){["herbal","ashwa","melatonin"].forEach(k=>no(k,"احتیاط با داروهای ضدافسردگی و آرام‌بخش",["msd"]))}
+ if(med(7)){no("electro","پتاسیم همراه برخی داروهای فشار و ادرارآورهای نگه‌دارنده‌ی پتاسیم خطر افزایش پتاسیم دارد",["odsK"]);note("داروهای فشار خون: کوآنزیم Q10 و اشواگاندا ممکن است فشار را بیشتر پایین بیاورند؛ ادرارآورهای تیازیدی همراه کلسیم و ویتامین D خطر افزایش کلسیم دارند.",["msd","odsCa"])}
+ if(med(8)){["probiotic","ashwa","coq10","curcumin","greentea","herbal"].forEach(k=>no(k,"سرکوب ایمنی یا شیمی‌درمانی",k==="probiotic"?["odsPro"]:["msd"]));flag("سرکوب ایمنی یا شیمی‌درمانی: فقط با تأیید پزشک معالج. پروبیوتیک و عصاره‌های گیاهی حذف شد.",true,["odsPro","msd"])}
+ if(med(9))no("greentea","چای سبز اثر آتورواستاتین را کم می‌کند",["msd"]);
+ if(med(11))note("داروی پوکی استخوان: کلسیم، منیزیم و آهن حداقل ۲ ساعت با بیس‌فسفونات‌ها فاصله داشته باشند.",["odsCa","odsMg"]);
+ if(hasA("WH07",2))no("electro","پتاسیم همراه اسپیرونولاکتون خطر افزایش پتاسیم دارد",["odsK"]);
+ if(hasA("CL02",6)){["mg","electro","creatine","calcium"].forEach(k=>no(k,"بیماری کلیوی",k==="mg"?["odsMg"]:k==="creatine"?["issn"]:k==="calcium"?["odsCa"]:["odsK"]));no("vitc","دوز بالای ویتامین C در بیماری کلیوی خطر سنگ دارد",["odsC"]);flag("بیماری کلیوی: منیزیم، پتاسیم، کلسیم و کراتین حذف شد. برنامه فقط با تأیید پزشک قابل ارسال است.",true,["odsMg"])}
+ if(hasA("CL02",7)){["greentea","ashwa","curcumin"].forEach(k=>no(k,"بیماری کبدی؛ گزارش آسیب کبدی",["lt"]));flag("بیماری کبدی: عصاره‌های گیاهی حذف شد. برنامه فقط با تأیید پزشک قابل ارسال است.",true,["lt"])}
+ if(female0&&(hasA("CL04",0)||hasA("CL04",1))){[["ashwa",["odsAsh"]],["greentea",["gt"]],["herbal",["odsVal"]],["melatonin",["mel"]],["creatine",["issn"]],["chromium",["odsCr"]],["curcumin",["tur"]],["coq10",["q10"]]].forEach(([k,sr])=>no(k,"بی‌خطری در بارداری یا شیردهی ثابت نشده",sr));add("folic",4,"بارداری یا شیردهی");flag("بارداری یا شیردهی: مولتی‌ویتامین با فرمول مخصوص بارداری (ویتامین A کنترل‌شده) جایگزین می‌شود و برنامه باید توسط داروساز تأیید شود.",true,["odsA","uspstf"])}
+ if(female0&&hasA("CL04",2))add("folic",4,"قصد بارداری: اسید فولیک باید از قبل شروع شود (USPSTF)");
+ if(hasA("CL08",1)||hasA("CL08",2))note("مصرف دخانیات: مکمل بتاکاروتن در افراد سیگاری خطر سرطان ریه را بالا برده؛ مولتی‌ویتامین بدون بتاکاروتن انتخاب می‌شود.",["odsA"]);
+ if(hasA("GI06",1)){add("b12",3,"داروهای ضداسید جذب B12 را کم می‌کنند");add("mg",1,"مصرف طولانی داروهای ضداسید منیزیم را کم می‌کند");note("مصرف طولانی داروهای ضداسید (PPI): سطح B12 و منیزیم باید پایش شود.",["odsB12","odsMg"])}
  const G=i=>has("G",i);
  const female=S.b.sex==="f", age=+S.b.age||0;
  let plan={sport:0,slim:0,beauty:0};
@@ -718,7 +821,7 @@ function compute(S){
  if(G(3)){add("vitc",2,"هدف شما تقویت ایمنی است");add("zinc",2,"نقش زینک در ایمنی");add("d3",2,"ویتامین D و ایمنی")}
  if(G(4)){add("biotin",2,"هدف شما سلامت پوست، مو و ناخن است");add("collagen",2,"حمایت از ساختار پوست");add("zinc",1);add("vitc",1,"نقش در ساخت کلاژن");plan.beauty+=4}
  if(G(5)){add("mg",1,"ریکاوری عضلانی");add("omega3",1,"کاهش التهاب پس از تمرین");plan.sport+=4}
- if(G(6)){add("chromium",2,"کمک به کنترل میل به شیرینی");add("greentea",1,"حمایت از متابولیسم");add("omega3",1);plan.slim+=4}
+ if(G(6)){add("chromium",2,"کمک به کنترل میل به شیرینی");add("omega3",1);plan.slim+=4}
  if(G(7)){add("protein",2,"هدف شما افزایش وزن است");plan.sport+=1}
  if(G(8)){add("zinc",2,"زینک و سلامت جنسی");add("d3",1);flag("برای کاهش عملکرد جنسی، مشورت با پزشک برای بررسی علت توصیه می‌شود.")}
  if(G(9)){add("folic",1,"حمایت از سلامت باروری")}
@@ -821,33 +924,19 @@ function compute(S){
  if(has("NA01",1)||has("NA02",2)||has("NA02",3)){add("biotin",2,"ناخن شکننده");add("collagen",1);plan.beauty+=1}
  if(has("NA01",2))add("zinc",1,"لکه‌های سفید ناخن");
  if(has("NA01",3))add("biotin",1,"رشد کند ناخن");
- if(has("SK06",0)){no("multiA","ایزوترتینوئین");flag("مصرف راکوتان: مولتی‌ویتامین باید بدون ویتامین A باشد.",true)}
+
  // clinical
  if(has("CL01",2))flag("چند بیماری زمینه‌ای: برنامه حتماً توسط داروساز بازبینی می‌شود.",true);
  if(has("CL02",0)){add("iron",2,"سابقه‌ی کم‌خونی");flag("سابقه‌ی کم‌خونی: دوز آهن بر اساس آزمایش اخیر تعیین می‌شود.")}
- if(has("CL02",1)){no("ashwa","اشواگاندا روی هورمون تیروئید اثر دارد");flag("بیماری تیروئید: آهن، کلسیم و منیزیم باید حداقل ۴ ساعت با داروی تیروئید فاصله داشته باشند.")}
  if(has("CL02",2)){no("chromium","احتمال افت قند خون در کنار داروهای دیابت");no("greentea","اثر بر کنترل قند خون");flag("دیابت: هر تغییر در مکمل‌ها باید با پزشک معالج هماهنگ شود.")}
  if(has("CL02",3))add("inositol",2,"تشخیص PCOS");
- if(has("CL02",5)){no("herbal","احتمال تداخل با داروهای ضدتشنج");no("melatonin","احتمال تداخل با داروهای ضدتشنج");no("ashwa","احتمال تداخل با داروهای ضدتشنج");flag("صرع یا تشنج: ترکیبات گیاهی و ملاتونین حذف شد.",true)}
- if(has("CL02",6)){["mg","electro","creatine","calcium"].forEach(k=>no(k,"بیماری کلیوی"));no("vitc","دوز بالای ویتامین C در بیماری کلیوی");flag("بیماری کلیوی: منیزیم، پتاسیم، کلسیم و کراتین حذف شد. برنامه فقط با تأیید پزشک قابل ارسال است.",true)}
- if(has("CL02",7)){["greentea","ashwa","curcumin"].forEach(k=>no(k,"بیماری کبدی"));flag("بیماری کبدی: عصاره‌های گیاهی حذف شد. برنامه فقط با تأیید پزشک قابل ارسال است.",true)}
- if(has("CL03",1))notes.push("داروی تیروئید: ساشه‌ی صبح باید حداقل ۴ ساعت بعد از داروی تیروئید مصرف شود.");
- if(has("CL03",2)){add("b12",2,"مصرف متفورمین جذب B12 را کم می‌کند");no("chromium","احتمال افت قند خون همراه داروهای دیابت")}
- if(has("CL03",3)){["coq10","omega3","curcumin","greentea"].forEach(k=>no(k,"تداخل با داروی رقیق‌کننده‌ی خون"));flag("مصرف وارفارین: ویتامین K، کوآنزیم Q10، امگا ۳ و کورکومین حذف شد. هرگونه تغییر مکمل باید با پزشک هماهنگ شود.",true)}
- if(has("CL03",4)){["herbal","ashwa","melatonin"].forEach(k=>no(k,"تداخل با داروهای اعصاب"));add("d3",1,"داروهای ضدتشنج سطح ویتامین D را کاهش می‌دهند");flag("داروهای اعصاب یا ضدتشنج: ترکیبات مؤثر بر سیستم عصبی حذف شد.",true)}
- if(has("CL03",5)){no("multiA","ایزوترتینوئین");flag("مصرف راکوتان: مولتی‌ویتامین باید بدون ویتامین A باشد.",true)}
- if(has("CL03",6)){["herbal","ashwa","melatonin"].forEach(k=>no(k,"احتمال تداخل با داروهای ضدافسردگی"));flag("مصرف داروی ضدافسردگی: ترکیبات گیاهی مؤثر بر خلق حذف شد.")}
- if(has("CL03",7)){no("electro","خطر افزایش پتاسیم با داروهای فشار خون");flag("داروهای فشار خون: مکمل‌های حاوی پتاسیم حذف شد.")}
- if(has("CL03",8)){["probiotic","herbal","ashwa","curcumin","greentea"].forEach(k=>no(k,"سرکوب سیستم ایمنی یا شیمی‌درمانی"));flag("سرکوب ایمنی یا شیمی‌درمانی: فقط با تأیید پزشک معالج. پروبیوتیک و عصاره‌های گیاهی حذف شد.",true)}
  const preg=female&&(has("CL04",0)||has("CL04",1));
- if(preg){["ashwa","greentea","herbal","melatonin","creatine","chromium","curcumin","coq10"].forEach(k=>no(k,"بارداری یا شیردهی"));add("folic",3,"بارداری یا شیردهی");flag("بارداری یا شیردهی: مولتی‌ویتامین با فرمول مخصوص بارداری جایگزین می‌شود و برنامه باید توسط داروساز تأیید شود.",true)}
- if(female&&has("CL04",2))add("folic",3,"قصد بارداری: اسید فولیک باید از قبل شروع شود");
  if(has("CL05",1))no("multi","در حال حاضر مولتی‌ویتامین مصرف می‌کنید");
  if(has("CL05",2)){no("biotin","در حال حاضر مکمل پوست و مو مصرف می‌کنید");no("collagen","در حال حاضر مکمل پوست و مو مصرف می‌کنید")}
  if(has("CL05",4))notes.push("مکمل آهن، B12 یا D فعلی شما در دوزبندی لحاظ می‌شود تا بیش‌دوزی رخ ندهد.");
  if(has("CL06",1)||has("CL06",2))flag("ریزش موی ناگهانی یا تغییر وزن غیرعادی: پیش از شروع، آزمایش خون (CBC، فریتین، TSH، ویتامین D) توصیه می‌شود.");
  if(has("CL06",0)){add("iron",1);add("d3",1)}
- if(has("CL08",1)||has("CL08",2)){add("vitc",1,"دخانیات نیاز به ویتامین C را بالا می‌برد");notes.push("مصرف دخانیات: مولتی‌ویتامین بدون بتاکاروتن انتخاب می‌شود.")}
+ if(has("CL08",1)||has("CL08",2)){add("vitc",1,"دخانیات نیاز به ویتامین C را بالا می‌برد")}
  if(has("CL09",0)||has("CL09",1))add("d3",2,"قرار گرفتن کم در معرض آفتاب");
  if(has("CL10",1))notes.push("فقط کپسول گیاهی (بدون ژلاتین).");
  if(has("CL10",2))notes.push("بلع سخت: فرم پودری یا جویدنی ترجیح داده می‌شود.");
@@ -855,15 +944,18 @@ function compute(S){
  if(has("CL07",1))flag("شرایط خاص گزارش‌شده توسط شما توسط داروساز بررسی می‌شود.");
 
  const L=S.labs||{};
- if(L.d!==""&&L.d!=null){if(L.d<20)add("d3",4,"آزمایش: ویتامین D پایین");else if(L.d<30)add("d3",2,"آزمایش: ویتامین D کمتر از حد مطلوب");else if(L.d>=60)no("d3","آزمایش: سطح ویتامین D کافی است")}
+ if(L.d!==""&&L.d!=null){if(L.d<12)add("d3",6,"آزمایش: کمبود ویتامین D (زیر ۱۲)");else if(L.d<20)add("d3",4,"آزمایش: ویتامین D ناکافی (۱۲ تا ۲۰)");else if(L.d<30)add("d3",1,"آزمایش: ویتامین D در مرز");else if(L.d>50)no("d3","آزمایش: سطح ویتامین D بالاست (بیش از ۵۰)",["odsD"])}
  if(L.f!==""&&L.f!=null){if(L.f<30)add("iron",4,"آزمایش: فریتین پایین");else if(L.f>150)no("iron","آزمایش: ذخیره‌ی آهن کافی است")}
- if(L.b!==""&&L.b!=null&&L.b<300)add("b12",4,"آزمایش: ویتامین B12 پایین");
+ if(L.b!==""&&L.b!=null){if(L.b<200)add("b12",6,"آزمایش: کمبود ویتامین B12");else if(L.b<300)add("b12",3,"آزمایش: ویتامین B12 در مرز")}
  if(L.t!==""&&L.t!=null&&(L.t<0.4||L.t>4.5))flag("TSH خارج از محدوده‌ی طبیعی است؛ پیش از شروع، با پزشک درباره‌ی تیروئید مشورت کن.",true);
  if(ex.multiA&&!ex.multi){SUP.multi._n="مولتی‌ویتامین بدون ویتامین A"}else SUP.multi._n=null;
  if(preg&&!ex.multi)SUP.multi._n="مولتی‌ویتامین مخصوص بارداری";
- const exList=Object.keys(ex).filter(k=>k!=="multiA"&&sc[k]>=2).map(k=>({k,n:SUP[k].n,r:ex[k]}));
+ const exList=Object.keys(ex).filter(k=>k!=="multiA"&&sc[k]>=2).map(k=>({k,n:SUP[k].n,r:ex[k],s:exS[k]}));
  let list=Object.keys(sc).filter(k=>!ex[k]&&sc[k]>=2).sort((a,b)=>sc[b]-sc[a]).slice(0,8)
-   .map(k=>({k,n:SUP[k]._n||SUP[k].n,s:sc[k],why:why[k],t:SUP[k].t,c:SUP[k].c,r:SUP[k].r}));
+   .map(k=>({k,n:SUP[k]._n||SUP[k].n,s:sc[k],why:why[k],t:SUP[k].t,c:SUP[k].c,r:SUP[k].r,m:META[k]||{}}));
+ if(list.some(x=>x.k==="biotin"))note("بیوتین ممکن است نتیجه‌ی برخی آزمایش‌ها (مثل تیروئید و تروپونین) را اشتباه نشان دهد؛ قبل از آزمایش خون به پزشک و آزمایشگاه بگو بیوتین مصرف می‌کنی.",["fdaBio"]);
+ if(list.some(x=>x.k==="iron"))note("آهن را با فاصله از چای، قهوه و کلسیم مصرف کن؛ ویتامین C جذبش را بیشتر می‌کند.",["odsFe"]);
+ if(list.some(x=>x.k==="ashwa"))note("اشواگاندا: در صورت زردی، ادرار تیره یا خارش، مصرف را قطع و با پزشک مشورت کن.",["odsAsh","lt"]);
  const top=Object.entries(plan).sort((a,b)=>b[1]-a[1]);
  let pk=top[0][1]>=4&&top[0][1]-top[1][1]>=2?top[0][0]:"expert";
  const review=flags.some(f=>f.bad);
@@ -954,7 +1046,7 @@ function badge(cat,left){
 
 /* ---------------- 9 story card ---------------- */
 function myCode(){if(!S.code){const A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let c="";const r=new Uint32Array(5);try{crypto.getRandomValues(r)}catch(e){for(let i=0;i<5;i++)r[i]=Math.random()*1e9}r.forEach(v=>c+=A[v%A.length]);S.code="VP-"+c;save()}return S.code}
-async function storyCard(R,list,P,out){
+async function storyCard(R,list,P,out,withChar=true){
  try{await document.fonts.ready}catch(e){}
  const W=1080,H=1920,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
  const g=x.createLinearGradient(0,0,W*.4,H);g.addColorStop(0,"#16260a");g.addColorStop(.55,"#05080A");g.addColorStop(1,"#070b0d");x.fillStyle=g;x.fillRect(0,0,W,H);
@@ -964,19 +1056,16 @@ async function storyCard(R,list,P,out){
  x.direction="rtl";x.textAlign="right";const R0=W-90;
  try{x.drawImage(logo,R0-110,110,110,110)}catch(e){}
  x.fillStyle="#A6F04A";x.font="700 44px Sora, Vazirmatn, sans-serif";x.direction="ltr";x.textAlign="left";x.fillText("VITAPLAN",90,185);x.direction="rtl";x.textAlign="right";
- x.fillStyle="#EEF4EA";x.font="900 96px Vazirmatn, sans-serif";x.fillText("پک شخصی",R0,420);
- x.fillStyle="#A6F04A";x.fillText((S.b.name||"").split(" ")[0]||"من",R0,540);
- x.fillStyle="#A9B6AE";x.font="500 46px Vazirmatn, sans-serif";x.fillText(P.fa+" · ۲۸ روز",R0,630);
- // sachet
- const sx=90,sy=720,sw=W-180,sh=300;x.fillStyle="rgba(255,255,255,.07)";x.strokeStyle="rgba(255,255,255,.3)";x.lineWidth=3;
- x.beginPath();x.roundRect(sx,sy,sw,sh,28);x.fill();x.stroke();
- x.setLineDash([8,10]);x.beginPath();x.moveTo(sx,sy+30);x.lineTo(sx+sw,sy+30);x.moveTo(sx,sy+sh-30);x.lineTo(sx+sw,sy+sh-30);x.stroke();x.setLineDash([]);
- list.slice(0,10).forEach((it,i)=>{const col=i%5,row=Math.floor(i/5),px=sx+110+col*((sw-220)/4),py=sy+105+row*110;
-  x.save();x.translate(px,py);x.rotate((i%3-1)*.35);x.shadowColor=it.c;x.shadowBlur=30;x.fillStyle=it.c;x.beginPath();
-  if(it.r)x.arc(0,0,30,0,7);else x.roundRect(-55,-24,110,48,24);x.fill();x.restore()});
- x.fillStyle="#EEF4EA";x.font="700 46px Vazirmatn, sans-serif";let y=1120;
- list.slice(0,4).forEach(it=>{x.fillStyle=it.c;x.beginPath();x.arc(R0-14,y-16,14,0,7);x.fill();x.fillStyle="#EEF4EA";x.fillText(it.n.replace(/\s*\(.*\)/,""),R0-50,y);y+=72});
- if(list.length>4){x.fillStyle="#6E7D76";x.font="500 40px Vazirmatn, sans-serif";x.fillText("+ "+fa(list.length-4)+" مکمل دیگه",R0-50,y)}
+ const nm=(S.b.name||"").split(" ")[0]||"من";
+ try{await document.fonts.load("120px Lalezar")}catch(e){}
+ x.textAlign="center";x.fillStyle="#EEF4EA";x.font="800 60px Vazirmatn, sans-serif";x.fillText("ویتای اختصاصیِ",W/2,330);
+ if(withChar){const ci=new Image();const cu=URL.createObjectURL(new Blob([charSVG(nm,list,R.plan)],{type:"image/svg+xml"}));ci.src=cu;await new Promise(r=>{ci.onload=r;ci.onerror=r});try{x.drawImage(ci,W/2-230,370,460,575)}catch(e){}}
+ const ng=x.createLinearGradient(W/2-300,0,W/2+300,0);ng.addColorStop(0,"#4FE3E0");ng.addColorStop(.55,"#A6F04A");ng.addColorStop(1,"#E9FFD0");
+ x.fillStyle=ng;x.font="130px Lalezar, Vazirmatn, sans-serif";x.shadowColor="rgba(166,240,74,.5)";x.shadowBlur=40;x.fillText(nm,W/2,1060);x.shadowBlur=0;
+ x.fillStyle="#A9B6AE";x.font="500 44px Vazirmatn, sans-serif";x.fillText(P.fa+" · ۲۸ روز",W/2,1130);x.textAlign="right";
+ x.fillStyle="#EEF4EA";x.font="700 42px Vazirmatn, sans-serif";let y=1215;
+ list.slice(0,3).forEach(it=>{x.fillStyle=it.c;x.beginPath();x.arc(R0-14,y-14,13,0,7);x.fill();x.fillStyle="#EEF4EA";x.fillText(it.n.replace(/\s*\(.*\)/,""),R0-50,y);y+=58});
+ if(list.length>3){x.fillStyle="#6E7D76";x.font="500 40px Vazirmatn, sans-serif";x.fillText("+ "+fa(list.length-3)+" مکمل دیگه",R0-50,y)}
  const code=myCode(),bx=W/2-330,by=H-475,bw=660,bh=170;
  x.fillStyle="rgba(166,240,74,.10)";x.strokeStyle="#A6F04A";x.lineWidth=4;x.setLineDash([18,12]);x.beginPath();x.roundRect(bx,by,bw,bh,28);x.fill();x.stroke();x.setLineDash([]);
  x.textAlign="center";x.fillStyle="#A9B6AE";x.font="500 38px Vazirmatn, sans-serif";x.fillText("کد تخفیف دوستانم",W/2,by+62);
@@ -985,11 +1074,50 @@ async function storyCard(R,list,P,out){
  x.direction="ltr";x.fillStyle="#EEF4EA";x.font="700 46px Sora, sans-serif";x.fillText("@vitaplan.ir",W/2,H-145);
  x.fillStyle="#6E7D76";x.font="400 32px Sora, sans-serif";x.fillText("vitaplan.onrender.com",W/2,H-90);x.direction="rtl";
  let blob;try{blob=await new Promise((r,j)=>{try{c.toBlob(r,"image/png")}catch(e){j(e)}})}catch(e){blob=null}
+ if(!blob&&withChar)return storyCard(R,list,P,out,false);
  if(!blob){out.innerHTML='<p class="qhint">ساخت عکس انجام نشد. صفحه را یک بار تازه کن و دوباره امتحان کن.</p>';return}const file=new File([blob],"vitaplan-story.png",{type:"image/png"});
  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"پک ویتاپلن من"});return}}catch(e){if(e&&e.name==="AbortError")return}
  const url=URL.createObjectURL(blob);
  out.innerHTML=`<div class="storyrow"><img class="storyprev" src="${url}" alt="کارت استوری ویتاپلن"><div><a class="btn line" href="${url}" download="vitaplan-story.png">دانلود عکس <span class="arr">${ICON.arrow}</span></a><p class="qhint" style="margin-top:8px">روی گوشی می‌تونی عکس رو نگه داری و ذخیره کنی.</p></div></div>`;
 }
+
+/* ---------------- science ---------------- */
+function srcLinks(s){if(!s||!s.length)return"";return `<span class="srcs">${s.filter(k=>SRC[k]).map(k=>`<a href="${SRC[k][1]}" target="_blank" rel="noopener" title="${esc(SRC[k][0])}">${esc(SRC[k][0].split(" – ")[0])}</a>`).join("")}</span>`}
+function science(){const dr=document.createElement("div");dr.className="drawer";
+ dr.innerHTML=`<div class="pane artbody" role="dialog" aria-label="منابع علمی"><div class="navrow" style="margin-top:0"><h1 class="qtitle" style="margin:0">منابع علمی ویتاپلن</h1><button class="ghost" id="cl">بستن</button></div>
+ <p>قوانین پیشنهاد و حذف مکمل‌ها در ویتاپلن بر اساس این منابع نوشته شده‌اند و هر پیشنهاد سطح شواهد خودش را دارد: <b style="color:var(--lime)">قوی</b>، <b style="color:var(--cyan)">متوسط</b> یا <b style="color:var(--warn)">محدود</b>. برنامه‌ی نهایی هر نفر توسط داروساز بازبینی می‌شود.</p>
+ <div style="margin-top:14px">${Object.values(SRC).map(x=>`<div class="qa"><a href="${x[1]}" target="_blank" rel="noopener" style="color:var(--cocoa)">${esc(x[0])}</a></div>`).join("")}</div></div>`;
+ const close=()=>dr.remove();dr.onclick=e=>{if(e.target===dr)close()};dr.querySelector("#cl").onclick=close;document.body.append(dr);dr.querySelector("#cl").focus()}
+
+/* ---------------- personal character ---------------- */
+function charSVG(name,pills,planKey){
+ const P={sport:"#7C8CFF",slim:"#A6F04A",beauty:"#FF5FA2",expert:"#B48CFF"}[planKey]||"#A6F04A";
+ const C=(pills.length?pills:[{c:"#F2D14B"},{c:"#59B7D6"},{c:"#C98A2E"}]).slice(0,5).map(x=>x.c);
+ let h=0;for(const ch of String(name||"x"))h=(h*31+ch.charCodeAt(0))>>>0;const wave=h%2;
+ const zig=(y,d)=>{let p=`M50 ${y}`;for(let x=50;x<190;x+=10)p+=` L${x+5} ${y+d} L${x+10} ${y}`;return p};
+ const pillEls=C.map((c,i)=>{const x=78+(i%3)*34,y=178+Math.floor(i/3)*24,rot=(i*37+h)%60-30;return i%2?`<circle cx="${x+10}" cy="${y}" r="9" fill="${c}"/>`:`<rect x="${x}" y="${y-7}" width="26" height="14" rx="7" fill="${c}" transform="rotate(${rot} ${x+13} ${y})"/>`}).join("");
+ const acc={sport:`<rect x="50" y="52" width="140" height="14" fill="${P}"/><rect x="50" y="57" width="140" height="3" fill="#fff" opacity=".6"/>`,
+  beauty:`<path d="M168 40 l14 -12 l2 18 z M168 40 l-14 -12 l-2 18 z" fill="${P}"/><circle cx="168" cy="40" r="5" fill="${P}"/><path d="M28 70 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 l8 -3z" fill="#FFE27A"/><path d="M212 120 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2z" fill="#FFE27A"/>`,
+  slim:`<path d="M50 168 h140" stroke="#F2D14B" stroke-width="5" stroke-dasharray="6 4"/>`,
+  expert:`<path d="M30 60 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 l8 -3z" fill="${P}"/>`}[planKey]||"";
+ return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300" width="240" height="300">
+ <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".9"/><stop offset="1" stop-color="${P}" stop-opacity=".55"/></linearGradient></defs>
+ <ellipse cx="120" cy="288" rx="70" ry="8" fill="#000" opacity=".35"/>
+ <path d="M95 228 v38" stroke="#EEF4EA" stroke-width="10" stroke-linecap="round"/><path d="M145 228 v38" stroke="#EEF4EA" stroke-width="10" stroke-linecap="round"/>
+ <ellipse cx="88" cy="272" rx="18" ry="10" fill="${P}"/><ellipse cx="152" cy="272" rx="18" ry="10" fill="${P}"/>
+ <path d="M52 140 C30 150 22 170 26 190" stroke="#EEF4EA" stroke-width="10" fill="none" stroke-linecap="round"/><circle cx="26" cy="194" r="11" fill="#EEF4EA"/>
+ ${wave?`<path d="M188 130 C210 115 218 92 214 70" stroke="#EEF4EA" stroke-width="10" fill="none" stroke-linecap="round"/><circle cx="214" cy="64" r="11" fill="#EEF4EA"/>`:`<path d="M188 140 C212 140 222 124 216 104" stroke="#EEF4EA" stroke-width="10" fill="none" stroke-linecap="round"/><circle cx="214" cy="98" r="12" fill="#EEF4EA"/>`}
+ <rect x="50" y="40" width="140" height="188" fill="url(#bg)"/>
+ <path d="${zig(40,-8)}" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/><path d="${zig(228,8)}" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/>
+ <rect x="50" y="40" width="140" height="188" fill="none" stroke="#fff" stroke-width="2.5" opacity=".9"/>
+ ${acc}
+ <ellipse cx="96" cy="100" rx="17" ry="20" fill="#fff"/><ellipse cx="144" cy="100" rx="17" ry="20" fill="#fff"/>
+ <circle cx="99" cy="104" r="9" fill="#0b1210"/><circle cx="147" cy="104" r="9" fill="#0b1210"/><circle cx="102" cy="100" r="3.5" fill="#fff"/><circle cx="150" cy="100" r="3.5" fill="#fff"/>
+ <ellipse cx="76" cy="128" rx="10" ry="6" fill="#FF5FA2" opacity=".55"/><ellipse cx="164" cy="128" rx="10" ry="6" fill="#FF5FA2" opacity=".55"/>
+ <path d="M100 128 Q120 156 140 128 Z" fill="#0b1210"/><path d="M108 140 Q120 150 132 140 Q120 134 108 140Z" fill="#FF7FA8"/>
+ ${pillEls}
+ </svg>`}
+function charCard(name,pills,planKey){return `<div class="charcard"><div class="chimg">${charSVG(name,pills,planKey)}</div><div class="chname">${esc(name)}</div><div class="chsub">ویتای اختصاصی تو</div></div>`}
 
 /* ---------------- content ---------------- */
 const SVGI=p=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
@@ -1366,7 +1494,7 @@ function result(){
    <p class="lede" style="margin-top:14px">${P.line} ${R.plan==="expert"?"":"این پلن پایه‌ی کارته و ترکیبش بر اساس پاسخ‌هات شخصی‌سازی شده."}</p>
    ${R.review?'<div class="flag bad" style="margin-top:16px"><span>این برنامه قبل از ارسال حتماً باید توسط داروساز تأیید شود.</span></div>':""}
   </div>
-  <div class="sachets" id="sachs">${sachHTML()}</div>
+  ${charCard(first,mine(),R.plan)}
  </section>
  <section class="sec reveal"><h2>پروفایل تو</h2><div class="profile">
   <div class="pf"><small>سن</small><b>${fa(S.b.age)} سال</b></div>
@@ -1375,9 +1503,9 @@ function result(){
   <div class="pf" style="grid-column:span 2"><small>هدف‌ها</small><b style="font-size:.9rem">${g.map(esc).join("، ")}</b></div>
   <div class="pf" style="grid-column:span 2"><small>دسته‌های پاسخ داده‌شده</small><b style="font-size:.9rem">${answered.join("، ")}</b></div>
  </div></section>
- <section class="sec reveal"><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="supps">
+ <section class="sec reveal"><div class="sachets" id="sachs" style="margin-bottom:20px">${sachHTML()}</div><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="supps">
   ${R.list.map((x,i)=>`<div class="supp ${S.off[x.k]?"off":""}" data-k="${x.k}" style="animation-delay:${i*70}ms"><span class="dot" style="background:${x.c};color:${x.c}"></span>
-   <div><h3>${esc(x.n)}</h3><span class="brand">برند: ${esc(CFG.brandMap[x.k]||"انتخاب داروساز")}</span><p>${esc((x.why||[]).slice(0,3).join(" · "))}</p><div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
+   <div><h3>${esc(x.n)}</h3><span class="brand">برند: ${esc(CFG.brandMap[x.k]||"انتخاب داروساز")}</span>${x.m.g?`<span class="ev" style="--ec:${GR[x.m.g][1]}">${GR[x.m.g][0]}</span>`:""}<p>${esc((x.why||[]).slice(0,3).join(" · "))}</p>${x.m.e?`<details class="evd"><summary>شواهد علمی و دوز</summary><p>${esc(x.m.e)}</p>${x.m.dose?`<p><b>دوز مرجع:</b> ${esc(x.m.dose)}${x.m.ul?` · <b>حداکثر مجاز:</b> ${esc(x.m.ul)}`:""}</p>`:""}${srcLinks(x.m.src)}</details>`:""}<div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
    <span class="t">${x.t==="am"?"صبح":"شب"}</span><button class="sw" role="switch" aria-checked="${!S.off[x.k]}" aria-label="${esc(x.n)} در پک من"></button></div>`).join("")}
  </div><p class="disc">مکمل‌ها از برندهای معتبر و دارای مجوز بازار ایران${CFG.brands.length?" مثل "+CFG.brands.join(" و "):""} انتخاب می‌شن. دوز نهایی هر مکمل پس از بازبینی داروساز و با توجه به مکمل‌های فعلی تو تعیین می‌شود.</p></section>
  <section class="sec reveal"><h2>دقیق‌ترش کن با آزمایش <span class="n">اختیاری</span></h2><p class="qhint">اگه آزمایش خون اخیر (سه ماه گذشته) داری، عددها رو وارد کن تا ترکیبت دقیق‌تر بشه.</p>
@@ -1391,8 +1519,8 @@ function result(){
   <div class="cta-row" style="margin-top:14px"><button class="btn line" id="lb-go">به‌روزرسانی ترکیب <span class="arr">${ICON.arrow}</span></button><span class="qhint" id="lb-msg"></span></div></section>
  <section class="sec reveal"><h2>نوع اشتراک</h2><div class="subs">${[["m3","اشتراک سه‌ماهه","پیشنهادی",CFG.prices.m3],["m1","یک‌ماهه","",CFG.prices.m1]].map(([k,t,tag,p])=>`<button class="sub ${S.sub===k?"on":""}" data-s="${k}">${tag?`<span class="tag2">${tag}</span>`:""}<b>${t}</b><div class="pr">${p?`روزی <span>${fa(p.toLocaleString("en-US").replace(/,/g,"٬"))}</span> تومان`:'<small>قیمت بعد از بازبینی داروساز اعلام می‌شه</small>'}</div><small>${k==="m3"?"۳ بسته‌ی ۲۸ روزه":"یک بسته‌ی ۲۸ روزه"}</small></button>`).join("")}</div></section>
  <section class="sec reveal"><h2>یادآور مصرف</h2><p class="qhint">ساشه‌ی صبح ساعت ۸ و ساشه‌ی شب ساعت ۲۲، به مدت ۲۸ روز توی تقویم گوشیت.</p><div class="cta-row" style="margin-top:12px"><button class="btn line" id="ics">افزودن به تقویم گوشی <span class="arr">${ICON.arrow}</span></button><span id="icsout"></span></div></section>
- ${R.exList.length?`<section class="sec reveal"><h2>حذف‌شده برای ایمنی تو</h2><div class="ex">${R.exList.map(x=>`<span>${esc(x.n)}<em>${esc(x.r)}</em></span>`).join("")}</div></section>`:""}
- ${R.flags.length||R.notes.length?`<section class="sec reveal"><h2>نکات ایمنی و مصرف</h2>${R.flags.map(f=>`<div class="flag ${f.bad?"bad":""}">${esc(f.t)}</div>`).join("")}${R.notes.map(n=>`<div class="flag note">${esc(n)}</div>`).join("")}</section>`:""}
+ ${R.exList.length?`<section class="sec reveal"><h2>حذف‌شده برای ایمنی تو</h2><div class="ex">${R.exList.map(x=>`<span>${esc(x.n)}<em>${esc(x.r)}</em></span>`).join("")}</div><div class="exsrc">${R.exList.filter(x=>x.s).map(x=>`<div><b>${esc(x.n)}:</b> ${esc(x.r)}${srcLinks(x.s)}</div>`).join("")}</div></section>`:""}
+ ${R.flags.length||R.notes.length?`<section class="sec reveal"><h2>نکات ایمنی و مصرف</h2>${R.flags.map(f=>`<div class="flag ${f.bad?"bad":""}"><span>${esc(f.t)}${srcLinks(f.s)}</span></div>`).join("")}${R.notes.map(n=>`<div class="flag note"><span>${esc(n.t||n)}${srcLinks(n.s)}</span></div>`).join("")}</section>`:""}
  <section class="submitbox reveal"><h2>ارسال برای بازبینی داروساز</h2><p>شماره‌ات رو وارد کن تا داروساز ویتاپلن برنامه رو بررسی کنه و برای سفارش بسته‌ی ۲۸ روزه باهات تماس بگیره.</p>
   <div class="grid2" style="margin-top:14px"><div class="field"><label for="f-ph" style="color:inherit">شماره‌ی موبایل</label><input class="inp" id="f-ph" inputmode="tel" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" value="${esc(S.phone)}"></div>
   <div class="field"><label for="f-em" style="color:inherit">ایمیل (اختیاری)</label><input class="inp" id="f-em" inputmode="email" value="${esc(S.email)}"></div></div>
@@ -1401,8 +1529,11 @@ function result(){
   ${API?`<div class="refbox"><div class="pf"><b id="ref-n">—</b><small>دوست با کدت شروع کردن</small></div><div class="pf"><b id="ref-s">—</b><small>ثبت نهایی کردن</small></div></div>`:""}<div id="storyout"></div>
   <div class="cta-row"><button class="btn lime" id="send">ثبت و ارسال <span class="arr">${ICON.arrow}</span></button><button class="ghost" id="edit" style="color:inherit;border-color:currentColor">ویرایش پاسخ‌ها</button></div>
   <div class="ok" id="ok" role="status"></div></section>
+ <p class="disc"><button class="scilink" id="sci">منابع علمی و روش ویتاپلن</button></p>
  <p class="disc">این ارزیابی بر پایه‌ی پاسخ‌های خود تو انجام شده و جایگزین تشخیص یا درمان پزشکی نیست. در صورت بیماری یا مصرف دارو، پیش از شروع هر مکمل با پزشک معالج مشورت کن.</p>`);
  d.querySelector("#edit").onclick=()=>go(()=>S.view="hub");
+ d.querySelector("#sci").onclick=science;
+ const rchar=()=>{const c=d.querySelector(".chimg");if(c)c.innerHTML=charSVG(first,mine(),R.plan)};
  d.querySelector("#cpy").onclick=async e=>{try{await navigator.clipboard.writeText(myCode());e.target.textContent="کپی شد"}catch(_){const r=document.createRange();r.selectNodeContents(d.querySelector("#mycode"));getSelection().removeAllRanges();getSelection().addRange(r)}};
  d.querySelectorAll(".sub").forEach(b=>b.onclick=()=>{S.sub=b.dataset.s;save();d.querySelectorAll(".sub").forEach(x=>x.classList.toggle("on",x===b));saveLead("completed",R,mine())});
  d.querySelector("#ics").onclick=()=>icsFile(d.querySelector("#icsout"));
@@ -1411,7 +1542,7 @@ function result(){
  d.querySelector("#lb-file")&&(d.querySelector("#lb-file").onchange=e=>uploadLab(e.target.files[0],d.querySelector("#lb-fn")));
  if(API)fetch(API+"/api/ref?code="+myCode()).then(r=>r.json()).then(j=>{if(j.ok){d.querySelector("#ref-n").textContent=fa(j.joined);d.querySelector("#ref-s").textContent=fa(j.submitted)}}).catch(()=>{});
  d.querySelector("#story").onclick=()=>storyCard(R,mine(),P,d.querySelector("#storyout"));
- d.querySelectorAll(".supp .sw").forEach(b=>b.onclick=()=>{const row=b.closest(".supp"),k=row.dataset.k;S.off[k]=!S.off[k];save();row.classList.toggle("off",!!S.off[k]);b.setAttribute("aria-checked",!S.off[k]);d.querySelector("#sachs").innerHTML=sachHTML();d.querySelector("#pc").textContent=fa(mine().length)});
+ d.querySelectorAll(".supp .sw").forEach(b=>b.onclick=()=>{const row=b.closest(".supp"),k=row.dataset.k;S.off[k]=!S.off[k];save();row.classList.toggle("off",!!S.off[k]);b.setAttribute("aria-checked",!S.off[k]);d.querySelector("#sachs").innerHTML=sachHTML();d.querySelector("#pc").textContent=fa(mine().length);rchar()});
  d.querySelector("#send").onclick=async()=>{
   const ok=d.querySelector("#ok"),ph=toEn(d.querySelector("#f-ph").value).replace(/[\s-]/g,"");
   S.phone=d.querySelector("#f-ph").value;S.email=d.querySelector("#f-em").value.trim();save();
@@ -1429,7 +1560,7 @@ if(API)fetch(API+"/health").catch(()=>{});
 function answersText(){const o={};Object.keys(S.a).forEach(k=>{const q=QBY[k];if(!q)return;const v=S.a[k];o[k]=Array.isArray(v)?v.map(i=>q.o[i]):q.o[v]});return o}
 function leadPayload(stage,R,list){const p={cid:S.cid,name:S.b.name,phone:toEn(S.phone).replace(/[\s-]/g,""),age:+S.b.age||null,sex:S.b.sex,stage,
   data:{height:+S.b.h||null,weight:+S.b.w||null,goals:(S.a.G||[]).map(i=>GOALS.o[i]),selectedCats:selCats().map(id=>CATS.find(c=>c.id===id).title),answers:answersText(),texts:S.txt}};
- if(R){p.plan=PLANS[R.plan].k;p.needsReview=R.review;Object.assign(p.data,{supplements:(list||R.list).map(x=>x.n),removedByUser:R.removedByUser||R.list.filter(x=>S.off&&S.off[x.k]).map(x=>x.n),excluded:R.exList.map(x=>x.n+" — "+x.r),flags:R.flags.map(f=>(f.bad?"[مهم] ":"")+f.t),notes:R.notes})}
+ if(R){p.plan=PLANS[R.plan].k;p.needsReview=R.review;Object.assign(p.data,{supplements:(list||R.list).map(x=>x.n),removedByUser:R.removedByUser||R.list.filter(x=>S.off&&S.off[x.k]).map(x=>x.n),excluded:R.exList.map(x=>x.n+" — "+x.r),flags:R.flags.map(f=>(f.bad?"[مهم] ":"")+f.t),notes:R.notes.map(n=>n.t||n)})}
  if(S.email)p.data.email=S.email;if(S.code)p.data.code=S.code;if(S.ref)p.data.ref=S.ref;p.data.subscription=S.sub==="m1"?"یک‌ماهه":"سه‌ماهه";
  const lb=S.labs||{};if(lb.d!==undefined)p.data.labs={"ویتامین D":lb.d,"فریتین":lb.f,"B12":lb.b,"TSH":lb.t};
  p.data.state={b:S.b,a:S.a,txt:S.txt,sel:S.sel,done:S.done,phone:S.phone,ref:S.ref,code:S.code,labs:S.labs,sub:S.sub};return p}
