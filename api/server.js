@@ -87,13 +87,22 @@ http.createServer(async (req, res) => {
       CAT = null;
       return send(res, 200, { ok: true, n: b.items.length });
     }
+    if (url.pathname === "/api/final" && req.method === "POST") {
+      if (!ADMIN_KEY || req.headers["x-admin-key"] !== ADMIN_KEY) return send(res, 401, { ok: false });
+      const b = await body(req);
+      if (typeof b.cid !== "string" || !/^[\w-]{8,64}$/.test(b.cid) || !b.final || typeof b.final !== "object") return send(res, 400, { ok: false });
+      const r = await pool.query("UPDATE leads SET data = data || jsonb_build_object('final', $2::jsonb), updated_at = now() WHERE cid = $1", [b.cid, JSON.stringify(b.final)]);
+      return send(res, 200, { ok: r.rowCount === 1 });
+    }
     if (url.pathname === "/api/catalog" && req.method === "GET") {
+      if (!ADMIN_KEY || req.headers["x-admin-key"] !== ADMIN_KEY) return send(res, 401, { ok: false });
       if (!CAT || Date.now() - CAT_AT > 3600000) {
         const r = await pool.query("SELECT src, items, updated_at FROM catalog ORDER BY src");
-        CAT = zlib.gzipSync(JSON.stringify({ ok: true, sources: r.rows.map(x => ({ src: x.src, at: x.updated_at, items: x.items })) }));
+        const SOLID = new Set(["tablet","capsule","softgel","soft","slow","sr","vegetarian","sublingual"]);
+        CAT = zlib.gzipSync(JSON.stringify({ ok: true, sources: r.rows.map(x => ({ src: x.src, at: x.updated_at, items: x.items.filter(i => SOLID.has(i[2])) })) }));
         CAT_AT = Date.now();
       }
-      res.writeHead(200, { "content-type": "application/json; charset=utf-8", "content-encoding": "gzip", "cache-control": "public, max-age=3600" });
+      res.writeHead(200, { "content-type": "application/json; charset=utf-8", "content-encoding": "gzip", "cache-control": "private, no-store" });
       return res.end(CAT);
     }
     if (url.pathname === "/api/leads" && req.method === "GET") {

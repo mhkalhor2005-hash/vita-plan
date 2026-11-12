@@ -522,6 +522,7 @@ main{padding-block:12px 150px;position:relative}
 .evd p{font-size:.8rem;margin-top:4px}
 .mkt summary{color:var(--cyan)}.mk{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:5px}.mk li{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:7px 10px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);font-size:.78rem}.mk li span{display:grid;min-width:0}.mk li b{font-weight:600;overflow-wrap:anywhere}.mk li small{color:var(--stone);font-size:.7rem;direction:ltr;text-align:right}.mk li em{font-style:normal;color:var(--lime);white-space:nowrap;font-size:.74rem}
 .mkf{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.mkf button{font:inherit;font-size:.72rem;padding:4px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.14);background:transparent;color:var(--stone);cursor:pointer}.mkf button.on{border-color:var(--lime);color:var(--lime)}.mk li em small{display:block;color:var(--stone);font-size:.66rem}.mk li a{color:var(--cyan)}.mkmore{margin-top:8px;font-size:.78rem}
+.ws{display:grid;gap:12px}.wsi{padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03)}.wsi.off{opacity:.5}.wsh{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.wse{font-size:.82rem;margin:6px 0}.wsrow{display:grid;grid-template-columns:1fr 160px;gap:8px;margin-top:8px}.wsrow select{font-size:.78rem;min-width:0}@media(max-width:600px){.wsrow{grid-template-columns:1fr}}.wscost{margin:10px 0;font-size:.9rem}.wscost b{color:var(--lime)}
 .mktsum{margin:-4px 0 14px;font-size:.84rem;color:var(--stone)}.mktsum b{color:var(--lime)}
 .srcs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .srcs a{font-size:.68rem;color:var(--cyan);border:1px solid rgba(79,227,224,.3);border-radius:8px;padding:1px 8px;text-decoration:none;font-family:var(--latin);direction:ltr}
@@ -563,7 +564,7 @@ const CFG={
  brandMap:{},           // برند هر مکمل، مثلاً {d3:"یوروویتال",omega3:"عبیدی"}
  reviews:[]             // فقط نظر واقعی: {name:"سارا",plan:"BeautyPlan",stars:5,text:"..."}
 };
-const BUILD="1794505761";
+const BUILD="1794506186";
 const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
@@ -722,97 +723,7 @@ const PLANS={
 
 /* ===== کتابخانه‌ی منابع علمی موتور ویتاپلن ===== */
 const ODS=n=>"https://ods.od.nih.gov/factsheets/"+n+"-HealthProfessional/";
-const SRC={
- odsD:["NIH ODS – Vitamin D, Fact Sheet for Health Professionals",ODS("VitaminD")],
- odsMg:["NIH ODS – Magnesium, Fact Sheet for Health Professionals",ODS("Magnesium")],
- odsFe:["NIH ODS – Iron, Fact Sheet for Health Professionals",ODS("Iron")],
- odsB12:["NIH ODS – Vitamin B12, Fact Sheet for Health Professionals",ODS("VitaminB12")],
- odsFol:["NIH ODS – Folate, Fact Sheet for Health Professionals",ODS("Folate")],
- odsZn:["NIH ODS – Zinc, Fact Sheet for Health Professionals",ODS("Zinc")],
- odsO3:["NIH ODS – Omega-3 Fatty Acids, Fact Sheet for Health Professionals",ODS("Omega3FattyAcids")],
- odsC:["NIH ODS – Vitamin C, Fact Sheet for Health Professionals",ODS("VitaminC")],
- odsCa:["NIH ODS – Calcium, Fact Sheet for Health Professionals",ODS("Calcium")],
- odsA:["NIH ODS – Vitamin A and Carotenoids, Fact Sheet for Health Professionals",ODS("VitaminA")],
- odsK:["NIH ODS – Potassium, Fact Sheet for Health Professionals",ODS("Potassium")],
- odsBio:["NIH ODS – Biotin, Fact Sheet for Health Professionals",ODS("Biotin")],
- odsCr:["NIH ODS – Chromium, Fact Sheet for Health Professionals",ODS("Chromium")],
- odsPro:["NIH ODS – Probiotics, Fact Sheet for Health Professionals",ODS("Probiotics")],
- odsAsh:["NIH ODS – Ashwagandha, Fact Sheet for Health Professionals",ODS("Ashwagandha")],
- odsVal:["NIH ODS – Valerian, Fact Sheet for Health Professionals",ODS("Valerian")],
- odsEx:["NIH ODS – Dietary Supplements for Exercise and Athletic Performance",ODS("ExerciseAndAthleticPerformance")],
- odsMVM:["NIH ODS – Multivitamin/mineral Supplements, Fact Sheet for Health Professionals",ODS("MVMS")],
- mel:["NIH NCCIH – Melatonin: What You Need To Know","https://www.nccih.nih.gov/health/melatonin-what-you-need-to-know"],
- tur:["NIH NCCIH – Turmeric","https://www.nccih.nih.gov/health/turmeric"],
- gt:["NIH NCCIH – Green Tea","https://www.nccih.nih.gov/health/green-tea"],
- q10:["NIH NCCIH – Coenzyme Q10","https://www.nccih.nih.gov/health/coenzyme-q10"],
- lt:["NIH LiverTox – Clinical and Research Information on Drug-Induced Liver Injury","https://www.ncbi.nlm.nih.gov/books/NBK547852/"],
- msd:["MSD Manual Professional – Some Possible Dietary Supplement–Medication Interactions","https://www.msdmanuals.com/professional/multimedia/table/some-possible-dietary-supplementmedication-interactions"],
- fdaBio:["FDA Safety Communication – Biotin (Vitamin B7) may interfere with lab tests","https://www.fda.gov/medical-devices/safety-communications/update-fda-warns-biotin-may-interfere-lab-tests-fda-safety-communication"],
- efsa:["EFSA (2018) – Scientific opinion on the safety of green tea catechins","https://www.efsa.europa.eu/en/efsajournal/pub/5239"],
- uspstf:["USPSTF (2023) – Folic Acid Supplementation to Prevent Neural Tube Defects","https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/folic-acid-for-the-prevention-of-neural-tube-defects-preventive-medication"],
- issn:["ISSN Position Stand (2017) – Safety and efficacy of creatine supplementation","https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0173-z"],
- pcos:["International Evidence-based Guideline for PCOS (2023)","https://www.monash.edu/medicine/mchri/pcos/guideline"],
- pmD:["Jolliffe 2025 – Vitamin D & acute respiratory infection, IPD meta-analysis (Lancet Diabetes Endocrinol)","https://pubmed.ncbi.nlm.nih.gov/39993397/"],
- pmDpe:["2024 – Vitamin D supplementation in pregnancy & preeclampsia, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/39716171/"],
- pmMg:["Mah 2021 – Oral magnesium for insomnia in older adults, systematic review & meta-analysis","https://pubmed.ncbi.nlm.nih.gov/33865376/"],
- pmMel:["De Crescenzo 2022 – Pharmacological treatments for insomnia, network meta-analysis (Lancet)","https://pubmed.ncbi.nlm.nih.gov/35843245/"],
- pmO3d:["2025 – Omega-3 for depression: dose-response meta-analysis (EPA 1–1.5 g)","https://pubmed.ncbi.nlm.nih.gov/40049535/"],
- pmO3t:["2023 – Omega-3 dose-response & triglycerides, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/37264945/"],
- pmFe:["2025 – Oral iron for iron-deficiency anaemia, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/39951396/"],
- pmFeA:["2024 – Iron supplementation in iron-deficient athletes, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/39536912/"],
- pmB12:["2022 – Metformin & vitamin B12 deficiency: supplementation, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/36240684/"],
- pmB12s:["2022 – Metformin-associated B12 deficiency: screening, systematic review","https://pubmed.ncbi.nlm.nih.gov/35440313/"],
- pmZn:["Cochrane 2024 – Zinc for the prevention and treatment of the common cold","https://pubmed.ncbi.nlm.nih.gov/38719213/"],
- pmAcne:["2023 – Dietary supplements for acne, systematic review & meta-analysis","https://pubmed.ncbi.nlm.nih.gov/37878272/"],
- pmPro:["2021 – Probiotics for antibiotic-associated diarrhoea, meta-analysis (GRADE moderate)","https://pubmed.ncbi.nlm.nih.gov/34385227/"],
- pmProE:["2022 – Probiotics for AAD in older adults, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/35794520/"],
- pmIBS:["2023 – Probiotics for IBS, strain-specific network meta-analysis","https://pubmed.ncbi.nlm.nih.gov/37541528/"],
- pmAsh:["2024 – Ashwagandha for stress & anxiety, meta-analysis (PSS, HAM-A, cortisol)","https://pubmed.ncbi.nlm.nih.gov/39348746/"],
- pmCr:["2024 – Creatine & resistance training on muscle strength, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/39519498/"],
- pmCol:["2023 – Hydrolysed collagen & skin hydration/elasticity, meta-analysis of 26 RCTs","https://pubmed.ncbi.nlm.nih.gov/37432180/"],
- pmCol2:["2021 – Oral collagen supplementation & skin ageing, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/33742704/"],
- pmIno:["Fitz 2024 – Inositol for PCOS, systematic review & meta-analysis (JCEM)","https://pubmed.ncbi.nlm.nih.gov/38163998/"],
- pmIno2:["2023 – Myo-inositol & menstrual cycle regularity in PCOS, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/36703143/"],
- pmQ10:["Tsai 2022 – Coenzyme Q10 for fatigue, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/36091835/"],
- pmQ10s:["2025 – Coenzyme Q10 for statin-associated muscle symptoms, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/41158831/"],
- pmCur:["2021 – Curcumin for knee osteoarthritis, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/34017975/"],
- pmCur2:["2022 – Curcumin for arthritis, systematic review & meta-analysis","https://pubmed.ncbi.nlm.nih.gov/35935936/"],
- pmVal:["2024 – Herbal medicines for insomnia (valerian), umbrella review","https://pubmed.ncbi.nlm.nih.gov/38359657/"],
- pmC:["2023 – Vitamin C & common cold severity, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/38082300/"],
- pmFol:["USPSTF 2023 – Folic acid for prevention of neural tube defects (JAMA)","https://pubmed.ncbi.nlm.nih.gov/37526714/"],
- pmMVM:["COSMOS 2024 – Multivitamin & memory, meta-analysis of 3 RCTs","https://pubmed.ncbi.nlm.nih.gov/38244989/"],
- pmMVM2:["USPSTF 2022 – Vitamin, mineral & multivitamin supplements for CVD & cancer (JAMA)","https://pubmed.ncbi.nlm.nih.gov/35727272/"],
- pmWhey:["2024 – Whey protein in sarcopenia, meta-analysis","https://pubmed.ncbi.nlm.nih.gov/38350303/"]
-};
-/* g: سطح شواهد برای کاربرد اصلی در ویتاپلن — A قوی، B متوسط، C محدود. dose/ul مرجع برای داروساز */
-const META={
- multi:{g:"C",dose:"یک واحد روزانه",src:["odsMVM","pmMVM2","pmMVM"],e:"برای پر کردن فاصله‌ی رژیم غذایی. USPSTF 2022: اثر قلبی‌عروقی ندارد و کاهش سرطان کوچک است؛ COSMOS 2024: بهبود جزئی حافظه در سالمندان"},
- d3:{g:"A",dose:"۱۰۰۰ تا ۲۰۰۰ واحد؛ با آزمایش تنظیم می‌شه",ul:"۴۰۰۰ واحد در روز",src:["odsD","pmD","pmDpe"],e:"اصلاح کمبود و سلامت استخوان: شواهد قوی. متاآنالیز ۲۰۲۵ (Lancet Diabetes Endocrinol) برای پیشگیری از عفونت تنفسی اثر معنادار نشون نداد (OR ۰٫۹۴، ۰٫۸۸ تا ۱٫۰۰)، پس فقط برای «ایمنی» پیشنهاد نمی‌شه"},
- omega3:{g:"B",dose:"قلب و تری‌گلیسرید: ۱ تا ۲ گرم EPA+DHA · خلق: ۱ تا ۱٫۵ گرم با غلبه‌ی EPA",src:["odsO3","pmO3t","pmO3d"],e:"تری‌گلیسرید: کاهش تقریباً خطی با دوز، بیشترین اثر بالای ۲ گرم. افسردگی: اثر کوچک (SMD ‎−۰٫۲۶) با EPA ۱ تا ۱٫۵ گرم و نسبت EPA:DHA بین ۱:۱ تا ۲:۱ در ۸ هفته"},
- mg:{g:"B",dose:"۲۰۰ تا ۳۵۰ میلی‌گرم",ul:"۳۵۰ میلی‌گرم از مکمل",src:["odsMg","pmMg"],e:"اصلاح کمبود: شواهد خوب. خواب: حدود ۱۷ دقیقه زودتر به خواب رفتن در ۳ کارآزمایی کوچک با کیفیت پایین"},
- bcomplex:{g:"C",dose:"یک واحد روزانه",src:["odsB12"],e:"فقط در کمبود یا نیاز بالاتر مؤثره"},
- b12:{g:"A",dose:"۲۵۰ تا ۱۰۰۰ میکروگرم",src:["odsB12","pmB12","pmB12s"],e:"گیاه‌خواری، داروهای ضداسید و کمبود ثابت‌شده. متفورمین: متاآنالیزها غربالگری و مکمل B12 رو توصیه می‌کنن"},
- iron:{g:"A",dose:"بر اساس فریتین و تصمیم داروساز",ul:"۴۵ میلی‌گرم (بدون نظارت پزشک)",src:["odsFe","pmFe","pmFeA"],e:"کم‌خونی فقر آهن: افزایش هموگلوبین حدود ۲ گرم در دسی‌لیتر، بهترین پاسخ در ۳ ماه اول. ورزشکاران با کمبود آهن: بهبود ذخایر و عملکرد"},
- folic:{g:"A",dose:"۴۰۰ تا ۸۰۰ میکروگرم",ul:"۱۰۰۰ میکروگرم اسید فولیک",src:["pmFol","uspstf","odsFol"],e:"پیشگیری از نقص لوله‌ی عصبی در زنان در سن باروری؛ توصیه‌ی سطح A از USPSTF 2023"},
- coq10:{g:"B",dose:"۱۰۰ تا ۲۰۰ میلی‌گرم همراه غذای چرب",src:["q10","pmQ10","pmQ10s"],e:"خستگی: اثر متوسط و وابسته به دوز (g ‎−۰٫۴). علائم عضلانی ناشی از استاتین: کاهش درد در متاآنالیز ۲۰۲۵"},
- vitc:{g:"B",dose:"۲۵۰ تا ۵۰۰ میلی‌گرم",ul:"۲۰۰۰ میلی‌گرم",src:["odsC","pmC"],e:"مصرف منظم شدت سرماخوردگی رو حدود ۱۵٪ کم می‌کنه؛ نیاز بالاتر در افراد سیگاری"},
- zinc:{g:"B",dose:"۸ تا ۱۵ میلی‌گرم",ul:"۴۰ میلی‌گرم",src:["odsZn","pmZn","pmAcne"],e:"نقش در ایمنی و پوست؛ کاکرین ۲۰۲۴ (۳۴ کارآزمایی) شواهد کم‌قطعیت برای سرماخوردگی. در آکنه عوارض گوارشی گزارش شده، پس دوز پایین"},
- probiotic:{g:"B",dose:"سویه‌ی مشخص، طبق محصول",src:["odsPro","pmPro","pmProE","pmIBS"],e:"اسهال ناشی از آنتی‌بیوتیک: کاهش ۳۷٪ (RR ۰٫۶۳، کیفیت متوسط)، بهتر با شروع زودهنگام. IBS: اثر کاملاً وابسته به سویه"},
- enzyme:{g:"C",dose:"همراه غذا",src:[],e:"شواهد محدود"},
- biotin:{g:"C",dose:"۳۰ میکروگرم تا دوز پایین",src:["odsBio","fdaBio"],e:"متاآنالیزی برای مو و ناخن در افراد بدون کمبود پیدا نشد؛ دوز بالا جواب آزمایش‌ها (تیروئید، تروپونین) رو خراب می‌کنه"},
- collagen:{g:"B",dose:"۲٫۵ تا ۱۰ گرم کلاژن هیدرولیز، حداقل ۹۰ روز",src:["pmCol","pmCol2"],e:"متاآنالیز ۲۶ کارآزمایی (۱۷۲۱ نفر): بهبود رطوبت و خاصیت ارتجاعی پوست؛ کاهش چین‌وچروک بعد از ۹۰ روز"},
- calcium:{g:"A",dose:"۵۰۰ میلی‌گرم یا کمتر در هر نوبت",ul:"۲۵۰۰ میلی‌گرم (۱۹ تا ۵۰ سال)",src:["odsCa"],e:"وقتی دریافت غذایی کمه، برای استخوان شواهد قوی"},
- herbal:{g:"C",dose:"طبق محصول",src:["pmVal","odsVal"],e:"مرور چتری ۲۰۲۴: سنبل‌الطیب برای بی‌خوابی اثر ثابت‌شده نداره؛ فقط وقتی خودت ترکیب گیاهی بخوای پیشنهاد می‌شه"},
- melatonin:{g:"B",dose:"۰٫۵ تا ۳ میلی‌گرم",src:["mel","pmMel"],e:"کوتاه کردن زمان به خواب رفتن و جت‌لگ؛ در متاآنالیز شبکه‌ای Lancet 2022 اثرش از داروهای خواب کمتره ولی عوارضش هم کمتر"},
- ashwa:{g:"B",dose:"۲۵۰ تا ۶۰۰ میلی‌گرم عصاره",src:["odsAsh","pmAsh","lt"],e:"متاآنالیز ۲۰۲۴: کاهش نمره‌ی استرس (PSS ‎−۴٫۷)، اضطراب و کورتیزول؛ گزارش‌های نادر آسیب کبدی"},
- creatine:{g:"A",dose:"۳ تا ۵ گرم",src:["issn","odsEx","pmCr"],e:"همراه تمرین مقاومتی: حدود ۴٫۴ کیلو قدرت بیشتر بالاتنه و ۱۱ کیلو پایین‌تنه؛ مؤثرترین مکمل ورزشی"},
- protein:{g:"B",dose:"بر اساس وزن و تمرین",src:["odsEx","pmWhey"],e:"کمک به رسیدن به پروتئین روزانه؛ پروتئین وی در سارکوپنی (کاهش عضله با سن) مؤثر بوده"},
- electro:{g:"C",dose:"در تمرین طولانی و تعریق زیاد",src:["odsEx"],e:"فقط در تعریق شدید"},
- inositol:{g:"C",dose:"۲ تا ۴ گرم میو-اینوزیتول",src:["pcos","pmIno","pmIno2"],e:"PCOS: متاآنالیز JCEM 2024 شواهد رو محدود و نامطمئن دونست؛ یک متاآنالیز دیگه بهبود نظم قاعدگی (RR ۱٫۷۹) دیده"},
- chromium:{g:"C",dose:"۲۰۰ میکروگرم",src:["odsCr"],e:"اثر کوچک و نامطمئن روی وزن و قند"},
- greentea:{g:"C",dose:"—",src:["gt","efsa"],e:"اثر ناچیز روی وزن؛ عصاره‌ی غلیظ خطر آسیب کبدی داره"},
- curcumin:{g:"B",dose:"فرم با جذب بالا (مثل نانوکورکومین)، طبق محصول",src:["tur","pmCur","pmCur2","lt"],e:"آرتروز زانو: کاهش درد و بهبود عملکرد با عوارض مشابه دارونما؛ کیفیت کارآزمایی‌ها متوسط. گزارش‌های نادر آسیب کبدی"}
-};
+const SRC={},META={};
 const GR={A:["شواهد قوی","var(--lime)"],B:["شواهد متوسط","var(--cyan)"],C:["شواهد محدود","var(--warn)"]};
 function compute(S){
  const A=S.a, sc={}, why={}, ex={}, flags=[], notes=[];
@@ -1116,13 +1027,13 @@ async function storyCard(R,list,P,out,withChar=true){
 }
 
 /* ---------------- science ---------------- */
-const CATALOG={src:"داروکده و مثبت سبز",date:"آبان ۱۴۰۵",p:{"d3":[["ویتامین د3 تهران دارو ۲۰۰۰ واحد","Tehran Darou","softgel",43600],["ویتامین د3 او پی دی فارما ۲۰۰۰ واحد","OPD Pharma","softgel",95700],["دی‌ویژل دانا ۱۰۰۰ واحد","Daana","softgel",184800],["ویتامین د3 کیمیاگر طوس ۲۰۰۰ واحد","Kimiagar Toos","softgel",298000]],"mg":[["منیزیم ۲۵۰ میلی‌گرم کارن","Karen","effervescent",187000],["منیزیم و ویتامین B6 گلوک ویت","Gluck Vit","tablet",412500],["منیزیم دایرکت","Health And More","sachet",486000],["مگنیفورت","Arian Salamat Sina","capsule",642400]],"omega3":[["مگا امگا باریویتال","Barivital","softgel",360000],["امگا ۳ ریچ فورمولا ۵۰۰","Rich Formula","softgel",422400],["امگا ۳ جالینوس ۵۰۰","Jalinous","softgel",745800],["امگا ۳ گلدن سیز کارن","Karen","softgel",814000],["امگا ۳ یوروویتال","Eurho Vital","softgel",990000]],"b12":[["ویتامین B12 آپوویتال ۵۰۰ میکروگرم","Apovital","tablet",244200],["ویتامین B12 های هلث ۱۰۰۰ میکروگرم","Hi Health","tablet",283800],["B12 لیپوزومال کیور ساپورت","Cure Support","oral",385000],["ویتامین B12 نیچرز پلنتی ۵۰۰","Natures Plenty","tablet",419100],["ویتامین B12 مگنوم ۱۰۰۰","Magnum Vitamins","tablet",580000]],"bcomplex":[["ب کمپلکس داروپخش","Darou Pakhsh","tablet",104500],["B1+B6+B12 نوراپاد","Nutri Pad","tablet",110000],["ربیون نوتریتریس","Nutritrace","tablet",380000],["ب کمپلکس آنتی‌ایجینگ","Antiaging","softgel",491600]],"iron":[["فروس سولفات ۵۰ میلی‌گرم رزاویت","RozaVit","tablet",50000],["فروس فومارات الحاوی","Alhavi","tablet",149600],["آیرون بیس‌گلیسینات هلث اید","Health Aid","tablet",463400],["فرورال گلدن لایف","Golden Life","tablet",623200],["سیدرال","Pharmanutra","capsule",1650000]],"folic":[["ید و فولیک اسید امی ویتال","Ami Vital","tablet",92400],["اسید فولیک ۸۰۰ میکروگرم آپوویتال","Apovital","tablet",108900],["فولیک اسید و ید او پی دی","OPD Pharma","tablet",181500],["فولیک اسید ۱ میلی‌گرم جالینوس","Jalinous","tablet",270000],["روفولیک رگولار عبیدی","Abidi","tablet",379500]],"zinc":[["زینک پلاس گلدن اسکور","Golden Score","tablet",129000],["زینک دینه","Dineh","tablet",182000],["زینک گلوکونات ۳۵ میلی‌گرم آلفا","Alfa Vitamins","tablet",314100],["زینک مگنوم","Magnum Vitamins","tablet",400000]],"vitc":[["ویتامین C جوشان اسوه","Osve","effervescent",93500],["ویتامین C ۱۰۰۰ هلثی‌مین","Healthimin","effervescent",264000],["ویتامین C ۱۰۰۰ لایف‌پلن","LifePlan","effervescent",319000],["ویتاسین (C + زینک)","Sina Pishgam Darou","effervescent",352000]],"calcium":[["کلسیم و ویتامین D جوشان اسوه","Osve","effervescent",84700],["کلسیم ۵۰۰ جوشان نیچرز پلنتی","Natures Plenty","effervescent",283900],["کلسیم سیترات آلفا","Alfa Vitamins","tablet",528000],["کلسی‌هیل","X Mart","tablet",782500]],"biotin":[["بیوتین ۱۰۰۰ میکروگرم هلث اید","Health Aid","capsule",218300],["بیوتین ۱۰۰۰ رزاویت","RozaVit","tablet",228100],["بیوتین ۲۵۰۰ آپوویتال","Apovital","tablet",385000],["بیوتین ۲۵۰۰ حکیم","Hakim Pharmaceutical","tablet",435600]],"collagen":[["کلارینک کلاژن پلاس","simorgh darou Attar","capsule",373000],["کلاژن زینک دانا","Daana","tablet",455400],["کلاژن و ویتامین C مای نوتریشن","My Nutrition","capsule",1087500],["کلاژن سمانیک","Samanik","sachet",1980000]],"coq10":[["کوآنزیم Q10 دانا ۳۰ میلی‌گرم","Daana","softgel",253800],["کوآنزیم Q10 ویتاول ۳۰","Vitawell","tablet",283800],["کیوتن ۳۰ پلاس نوتریفورت","Nutrifort","softgel",873700],["کیوتن پلاس سلنیوم نوتراکس","Nutrax","capsule",1287000],["کیوسنت","Arvand Pharmed","softgel",1848000]],"creatine":[["کراتین مونوهیدرات QNT ۲۰۰ گرم","QNT","powder",2140000],["کراتین مونوهیدرات فانتوم ۳۰۰ گرم","Phantom Nutrition","powder",2409500],["کراتین مونوهیدرات دوبیس ۳۰۰ گرم","Doobis","powder",3600000]],"curcumin":[["کورکوما دینه","Dineh","tablet",400000],["سیناکورکومین ۴۰ میلی‌گرم","Exir Nano Sina","softgel",400000],["کورکوژل","Daru vira iranian","softgel",540000],["کورکومکس هلث اید","Health Aid","capsule",600000]],"probiotic":[["پروفلور","Gostaresh Milad Pharmed","capsule",190000],["لاکتوگام","Zist Takhmir","lozenges",200000],["پایلوشات","BSK","capsule",420000],["لاکتول","Natures Only","tablet",1061500]],"melatonin":[["ملاتونین ۳ میلی‌گرم جالینوس","Jalinous","tablet",39600],["واناتونین ۳ میلی‌گرم","Norm Life","oral",198000],["ملاتونین ویتاول","Vitawell","tablet",283800],["ملاتونین ۳ اکسیر آفرین آریا","Exir Afarin Arya","tablet",480000]],"ashwa":[["آشواگاندا یوروویتال","Eurho Vital","capsule",858000],["آشواگاندا و فلفل سیاه امیتیس","Amitis Nik Darou","capsule",1650000]],"herbal":[["شربت سنبل‌الطیب زردبند","Zardband","syrup",420000]],"enzyme":[["دایجسترانگ","Sinafaravar","tablet",347000],["پرومینتا پلاس دایجست","Prominta Plus","softgel",384000],["دایجستیو اید گلدن لایف","Golden Life","tablet",1200000]],"chromium":[["کروم پلاس B3 آپوویتال","Apovital","tablet",244200],["کروم ۲۰۰ هلث اید","Health Aid","tablet",298100],["کروم ۲۰۰ مای متا","My Meta","tablet",422400]],"multiW":[["وان دیلی بانوان سان نچرال","Sun Natural","tablet",762300],["اکتی ومن","Abian Darou","tablet",808500],["کامپلیت وومن","Health Vault","tablet",990000]],"multiM":[["ویتاتنس ام","Ramona","tablet",522000],["منز کامپلیت","Bronson","tablet",561000],["مولتی ویتامین آقایان ویتاگیت","Vitagate","tablet",858000],["انرژکس گلدن لایف","Golden Life","tablet",1200000]],"multiP":[["مولتی پریناتال سیمرغ","simorgh darou Attar","tablet",126000],["مولتی پریناتال ویتاول","Vitawell","tablet",257400],["پرگویت پلاس","Vitane","tablet",660000],["پرناتال و DHA مای نوتریشن","My Nutrition","tablet",912600]]},st:{"ashwa":[3,5,3,858000,1650000,1650000,2,1],"b12":[40,97,31,110000,506000,770000,26,14],"bcomplex":[91,190,57,104500,550000,1545500,58,33],"biotin":[37,138,27,218300,382800,1980000,25,12],"calcium":[177,502,118,35600,528000,2967600,115,62],"chromium":[32,59,25,154000,450000,704900,19,13],"collagen":[107,197,66,320500,1914000,10800000,53,54],"coq10":[48,154,37,253800,895800,2134000,29,19],"creatine":[55,251,34,1135000,3250000,14550000,16,39],"curcumin":[10,26,10,103700,400000,600000,6,4],"d3":[101,296,65,43600,267300,2990700,59,42],"electro":[14,21,9,149100,396000,1950000,9,5],"enzyme":[8,19,8,347000,750000,1200000,6,2],"folic":[63,151,49,92400,320000,2706000,34,29],"greentea":[3,10,3,19000,2458900,2459000,1,2],"herbal":[5,11,4,230000,400000,420000,4,1],"inositol":[5,17,5,1020100,1100000,2500000,2,3],"iron":[143,458,106,50000,670500,9998000,75,68],"melatonin":[66,133,41,26400,341000,1210000,38,28],"mg":[172,285,101,159000,577500,1965500,109,63],"multi":[144,609,99,132000,812500,2640000,83,61],"multiM":[44,105,34,210000,996600,1869200,23,21],"multiP":[57,180,49,126000,954800,2550000,31,26],"multiW":[59,142,47,42500,990000,3800000,42,17],"omega3":[113,369,84,51000,910000,3168000,61,52],"probiotic":[38,103,18,54000,450000,1287000,20,18],"protein":[209,790,67,132000,8391200,33071600,90,119],"vitc":[111,367,69,39000,319000,2676000,70,41],"zinc":[105,492,65,98100,531300,1423600,58,47]}};
+const CATALOG={src:"",date:"",p:{},st:{}};
 const FORMFA={slow:"قرص آهسته‌رهش",sr:"قرص آهسته‌رهش",soft:"سافت‌ژل",drops:"قطره",sublingual:"زیرزبانی",vegetarian:"کپسول گیاهی",stick:"ساشه",other:"",unknown:"",tablet:"قرص",softgel:"سافت‌ژل",capsule:"کپسول",effervescent:"جوشان",sachet:"ساشه",powder:"پودر",syrup:"شربت",oral:"محلول خوراکی",chewable:"جویدنی",lozenges:"قرص مکیدنی",gummy:"پاستیل",shot:"شات",drink:"نوشیدنی"};
 function catKey(k){if(k!=="multi")return k;const preg=S.b.sex==="f"&&(hasAns("CL04",0)||hasAns("CL04",1));return preg?"multiP":S.b.sex==="f"?"multiW":"multiM"}
 function hasAns(id,i){const v=S.a[id];return Array.isArray(v)?v.includes(i):v===i}
 const tmn=n=>n>=1e6?fa((Math.round(n/1e5)/10).toString()).replace(".","٫")+" میلیون تومان":fa(Math.round(n/1000))+" هزار تومان";
 let LIVE=null,LIVEp=null;
-function liveCat(){if(LIVE||!API)return Promise.resolve(LIVE);if(!LIVEp)LIVEp=fetch(API+"/api/catalog").then(r=>r.json()).then(j=>{const out={};j.sources.forEach(sr=>sr.items.forEach(x=>{const tags=(x[5]||"").split(",");tags.forEach((t,ti)=>{if(!t)return;(out[t]=out[t]||[]).push({n:x[0],b:x[1],f:x[2],o:+x[3],s:x[4],ds:x[6],q:x[7],kid:x[8],u:(sr.src==="darukade"?"https://www.darukade.com":"https://mosbatesabz.com")+x[9],src:sr.src,combo:ti>0})})}));LIVE=out;return out}).catch(()=>null);return LIVEp}
+function liveCat(){if(LIVE||!API)return Promise.resolve(LIVE);if(!LIVEp)LIVEp=fetch(API+"/api/catalog",{headers:{"x-admin-key":adminKey()}}).then(r=>r.json()).then(j=>{const out={};j.sources.forEach(sr=>sr.items.forEach(x=>{const tags=(x[5]||"").split(",");tags.forEach((t,ti)=>{if(!t)return;(out[t]=out[t]||[]).push({n:x[0],b:x[1],f:x[2],o:+x[3],s:x[4],ds:x[6],q:x[7],kid:x[8],u:(sr.src==="darukade"?"https://www.darukade.com":"https://mosbatesabz.com")+x[9],src:sr.src,combo:ti>0})})}));LIVE=out;return out}).catch(()=>null);return LIVEp}
 const SRCFA={darukade:"داروکده",mosbatesabz:"مثبت سبز"};
 function mktItem(x){const unit=x.q&&x.q>1&&x.o?` · هر عدد ${fa(Math.round(x.o/x.q).toLocaleString("en-US")).replace(/,/g,"٬")} ت`:"";return `<li data-f="${esc(x.f)}" data-c="${x.combo?1:0}"><span><b>${esc(x.n)}</b><small>${esc(x.b||"")}${FORMFA[x.f]?" · "+FORMFA[x.f]:""}${x.ds?" · "+esc(x.ds):""} · <a href="${esc(x.u)}" target="_blank" rel="noopener">${SRCFA[x.src]||""}</a></small></span><em>${x.o?tmn(x.o):"—"}<small>${unit}</small></em></li>`}
 function mktFill(det,k){const box=det.querySelector(".mkbox");if(box.dataset.done)return;box.dataset.done=1;box.innerHTML='<p class="qhint">در حال بارگذاری فهرست کامل…</p>';
@@ -1560,9 +1471,9 @@ function result(){
   <div class="pf" style="grid-column:span 2"><small>هدف‌ها</small><b style="font-size:.9rem">${g.map(esc).join("، ")}</b></div>
   <div class="pf" style="grid-column:span 2"><small>دسته‌های پاسخ داده‌شده</small><b style="font-size:.9rem">${answered.join("، ")}</b></div>
  </div></section>
- <section class="sec reveal"><div class="sachets" id="sachs" style="margin-bottom:20px">${sachHTML()}</div><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="mktsum" id="mkt"></div><div class="supps">
+ <section class="sec reveal"><div class="sachets" id="sachs" style="margin-bottom:20px">${sachHTML()}</div><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="supps">
   ${R.list.map((x,i)=>`<div class="supp ${S.off[x.k]?"off":""}" data-k="${x.k}" style="animation-delay:${i*70}ms"><span class="dot" style="background:${x.c};color:${x.c}"></span>
-   <div><h3>${esc(x.n)}</h3><span class="brand">برند: ${esc(CFG.brandMap[x.k]||"انتخاب داروساز از برندهای موجود")}</span>${x.m.g?`<span class="ev" style="--ec:${GR[x.m.g][1]}">${GR[x.m.g][0]}</span>`:""}<p>${esc((x.why||[]).slice(0,3).join(" · "))}</p>${x.m.e?`<details class="evd"><summary>شواهد علمی و دوز</summary><p>${esc(x.m.e)}</p>${x.m.dose?`<p><b>دوز مرجع:</b> ${esc(x.m.dose)}${x.m.ul?` · <b>حداکثر مجاز:</b> ${esc(x.m.ul)}`:""}</p>`:""}${srcLinks(x.m.src)}</details>`:""}${mktHTML(x.k)}<div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
+   <div><h3>${esc(x.n)}</h3><p>${esc((x.why||[]).slice(0,3).join(" · "))}</p><div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
    <span class="t">${x.t==="am"?"صبح":"شب"}</span><button class="sw" role="switch" aria-checked="${!S.off[x.k]}" aria-label="${esc(x.n)} در پک من"></button></div>`).join("")}
  </div><p class="disc">مکمل‌ها از برندهای معتبر و دارای مجوز بازار ایران${CFG.brands.length?" مثل "+CFG.brands.join(" و "):""} انتخاب می‌شن. دوز نهایی هر مکمل پس از بازبینی داروساز و با توجه به مکمل‌های فعلی تو تعیین می‌شود.</p></section>
  <section class="sec reveal"><h2>دقیق‌ترش کن با آزمایش <span class="n">اختیاری</span></h2><p class="qhint">اگه آزمایش خون اخیر (سه ماه گذشته) داری، عددها رو وارد کن تا ترکیبت دقیق‌تر بشه.</p>
@@ -1576,7 +1487,7 @@ function result(){
   <div class="cta-row" style="margin-top:14px"><button class="btn line" id="lb-go">به‌روزرسانی ترکیب <span class="arr">${ICON.arrow}</span></button><span class="qhint" id="lb-msg"></span></div></section>
  <section class="sec reveal"><h2>نوع اشتراک</h2><div class="subs">${[["m3","اشتراک سه‌ماهه","پیشنهادی",CFG.prices.m3],["m1","یک‌ماهه","",CFG.prices.m1]].map(([k,t,tag,p])=>`<button class="sub ${S.sub===k?"on":""}" data-s="${k}">${tag?`<span class="tag2">${tag}</span>`:""}<b>${t}</b><div class="pr">${p?`روزی <span>${fa(p.toLocaleString("en-US").replace(/,/g,"٬"))}</span> تومان`:'<small>قیمت بعد از بازبینی داروساز اعلام می‌شه</small>'}</div><small>${k==="m3"?"۳ بسته‌ی ۲۸ روزه":"یک بسته‌ی ۲۸ روزه"}</small></button>`).join("")}</div></section>
  <section class="sec reveal"><h2>یادآور مصرف</h2><p class="qhint">ساشه‌ی صبح ساعت ۸ و ساشه‌ی شب ساعت ۲۲، به مدت ۲۸ روز توی تقویم گوشیت.</p><div class="cta-row" style="margin-top:12px"><button class="btn line" id="ics">افزودن به تقویم گوشی <span class="arr">${ICON.arrow}</span></button><span id="icsout"></span></div></section>
- ${R.exList.length?`<section class="sec reveal"><h2>حذف‌شده برای ایمنی تو</h2><div class="ex">${R.exList.map(x=>`<span>${esc(x.n)}<em>${esc(x.r)}</em></span>`).join("")}</div><div class="exsrc">${R.exList.filter(x=>x.s).map(x=>`<div><b>${esc(x.n)}:</b> ${esc(x.r)}${srcLinks(x.s)}</div>`).join("")}</div></section>`:""}
+ ${R.exList.length?`<section class="sec reveal"><h2>حذف‌شده برای ایمنی تو</h2><div class="ex">${R.exList.map(x=>`<span>${esc(x.n)}<em>${esc(x.r)}</em></span>`).join("")}</div></section>`:""}
  ${R.flags.length||R.notes.length?`<section class="sec reveal"><h2>نکات ایمنی و مصرف</h2>${R.flags.map(f=>`<div class="flag ${f.bad?"bad":""}"><span>${esc(f.t)}${srcLinks(f.s)}</span></div>`).join("")}${R.notes.map(n=>`<div class="flag note"><span>${esc(n.t||n)}${srcLinks(n.s)}</span></div>`).join("")}</section>`:""}
  <section class="submitbox reveal"><h2>ارسال برای بازبینی داروساز</h2><p>شماره‌ات رو وارد کن تا داروساز ویتاپلن برنامه رو بررسی کنه و برای سفارش بسته‌ی ۲۸ روزه باهات تماس بگیره.</p>
   <div class="grid2" style="margin-top:14px"><div class="field"><label for="f-ph" style="color:inherit">شماره‌ی موبایل</label><input class="inp" id="f-ph" inputmode="tel" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" value="${esc(S.phone)}"></div>
@@ -1586,10 +1497,8 @@ function result(){
   ${API?`<div class="refbox"><div class="pf"><b id="ref-n">—</b><small>دوست با کدت شروع کردن</small></div><div class="pf"><b id="ref-s">—</b><small>ثبت نهایی کردن</small></div></div>`:""}<div id="storyout"></div>
   <div class="cta-row"><button class="btn lime" id="send">ثبت و ارسال <span class="arr">${ICON.arrow}</span></button><button class="ghost" id="edit" style="color:inherit;border-color:currentColor">ویرایش پاسخ‌ها</button></div>
   <div class="ok" id="ok" role="status"></div></section>
- <p class="disc"><button class="scilink" id="sci">منابع علمی و روش ویتاپلن</button></p>
  <p class="disc">این ارزیابی بر پایه‌ی پاسخ‌های خود تو انجام شده و جایگزین تشخیص یا درمان پزشکی نیست. در صورت بیماری یا مصرف دارو، پیش از شروع هر مکمل با پزشک معالج مشورت کن.</p>`);
  d.querySelector("#edit").onclick=()=>go(()=>S.view="hub");
- d.querySelector("#sci").onclick=science;
  const rchar=()=>{const c=d.querySelector(".chimg");if(c)c.innerHTML=charSVG(first,mine(),R.plan)};
  d.querySelector("#cpy").onclick=async e=>{try{await navigator.clipboard.writeText(myCode());e.target.textContent="کپی شد"}catch(_){const r=document.createRange();r.selectNodeContents(d.querySelector("#mycode"));getSelection().removeAllRanges();getSelection().addRange(r)}};
  d.querySelectorAll(".sub").forEach(b=>b.onclick=()=>{S.sub=b.dataset.s;save();d.querySelectorAll(".sub").forEach(x=>x.classList.toggle("on",x===b));saveLead("completed",R,mine())});
@@ -1599,7 +1508,7 @@ function result(){
  d.querySelector("#lb-file")&&(d.querySelector("#lb-file").onchange=e=>uploadLab(e.target.files[0],d.querySelector("#lb-fn")));
  if(API)fetch(API+"/api/ref?code="+myCode()).then(r=>r.json()).then(j=>{if(j.ok){d.querySelector("#ref-n").textContent=fa(j.joined);d.querySelector("#ref-s").textContent=fa(j.submitted)}}).catch(()=>{});
  d.querySelector("#story").onclick=()=>storyCard(R,mine(),P,d.querySelector("#storyout"));
- d.querySelectorAll(".supp .sw").forEach(b=>b.onclick=()=>{const row=b.closest(".supp"),k=row.dataset.k;S.off[k]=!S.off[k];save();row.classList.toggle("off",!!S.off[k]);b.setAttribute("aria-checked",!S.off[k]);d.querySelector("#sachs").innerHTML=sachHTML();d.querySelector("#pc").textContent=fa(mine().length);mktUpd();rchar()});mktUpd();d.querySelectorAll("details.mkt[data-mk]").forEach(dt=>dt.addEventListener("toggle",()=>{if(dt.open)mktFill(dt,dt.dataset.mk)}));
+ d.querySelectorAll(".supp .sw").forEach(b=>b.onclick=()=>{const row=b.closest(".supp"),k=row.dataset.k;S.off[k]=!S.off[k];save();row.classList.toggle("off",!!S.off[k]);b.setAttribute("aria-checked",!S.off[k]);d.querySelector("#sachs").innerHTML=sachHTML();d.querySelector("#pc").textContent=fa(mine().length);mktUpd();rchar()});mktUpd();
  d.querySelector("#send").onclick=async()=>{
   const ok=d.querySelector("#ok"),ph=toEn(d.querySelector("#f-ph").value).replace(/[\s-]/g,"");
   S.phone=d.querySelector("#f-ph").value;S.email=d.querySelector("#f-em").value.trim();save();
@@ -1677,6 +1586,42 @@ function admin(){
  })();
  return d;
 }
+/* ---------------- private knowledge base (admin only) ---------------- */
+const SOLID=new Set(["tablet","capsule","softgel","soft","slow","sr","vegetarian","sublingual"]);
+let KBOK=Object.keys(META).length>0;
+async function loadKB(key){if(KBOK)return true;try{const j=await (await fetch("kb.bin?"+Date.now())).json();const b=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0));
+ const km=await crypto.subtle.importKey("raw",new TextEncoder().encode(key),"PBKDF2",false,["deriveKey"]);
+ const k=await crypto.subtle.deriveKey({name:"PBKDF2",salt:b(j.s),iterations:j.i,hash:"SHA-256"},km,{name:"AES-GCM",length:256},false,["decrypt"]);
+ const pt=JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:b(j.iv)},k,b(j.ct))));
+ Object.assign(SRC,pt.SRC);Object.assign(META,pt.META);Object.assign(CATALOG,pt.CATALOG);KBOK=true;return true}catch(e){return false}}
+function adminKey(){try{return localStorage.getItem("vp-admin")||""}catch(e){return""}}
+async function workspace(r,host){
+ host.innerHTML='<p class="qhint">در حال آماده‌سازی میز کار داروساز…</p>';
+ if(!r.state){host.innerHTML='<p class="qhint">این پاسخ قبل از نسخه‌ی جدید ثبت شده و اطلاعات کامل برای محاسبه‌ی دوباره نداره.</p>';return}
+ if(API&&!await loadKB(adminKey())){host.innerHTML='<p class="qhint">بانک شواهد باز نشد؛ رمز پنل رو دوباره وارد کن.</p>';return}
+ const old=S;let R0,keyOf={};try{S=Object.assign(blank(),r.state,{labs:r.state.labs||{}});R0=compute(S);R0.list.forEach(x=>keyOf[x.k]=catKey(x.k))}finally{S=old}
+ const L=await liveCat();const F=r.final||{items:{}};F.items=F.items||{};
+ const custOff=new Set(r.removedByUser||[]);
+ const prods=k=>((L&&L[keyOf[k]])||[]).filter(p=>p.s&&p.o&&!p.kid&&SOLID.has(p.f)).sort((a,b)=>(a.combo-b.combo)||(a.o-b.o));
+ const P={};R0.list.forEach(x=>P[x.k]=prods(x.k));
+ const opt=(x,i)=>`<option value="${i}">${esc(x.n)} — ${esc(x.b||"")} · ${FORMFA[x.f]||x.f}${x.combo?" · ترکیبی":""} · ${x.o?tmn(x.o):""} · ${SRCFA[x.src]||""}</option>`;
+ host.innerHTML=`<div class="ws">${R0.list.map(x=>{const m=META[x.k]||{},f=F.items[x.k]||{},on=f.on!=null?f.on:!custOff.has(x.n);
+  return `<div class="wsi ${on?"":"off"}" data-k="${x.k}"><div class="wsh"><label><input type="checkbox" class="won" ${on?"checked":""}> <b>${esc(x.n)}</b></label><span class="qhint">امتیاز ${fa(x.s)}${custOff.has(x.n)?" · مشتری خاموشش کرده":""}</span>${m.g?`<span class="ev" style="--ec:${GR[m.g][1]}">${GR[m.g][0]}</span>`:""}</div>
+  <p class="qhint">دلیل: ${esc((x.why||[]).join(" · "))}</p>${m.e?`<p class="wse">${esc(m.e)}</p>`:""}<p class="qhint">${m.dose?"دوز مرجع: "+esc(m.dose):""}${m.ul?" · حداکثر: "+esc(m.ul):""}</p>${srcLinks(m.src)}
+  <div class="wsrow"><select class="inp wprod"><option value="">${P[x.k].length?"انتخاب محصول ("+fa(P[x.k].length)+" قرص/کپسول موجود)":"محصول قرص/کپسول موجود نیست"}</option>${P[x.k].map(opt).join("")}</select><input class="inp wdose" placeholder="دوز نهایی" value="${esc(f.dose||"")}"></div></div>`}).join("")}
+  ${R0.exList.length?`<div class="sec"><h2 style="font-size:1rem">حذف‌شده توسط موتور</h2>${R0.exList.map(x=>`<div class="qa"><b>${esc(x.n)}:</b> ${esc(x.r)}${srcLinks(x.s)}</div>`).join("")}</div>`:""}
+  ${R0.flags.length||R0.notes.length?`<div class="sec"><h2 style="font-size:1rem">هشدارها و نکات</h2>${R0.flags.map(f=>`<div class="flag ${f.bad?"bad":""}"><span>${esc(f.t)}${srcLinks(f.s)}</span></div>`).join("")}${R0.notes.map(n=>`<div class="flag note"><span>${esc(n.t||n)}${srcLinks(n.s)}</span></div>`).join("")}</div>`:""}
+  <div class="field"><label>یادداشت داروساز</label><textarea class="inp" id="wnote" rows="3">${esc(F.note||"")}</textarea></div>
+  <div class="wscost" id="wcost"></div><div class="cta-row"><button class="btn lime" id="wsave">ذخیره‌ی تصمیم نهایی <span class="arr">${ICON.arrow}</span></button><span class="qhint" id="wmsg">${F.at?"آخرین ذخیره: "+new Date(F.at).toLocaleString("fa-IR"):""}</span></div></div>`;
+ host.querySelectorAll(".wsi").forEach(el=>{const k=el.dataset.k,f=F.items[k]||{},sel=el.querySelector(".wprod");if(f.prod){const i=P[k].findIndex(p=>p.u===f.prod.u);if(i>=0)sel.value=i}});
+ const collect=()=>{const items={};let cost=0,unk=0;host.querySelectorAll(".wsi").forEach(el=>{const k=el.dataset.k,on=el.querySelector(".won").checked,v=el.querySelector(".wprod").value,p=v===""?null:P[k][+v];el.classList.toggle("off",!on);
+   items[k]={on,dose:el.querySelector(".wdose").value.trim(),prod:p?{n:p.n,b:p.b,f:p.f,o:p.o,q:p.q,u:p.u,src:p.src}:null};if(on&&p){if(p.q)cost+=p.o/p.q*28;else unk++}});return{items,cost,unk}};
+ const upd=()=>{const{cost,unk}=collect();host.querySelector("#wcost").innerHTML=cost?`هزینه‌ی تقریبی مواد ۲۸ روز (یک عدد در روز، قیمت بدون تخفیف): <b>${tmn(cost)}</b>${unk?` · برای ${fa(unk)} محصول تعداد بسته معلوم نیست`:""}`:""};
+ host.addEventListener("change",upd);upd();
+ host.querySelector("#wsave").onclick=async()=>{const{items}=collect();const fin={items,note:host.querySelector("#wnote").value.trim(),at:Date.now()};const m=host.querySelector("#wmsg");m.textContent="در حال ذخیره…";
+  if(!API){m.textContent="ذخیره فقط روی سایت اصلی فعاله";return}
+  try{const j=await (await fetch(API+"/api/final",{method:"POST",headers:{"content-type":"application/json","x-admin-key":adminKey()},body:JSON.stringify({cid:r.cid,final:fin})})).json();m.textContent=j.ok?"ذخیره شد ✓":"ذخیره نشد";if(j.ok)r.final=fin}catch(e){m.textContent="اتصال برقرار نشد"}}}
+
 function detail(r){
  const dr=document.createElement("div");dr.className="drawer";
  const lst=(t,a)=>a&&a.length?`<div class="sec"><h2 style="font-size:1.05rem">${t}</h2>${a.map(x=>`<div class="qa">${esc(x)}</div>`).join("")}</div>`:"";
@@ -1685,6 +1630,7 @@ function detail(r){
   <div class="profile" style="margin-top:12px"><div class="pf"><small>پلن</small><b>${esc(r.plan)}</b></div><div class="pf"><small>سن</small><b>${fa(r.age)}</b></div><div class="pf"><small>موبایل</small><b class="latin">${esc(r.phone)}</b></div>${r.code?`<div class="pf"><small>کد تخفیف</small><b class="latin">${esc(r.code)}</b></div>`:""}${r.email?`<div class="pf"><small>ایمیل</small><b class="latin" style="font-size:.8rem">${esc(r.email)}</b></div>`:""}</div>
   ${r.subscription||r.ref||r.labs?`<div class="profile" style="margin-top:10px">${r.subscription?`<div class="pf"><small>اشتراک</small><b>${esc(r.subscription)}</b></div>`:""}${r.ref?`<div class="pf"><small>کد معرف</small><b class="latin">${esc(r.ref)}</b></div>`:""}${r.labs?Object.entries(r.labs).filter(([k,v])=>v!==""&&v!=null).map(([k,v])=>`<div class="pf"><small>${esc(k)}</small><b class="latin">${esc(v)}</b></div>`).join(""):""}</div>`:""}
   ${API?`<div style="margin-top:10px"><button class="ghost" id="files">فایل آزمایش</button><div id="fileout"></div></div>`:""}
+  <div class="sec"><h2 style="font-size:1.05rem">میز کار داروساز</h2><div id="wsp"></div></div>
   ${lst("هدف‌ها",r.goals)}${lst("مکمل‌های پیشنهادی",r.supplements)}${lst("حذف‌شده",r.excluded)}${lst("هشدارها",r.flags)}${lst("نکات مصرف",r.notes)}
   <div class="sec"><h2 style="font-size:1.05rem">همه‌ی پاسخ‌ها</h2>${ans}</div></div>`;
  const fb=dr.querySelector("#files");if(fb)fb.onclick=async()=>{const o=dr.querySelector("#fileout");o.textContent="در حال دریافت…";let k="";try{k=localStorage.getItem("vp-admin")||""}catch(e){}
@@ -1693,7 +1639,7 @@ function detail(r){
  const close=()=>dr.remove();
  dr.onclick=e=>{if(e.target===dr)close()};dr.querySelector("#cl").onclick=close;
  document.addEventListener("keydown",function k(e){if(e.key==="Escape"){close();document.removeEventListener("keydown",k)}});
- document.body.append(dr);dr.querySelector("#cl").focus();
+ document.body.append(dr);dr.querySelector("#cl").focus();workspace(r,dr.querySelector("#wsp"));
 }
 
 
