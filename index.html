@@ -566,7 +566,7 @@ const CFG={
  brandMap:{},           // برند هر مکمل، مثلاً {d3:"یوروویتال",omega3:"عبیدی"}
  reviews:[]             // فقط نظر واقعی: {name:"سارا",plan:"BeautyPlan",stars:5,text:"..."}
 };
-const BUILD="1794843360";
+const BUILD="1794843606";
 const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
@@ -737,6 +737,33 @@ function schedFor(k,c){const t=SUP[k].t;let days=DAYS.all,n=1;
  if(k==="omega3"&&(c.G(2)||c.sc.omega3>=4))n=2;
  if(k==="calcium"&&c.sc.calcium>=3)n=2;
  return{days:[...days],n,t}}
+
+/* ---------------- pack safety rules (validator + auto-fix) ---------------- */
+const MINERALS=["iron","calcium","mg","zinc","chromium"];
+const PR={
+ // allowed time slots (first = preferred fallback)
+ slot:{melatonin:["pm"],ashwa:["pm"],herbal:["pm"],mg:["pm","noon"],bcomplex:["am","noon"],b12:["am","noon"],iron:["am","noon","pm"],
+  d3:["noon","pm"],omega3:["noon","pm"],coq10:["noon","pm"],curcumin:["noon","pm"],calcium:["pm","noon"]},
+ slotWhy:{melatonin:"ملاتونین فقط شب",ashwa:"اشواگاندا شب (خواب‌آلودگی)",herbal:"ترکیب آرام‌بخش فقط شب",mg:"منیزیم ظهر یا شب",bcomplex:"ویتامین‌های B شب ممکنه خواب رو به هم بزنن",b12:"B12 شب ممکنه خواب رو به هم بزنه",
+  d3:"محلول در چربی؛ همراه غذای اصلی",omega3:"محلول در چربی؛ همراه غذای اصلی",coq10:"محلول در چربی؛ همراه غذای اصلی",curcumin:"محلول در چربی؛ همراه غذای اصلی",calcium:"کلسیم همراه غذا، دور از آهن"},
+ // never in the same sachet on the same day
+ sep:[["iron","calcium","کلسیم جذب آهن رو کم می‌کنه","odsFe"],["iron","zinc","آهن و زینک برای جذب رقابت می‌کنن","odsZn"],["iron","mg","منیزیم جذب آهن رو کم می‌کنه","odsFe"],
+  ["zinc","calcium","کلسیم جذب زینک رو کم می‌کنه","odsZn"]],
+};
+function ruleCtx(A){const has=(id,i)=>{const v=A[id];return Array.isArray(v)?v.includes(i):v===i};return{levo:has("CL03",1)||has("CL02",1),bisph:has("CL03",11)}}
+function slotsFor(k,ctx){let a=PR.slot[k]||["am","noon","pm"];if((ctx.levo||ctx.bisph)&&MINERALS.includes(k))a=a.filter(t=>t!=="am");return a.length?a:["pm"]}
+function checkPack(items,ctx){const iss=[];const on=items.filter(x=>x.on!==false&&x.days&&x.days.length);
+ on.forEach(x=>{const al=slotsFor(x.k,ctx);if(!al.includes(x.t)){let why=PR.slotWhy[x.k]||"";if((ctx.levo||ctx.bisph)&&MINERALS.includes(x.k)&&x.t==="am")why=ctx.levo?"لووتیروکسین صبح ناشتا مصرف می‌شه؛ مواد معدنی حداقل ۴ ساعت فاصله":"بیس‌فسفونات صبح ناشتا؛ مواد معدنی با فاصله";iss.push({bad:true,k:x.k,t:`${SUP[x.k].n} در ساشه‌ی ${TM[x.t][0]}: ${why}`})}});
+ PR.sep.forEach(([a,b,why])=>{const A=on.find(x=>x.k===a),B=on.find(x=>x.k===b);if(A&&B&&A.t===B.t){const dd=A.days.filter(d=>B.days.includes(d));if(dd.length)iss.push({bad:true,k:b,t:`${SUP[a].n} و ${SUP[b].n} هر دو در ساشه‌ی ${TM[A.t][0]} (${dd.map(i=>WDF[i]).join("، ")}): ${why}`})}});
+ return iss}
+function fixPack(list,ctx){list.forEach(x=>{const al=slotsFor(x.k,ctx);if(!al.includes(x.t))x.t=al[0]});
+ for(let pass=0;pass<4;pass++){let moved=false;
+  PR.sep.forEach(([a,b])=>{const A=list.find(x=>x.k===a),B=list.find(x=>x.k===b);if(!A||!B||A.t!==B.t||!A.days.some(d=>B.days.includes(d)))return;
+   const tryMove=X=>{for(const t of slotsFor(X.k,ctx)){if(t===X.t)continue;const clash=PR.sep.some(([p,q])=>{const o=X.k===p?q:X.k===q?p:null;if(!o)return false;const O=list.find(y=>y.k===o);return O&&O.t===t&&O.days.some(d=>X.days.includes(d))});if(!clash){X.t=t;return true}}return false};
+   const reDay=(X,O)=>{if(X.days.length>=7)return false;const free=[0,1,2,3,4,5,6].filter(d=>!O.days.includes(d));if(free.length<X.days.length)return false;const st=free.length/X.days.length;X.days=Array.from({length:X.days.length},(_,i)=>free[Math.floor(i*st)]);return true};
+   const lo=(A.s||0)<=(B.s||0)?A:B,hi=lo===A?B:A;if(tryMove(lo)||tryMove(hi)||reDay(lo,hi)||reDay(hi,lo))moved=true});
+  if(!moved)break}
+ return checkPack(list,ctx)}
 function freqLabel(days){const d=[...days].sort();if(d.length===7)return"هر روز";if(d.join()==="0,2,4,6")return"یک روز در میان";return(d.length===1?"هفته‌ای یک بار: ":fa(d.length)+" روز در هفته: ")+d.map(i=>WDF[i]).join("، ")}
 function compute(S){
  const A=S.a, sc={}, why={}, ex={}, flags=[], notes=[];
@@ -910,17 +937,18 @@ function compute(S){
  if(L.t!==""&&L.t!=null&&(L.t<0.4||L.t>4.5))flag("TSH خارج از محدوده‌ی طبیعی است؛ پیش از شروع، با پزشک درباره‌ی تیروئید مشورت کن.",true);
  const exList=Object.keys(ex).filter(k=>k!=="multiA"&&sc[k]>=2).map(k=>({k,n:SUP[k].n,r:ex[k],s:exS[k]}));
  const ok=k=>k!=="multi"&&!ex[k];const rank=Object.keys(sc).filter(ok).sort((a,b)=>sc[b]-sc[a]);
- let keys=rank.filter(k=>sc[k]>=2).slice(0,10);
  const sch0=k=>schedFor(k,{L,G,sc,preg});const perDay=ks=>ks.reduce((t,k)=>{const q=sch0(k);return t+q.n*q.days.length},0)/7;
+ let keys=[];for(const k of rank.filter(k=>sc[k]>=2)){if(keys.length>=10)break;if(perDay([...keys,k])<=8||keys.length<3)keys.push(k)}
  for(const k of rank){if(perDay(keys)>=6||keys.length>=10)break;if(!keys.includes(k)&&sc[k]>=1)keys.push(k)}
  let list=keys.map(k=>{const q=sch0(k);return{k,n:SUP[k].n,s:sc[k],why:why[k],t:q.t,days:q.days,cnt:q.n,c:SUP[k].c,r:SUP[k].r,m:META[k]||{}}});
+ const pctx=ruleCtx(A);const left=fixPack(list,pctx);if(left.length)flag("برنامه‌ی زمان‌بندی نیاز به تنظیم دستی داروساز دارد.",true);
  if(list.some(x=>x.k==="biotin"))note("بیوتین ممکن است نتیجه‌ی برخی آزمایش‌ها (مثل تیروئید و تروپونین) را اشتباه نشان دهد؛ قبل از آزمایش خون به پزشک و آزمایشگاه بگو بیوتین مصرف می‌کنی.",["fdaBio"]);
  if(list.some(x=>x.k==="iron"))note("آهن را با فاصله از چای، قهوه و کلسیم مصرف کن؛ ویتامین C جذبش را بیشتر می‌کند.",["odsFe"]);
  if(list.some(x=>x.k==="ashwa"))note("اشواگاندا: در صورت زردی، ادرار تیره یا خارش، مصرف را قطع و با پزشک مشورت کن.",["odsAsh","lt"]);
  const top=Object.entries(plan).sort((a,b)=>b[1]-a[1]);
  let pk=top[0][1]>=4&&top[0][1]-top[1][1]>=2?top[0][0]:"expert";
  const review=flags.some(f=>f.bad);
- return {plan:pk,planScores:plan,list,exList,flags,notes,review};
+ return {plan:pk,planScores:plan,list,exList,flags,notes,review,ctx:pctx};
 }
 
 /* ---------------- state ---------------- */
@@ -1049,7 +1077,7 @@ function catKey(k){if(k!=="multi")return k;const preg=S.b.sex==="f"&&(hasAns("CL
 function hasAns(id,i){const v=S.a[id];return Array.isArray(v)?v.includes(i):v===i}
 const tmn=n=>n>=1e6?fa((Math.round(n/1e5)/10).toString()).replace(".","٫")+" میلیون تومان":fa(Math.round(n/1000))+" هزار تومان";
 let LIVE=null,LIVEp=null;
-function liveCat(){if(LIVE||!API)return Promise.resolve(LIVE);if(!LIVEp)LIVEp=fetch(API+"/api/catalog",{headers:{"x-admin-key":adminKey()}}).then(r=>r.json()).then(j=>{const out={};j.sources.forEach(sr=>sr.items.forEach(x=>{const tags=(x[5]||"").split(",");tags.forEach((t,ti)=>{if(!t)return;(out[t]=out[t]||[]).push({n:x[0],b:x[1],f:x[2],o:+x[3],s:x[4],ds:x[6],q:x[7],kid:x[8],u:(sr.src==="darukade"?"https://www.darukade.com":"https://mosbatesabz.com")+x[9],src:sr.src,combo:ti>0})})}));LIVE=out;return out}).catch(()=>null);return LIVEp}
+function liveCat(){if(LIVE||!API)return Promise.resolve(LIVE);if(!LIVEp)LIVEp=fetch(API+"/api/catalog",{headers:{"x-admin-key":adminKey()}}).then(r=>r.json()).then(j=>{const out={};j.sources.forEach(sr=>sr.items.forEach(x=>{const tags=(x[5]||"").split(",");tags.forEach((t,ti)=>{if(!t)return;(out[t]=out[t]||[]).push({n:x[0],b:x[1],f:x[2],o:+x[3],s:x[4],ds:x[6],q:x[7],kid:x[8],u:(sr.src==="darukade"?"https://www.darukade.com":"https://mosbatesabz.com")+x[9],src:sr.src,combo:ti>0,tg:tags.filter(Boolean)})})}));LIVE=out;return out}).catch(()=>null);return LIVEp}
 const SRCFA={darukade:"داروکده",mosbatesabz:"مثبت سبز"};
 function mktItem(x){const unit=x.q&&x.q>1&&x.o?` · هر عدد ${fa(Math.round(x.o/x.q).toLocaleString("en-US")).replace(/,/g,"٬")} ت`:"";return `<li data-f="${esc(x.f)}" data-c="${x.combo?1:0}"><span><b>${esc(x.n)}</b><small>${esc(x.b||"")}${FORMFA[x.f]?" · "+FORMFA[x.f]:""}${x.ds?" · "+esc(x.ds):""} · <a href="${esc(x.u)}" target="_blank" rel="noopener">${SRCFA[x.src]||""}</a></small></span><em>${x.o?tmn(x.o):"—"}<small>${unit}</small></em></li>`}
 function mktFill(det,k){const box=det.querySelector(".mkbox");if(box.dataset.done)return;box.dataset.done=1;box.innerHTML='<p class="qhint">در حال بارگذاری فهرست کامل…</p>';
@@ -1633,7 +1661,7 @@ async function workspace(r,host){
   ${R0.exList.length?`<div class="sec"><h2 style="font-size:1rem">حذف‌شده توسط موتور</h2>${R0.exList.map(x=>`<div class="qa"><b>${esc(x.n)}:</b> ${esc(x.r)}${srcLinks(x.s)}</div>`).join("")}</div>`:""}
   ${R0.flags.length||R0.notes.length?`<div class="sec"><h2 style="font-size:1rem">هشدارها و نکات</h2>${R0.flags.map(f=>`<div class="flag ${f.bad?"bad":""}"><span>${esc(f.t)}${srcLinks(f.s)}</span></div>`).join("")}${R0.notes.map(n=>`<div class="flag note"><span>${esc(n.t||n)}${srcLinks(n.s)}</span></div>`).join("")}</div>`:""}
   <div class="field"><label>یادداشت داروساز</label><textarea class="inp" id="wnote" rows="3">${esc(F.note||"")}</textarea></div>
-  <div class="wscost" id="wcost"></div><div class="cta-row"><button class="btn lime" id="wsave">ذخیره‌ی تصمیم نهایی <span class="arr">${ICON.arrow}</span></button><span class="qhint" id="wmsg">${F.at?"آخرین ذخیره: "+new Date(F.at).toLocaleString("fa-IR"):""}</span></div></div>`;
+  <div class="sec" style="margin:8px 0"><h2 style="font-size:1rem">بررسی خودکار پک</h2><div id="wchk"></div><button type="button" class="btn line" id="wfix" style="margin-top:8px">چیدمان خودکار امن</button></div><div class="wscost" id="wcost"></div><div class="cta-row"><button class="btn lime" id="wsave">ذخیره‌ی تصمیم نهایی <span class="arr">${ICON.arrow}</span></button><span class="qhint" id="wmsg">${F.at?"آخرین ذخیره: "+new Date(F.at).toLocaleString("fa-IR"):""}</span></div></div>`;
  host.querySelectorAll(".wsi").forEach(el=>{const k=el.dataset.k,f=F.items[k]||{},sel=el.querySelector(".wprod");if(f.prod){const i=P[k].findIndex(p=>p.u===f.prod.u);if(i>=0)sel.value=i}});
  host.querySelectorAll(".wdays button").forEach(b=>b.onclick=()=>{b.classList.toggle("on");upd()});
  host.querySelectorAll(".wpre button").forEach(b=>b.onclick=()=>{const ds=DAYS[b.dataset.p];b.closest(".wsch").querySelectorAll(".wdays button").forEach(x=>x.classList.toggle("on",ds.includes(+x.dataset.i)));upd()});
@@ -1641,9 +1669,17 @@ async function workspace(r,host){
    const days=[...el.querySelectorAll(".wdays button.on")].map(b=>+b.dataset.i),cnt=Math.max(1,+el.querySelector(".wn").value||1),t=el.querySelector(".wt").value;
    items[k]={on,dose:el.querySelector(".wdose").value.trim(),t,cnt,days,prod:p?{n:p.n,b:p.b,f:p.f,o:p.o,q:p.q,u:p.u,src:p.src}:null};
    if(on){pills+=cnt*days.length;if(p){if(p.q)cost+=p.o/p.q*cnt*days.length*4;else unk++}}});return{items,cost,unk,pills}};
- const upd=()=>{const{cost,unk,pills}=collect();host.querySelector("#wcost").innerHTML=`میانگین <b>${fa((Math.round(pills/7*10)/10).toString()).replace(".","٫")}</b> قرص در روز · ${fa(pills*4)} قرص در ۲۸ روز`+(cost?` · هزینه‌ی تقریبی مواد ۲۸ روز (قیمت بدون تخفیف): <b>${tmn(cost)}</b>${unk?` · برای ${fa(unk)} محصول تعداد بسته معلوم نیست`:""}`:"")};
+ const ctxW=R0.ctx||ruleCtx(r.state.a||{});
+ const live=()=>{const{items}=collect();const arr=Object.entries(items).map(([k,v])=>({k,...v,s:(R0.list.find(x=>x.k===k)||{}).s}));const iss=checkPack(arr,ctxW);
+  const on=arr.filter(x=>x.on);on.forEach(x=>{if(x.prod){const P2=P[x.k].find(p=>p.u===x.prod.u);(P2&&P2.tg||[]).forEach(t=>{if(t!==x.k&&on.some(y=>y.k===t))iss.push({bad:false,t:`محصول «${x.prod.n}» ${SUP[t]?SUP[t].n:t} هم داره و ${SUP[t]?SUP[t].n:t} جدا هم در پکه؛ مراقب جمع دوز و حداکثر مجاز باش`})})}});
+  const box=host.querySelector("#wchk"),bad=iss.filter(i=>i.bad).length;
+  box.innerHTML=iss.length?iss.map(i=>`<div class="flag ${i.bad?"bad":"note"}"><span>${esc(i.t)}</span></div>`).join(""):'<div class="flag note"><span>✓ هیچ تداخل زمانی یا جذبی در پک پیدا نشد.</span></div>';
+  const sv=host.querySelector("#wsave");sv.disabled=bad>0;sv.title=bad?"اول هشدارهای قرمز رو حل کن":"";return bad};
+ const upd=()=>{live();const{cost,unk,pills}=collect();host.querySelector("#wcost").innerHTML=`میانگین <b>${fa((Math.round(pills/7*10)/10).toString()).replace(".","٫")}</b> قرص در روز · ${fa(pills*4)} قرص در ۲۸ روز`+(cost?` · هزینه‌ی تقریبی مواد ۲۸ روز (قیمت بدون تخفیف): <b>${tmn(cost)}</b>${unk?` · برای ${fa(unk)} محصول تعداد بسته معلوم نیست`:""}`:"")};
  host.addEventListener("change",upd);host.addEventListener("input",upd);upd();
- host.querySelector("#wsave").onclick=async()=>{const{items}=collect();const fin={items,note:host.querySelector("#wnote").value.trim(),at:Date.now()};const m=host.querySelector("#wmsg");m.textContent="در حال ذخیره…";
+ host.querySelector("#wfix").onclick=()=>{const{items}=collect();const arr=Object.entries(items).filter(([k,v])=>v.on).map(([k,v])=>({k,...v,s:(R0.list.find(x=>x.k===k)||{}).s}));fixPack(arr,ctxW);
+  arr.forEach(x=>{const el=host.querySelector(`.wsi[data-k="${x.k}"] .wt`);if(el)el.value=x.t});upd()};
+ host.querySelector("#wsave").onclick=async()=>{if(live())return;const{items}=collect();const fin={items,note:host.querySelector("#wnote").value.trim(),at:Date.now()};const m=host.querySelector("#wmsg");m.textContent="در حال ذخیره…";
   if(!API){m.textContent="ذخیره فقط روی سایت اصلی فعاله";return}
   try{const j=await (await fetch(API+"/api/final",{method:"POST",headers:{"content-type":"application/json","x-admin-key":adminKey()},body:JSON.stringify({cid:r.cid,final:fin})})).json();m.textContent=j.ok?"ذخیره شد ✓":"ذخیره نشد";if(j.ok)r.final=fin}catch(e){m.textContent="اتصال برقرار نشد"}}}
 
