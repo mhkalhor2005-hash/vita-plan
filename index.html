@@ -523,6 +523,8 @@ main{padding-block:12px 150px;position:relative}
 .mkt summary{color:var(--cyan)}.mk{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:5px}.mk li{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:7px 10px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);font-size:.78rem}.mk li span{display:grid;min-width:0}.mk li b{font-weight:600;overflow-wrap:anywhere}.mk li small{color:var(--stone);font-size:.7rem;direction:ltr;text-align:right}.mk li em{font-style:normal;color:var(--lime);white-space:nowrap;font-size:.74rem}
 .mkf{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.mkf button{font:inherit;font-size:.72rem;padding:4px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.14);background:transparent;color:var(--stone);cursor:pointer}.mkf button.on{border-color:var(--lime);color:var(--lime)}.mk li em small{display:block;color:var(--stone);font-size:.66rem}.mk li a{color:var(--cyan)}.mkmore{margin-top:8px;font-size:.78rem}
 .ws{display:grid;gap:12px}.wsi{padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03)}.wsi.off{opacity:.5}.wsh{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.wse{font-size:.82rem;margin:6px 0}.wsrow{display:grid;grid-template-columns:1fr 160px;gap:8px;margin-top:8px}.wsrow select{font-size:.78rem;min-width:0}@media(max-width:600px){.wsrow{grid-template-columns:1fr}}.wscost{margin:10px 0;font-size:.9rem}.wscost b{color:var(--lime)}
+.supp .t small{display:block;font-size:.66rem;color:var(--stone);margin-top:2px;white-space:normal}.wkwrap{overflow-x:auto}.wk{width:100%;border-collapse:separate;border-spacing:4px;table-layout:fixed}.wk th .sm{display:none}@media(max-width:600px){.wk{border-spacing:2px}.wk th .lg{display:none}.wk th .sm{display:inline}.wk td{padding:4px 1px;border-radius:7px}.wk td .pill{width:9px;height:5px}.wk td .pill.r{width:6px;height:6px}.wk th:first-child{width:28px;font-size:.62rem}}.wk th{font-size:.72rem;color:var(--stone);font-weight:600}.wk td{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:6px 4px;vertical-align:top;text-align:center;height:58px}.wk td .pill{display:inline-block;width:14px;height:7px;margin:1px;animation:none}.wk td .pill.r{width:8px;height:8px}.wk td small{display:block;font-size:.62rem;color:var(--stone);margin-top:3px}
+.wsch{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}.wsch .wt{width:80px}.wsch .wn{width:64px}.wdays,.wpre{display:flex;gap:4px;flex-wrap:wrap}.wdays button,.wpre button{font:inherit;font-size:.72rem;padding:4px 8px;border-radius:8px;border:1px solid rgba(255,255,255,.14);background:transparent;color:var(--stone);cursor:pointer}.wdays button.on{border-color:var(--lime);color:var(--lime);background:var(--lime-soft)}
 .mktsum{margin:-4px 0 14px;font-size:.84rem;color:var(--stone)}.mktsum b{color:var(--lime)}
 .srcs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .srcs a{font-size:.68rem;color:var(--cyan);border:1px solid rgba(79,227,224,.3);border-radius:8px;padding:1px 8px;text-decoration:none;font-family:var(--latin);direction:ltr}
@@ -564,7 +566,7 @@ const CFG={
  brandMap:{},           // برند هر مکمل، مثلاً {d3:"یوروویتال",omega3:"عبیدی"}
  reviews:[]             // فقط نظر واقعی: {name:"سارا",plan:"BeautyPlan",stars:5,text:"..."}
 };
-const BUILD="1794506186";
+const BUILD="1794842324";
 const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
@@ -725,6 +727,16 @@ const PLANS={
 const ODS=n=>"https://ods.od.nih.gov/factsheets/"+n+"-HealthProfessional/";
 const SRC={},META={};
 const GR={A:["شواهد قوی","var(--lime)"],B:["شواهد متوسط","var(--cyan)"],C:["شواهد محدود","var(--warn)"]};
+const WD=["ش","ی","د","س","چ","پ","ج"],WDF=["شنبه","یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه"];
+const DAYS={all:[0,1,2,3,4,5,6],alt:[0,2,4,6],x3:[1,3,5],x1:[5]};
+function schedFor(k,c){const t=SUP[k].t;let days=DAYS.all,n=1;
+ if(k==="iron"&&!c.preg)days=DAYS.alt;                         // alternate-day iron: better fractional absorption
+ if(k==="zinc"||k==="b12"||k==="biotin")days=DAYS.x3;
+ if(k==="d3"&&c.L&&c.L.d!==""&&c.L.d!=null&&c.L.d<20)days=DAYS.x1; // 50,000 IU weekly when deficient (pharmacist confirms)
+ if(k==="omega3"&&(c.G(2)||c.sc.omega3>=4))n=2;
+ if(k==="calcium"&&c.sc.calcium>=3)n=2;
+ return{days:[...days],n,t}}
+function freqLabel(days){const d=[...days].sort();if(d.length===7)return"هر روز";if(d.join()==="0,2,4,6")return"یک روز در میان";return(d.length===1?"هفته‌ای یک بار: ":fa(d.length)+" روز در هفته: ")+d.map(i=>WDF[i]).join("، ")}
 function compute(S){
  const A=S.a, sc={}, why={}, ex={}, flags=[], notes=[];
  const has=(id,i)=>{const v=A[id];return Array.isArray(v)?v.includes(i):v===i};
@@ -759,7 +771,7 @@ function compute(S){
  const female=S.b.sex==="f", age=+S.b.age||0;
  let plan={sport:0,slim:0,beauty:0};
 
- add("multi",2,"پایه‌ی هر برنامه برای پوشش کمبودهای رایج");
+ add("d3",2,"کمبود ویتامین D در ایران بسیار شایع است");add("omega3",1,"پایه‌ی سلامت قلب و مغز");add("mg",1,"دریافت منیزیم از غذا معمولاً کمتر از نیازه");add("vitc",1,"پایه‌ی ایمنی و آنتی‌اکسیدان");add("zinc",1,"پایه‌ی ایمنی، پوست و مو");add("bcomplex",1,"انرژی و متابولیسم");
  if(G(0)){add("bcomplex",2,"هدف شما افزایش انرژی است");add("coq10",1,"حمایت از تولید انرژی سلولی");add("d3",1,"کمبود ویتامین D از علل شایع خستگی است")}
  if(G(1)){add("mg",2,"هدف شما بهبود خواب است")}
  if(G(2)){add("omega3",2,"هدف شما تمرکز و عملکرد ذهنی است");add("bcomplex",1,"نقش در عملکرد سیستم عصبی")}
@@ -770,7 +782,7 @@ function compute(S){
  if(G(7)){add("protein",2,"هدف شما افزایش وزن است");plan.sport+=1}
  if(G(8)){add("zinc",2,"زینک و سلامت جنسی");add("d3",1);flag("برای کاهش عملکرد جنسی، مشورت با پزشک برای بررسی علت توصیه می‌شود.")}
  if(G(9)){add("folic",1,"حمایت از سلامت باروری")}
- if(G(10)){add("multi",1);add("d3",1,"پیشگیری از شایع‌ترین کمبود")}
+ if(G(10)){add("d3",1,"پیشگیری از شایع‌ترین کمبود");add("zinc",1,"پیشگیری از کمبود ریزمغذی‌ها");add("vitc",1);add("bcomplex",1,"پیشگیری از کمبود ویتامین‌های B")}
 
  // sleep
  if(has("SLP01",1)){add("mg",2,"دیر به خواب رفتن");add("melatonin",1,"دیر به خواب رفتن")}
@@ -847,11 +859,11 @@ function compute(S){
  if(has("NUT01",2)){add("b12",3,"رژیم وگان");add("omega3",1,"در رژیم وگان از امگا ۳ جلبکی استفاده می‌شود");add("d3",1);add("iron",1);add("zinc",1)}
  if(has("NUT02",0))add("omega3",2,"مصرف کم ماهی");
  if(has("NUT03",2)||has("NUT03",3)){add("calcium",2,"مصرف کم لبنیات");add("d3",1)}
- if(has("NUT04",0)){add("multi",1,"مصرف کم میوه و سبزی");add("vitc",1)}
+ if(has("NUT04",0)){add("vitc",2,"مصرف کم میوه و سبزی");add("folic",1,"مصرف کم سبزیجات برگ‌سبز")}
  if(has("NUT05",2))add("b12",1);
  if(has("NUT06",0)){add("iron",1,"عدم مصرف گوشت قرمز");add("b12",1)}
- if(has("NUT07",2)||has("NUT07",3))add("multi",1,"وعده‌های نامنظم");
- if(has("NUT08",3))add("multi",1);
+ if(has("NUT07",2)||has("NUT07",3))add("bcomplex",1,"وعده‌های نامنظم");
+ if(has("NUT08",3))add("zinc",1);
  if(has("NUT09",2))plan.slim+=1;
  if(has("NUT10",0)){notes.push("عدم تحمل لاکتوز: پروتئین و پروبیوتیک باید بدون لاکتوز انتخاب شوند.");add("calcium",1)}
  if(has("NUT10",1))notes.push("حساسیت به گلوتن: تمام مکمل‌ها باید فاقد گلوتن باشند.");
@@ -876,7 +888,9 @@ function compute(S){
  if(has("CL02",2)){no("chromium","احتمال افت قند خون در کنار داروهای دیابت");no("greentea","اثر بر کنترل قند خون");flag("دیابت: هر تغییر در مکمل‌ها باید با پزشک معالج هماهنگ شود.")}
  if(has("CL02",3))add("inositol",2,"تشخیص PCOS");
  const preg=female&&(has("CL04",0)||has("CL04",1));
- if(has("CL05",1))no("multi","در حال حاضر مولتی‌ویتامین مصرف می‌کنید");
+ if(has("CL05",1))notes.push({t:"الان مولتی‌ویتامین مصرف می‌کنی؛ با شروع ویتاپلن قطعش کن تا ویتامین‌ها دوبار حساب نشن.",s:[]});
+ if(female&&age>=15&&age<=49&&!preg)add("folic",1,"توصیه برای زنان در سن باروری");
+ if(preg){add("folic",3,"بارداری یا برنامه‌ی بارداری");add("iron",2,"نیاز بیشتر به آهن در بارداری");add("omega3",2,"DHA برای بارداری");add("d3",1);add("calcium",1,"نیاز به کلسیم در بارداری")}
  if(has("CL05",2)){no("biotin","در حال حاضر مکمل پوست و مو مصرف می‌کنید");no("collagen","در حال حاضر مکمل پوست و مو مصرف می‌کنید")}
  if(has("CL05",4))notes.push("مکمل آهن، B12 یا D فعلی شما در دوزبندی لحاظ می‌شود تا بیش‌دوزی رخ ندهد.");
  if(has("CL06",1)||has("CL06",2))flag("ریزش موی ناگهانی یا تغییر وزن غیرعادی: پیش از شروع، آزمایش خون (CBC، فریتین، TSH، ویتامین D) توصیه می‌شود.");
@@ -893,11 +907,12 @@ function compute(S){
  if(L.f!==""&&L.f!=null){if(L.f<30)add("iron",4,"آزمایش: فریتین پایین");else if(L.f>150)no("iron","آزمایش: ذخیره‌ی آهن کافی است")}
  if(L.b!==""&&L.b!=null){if(L.b<200)add("b12",6,"آزمایش: کمبود ویتامین B12");else if(L.b<300)add("b12",3,"آزمایش: ویتامین B12 در مرز")}
  if(L.t!==""&&L.t!=null&&(L.t<0.4||L.t>4.5))flag("TSH خارج از محدوده‌ی طبیعی است؛ پیش از شروع، با پزشک درباره‌ی تیروئید مشورت کن.",true);
- if(ex.multiA&&!ex.multi){SUP.multi._n="مولتی‌ویتامین بدون ویتامین A"}else SUP.multi._n=null;
- if(preg&&!ex.multi)SUP.multi._n="مولتی‌ویتامین مخصوص بارداری";
  const exList=Object.keys(ex).filter(k=>k!=="multiA"&&sc[k]>=2).map(k=>({k,n:SUP[k].n,r:ex[k],s:exS[k]}));
- let list=Object.keys(sc).filter(k=>!ex[k]&&sc[k]>=2).sort((a,b)=>sc[b]-sc[a]).slice(0,8)
-   .map(k=>({k,n:SUP[k]._n||SUP[k].n,s:sc[k],why:why[k],t:SUP[k].t,c:SUP[k].c,r:SUP[k].r,m:META[k]||{}}));
+ const ok=k=>k!=="multi"&&!ex[k];const rank=Object.keys(sc).filter(ok).sort((a,b)=>sc[b]-sc[a]);
+ let keys=rank.filter(k=>sc[k]>=2).slice(0,10);
+ const sch0=k=>schedFor(k,{L,G,sc,preg});const perDay=ks=>ks.reduce((t,k)=>{const q=sch0(k);return t+q.n*q.days.length},0)/7;
+ for(const k of rank){if(perDay(keys)>=6||keys.length>=10)break;if(!keys.includes(k)&&sc[k]>=1)keys.push(k)}
+ let list=keys.map(k=>{const q=sch0(k);return{k,n:SUP[k].n,s:sc[k],why:why[k],t:q.t,days:q.days,cnt:q.n,c:SUP[k].c,r:SUP[k].r,m:META[k]||{}}});
  if(list.some(x=>x.k==="biotin"))note("بیوتین ممکن است نتیجه‌ی برخی آزمایش‌ها (مثل تیروئید و تروپونین) را اشتباه نشان دهد؛ قبل از آزمایش خون به پزشک و آزمایشگاه بگو بیوتین مصرف می‌کنی.",["fdaBio"]);
  if(list.some(x=>x.k==="iron"))note("آهن را با فاصله از چای، قهوه و کلسیم مصرف کن؛ ویتامین C جذبش را بیشتر می‌کند.",["odsFe"]);
  if(list.some(x=>x.k==="ashwa"))note("اشواگاندا: در صورت زردی، ادرار تیره یا خارش، مصرف را قطع و با پزشک مشورت کن.",["odsAsh","lt"]);
@@ -1447,6 +1462,9 @@ function result(){
  const bmi=bmiOf();
  S.off=S.off||{};myCode();const mine=()=>R.list.filter(x=>!S.off[x.k]);
  saveLead("completed",R,mine());
+ const weekHTML=()=>{const L=mine();const cell=(di,t)=>{const a=L.filter(x=>x.t===t&&x.days.includes(di));return `<td>${a.map(x=>Array.from({length:x.cnt},()=>`<span class="pill ${x.r?"r":""}" title="${esc(x.n)}" style="background:${x.c};color:${x.c}"></span>`).join("")).join("")}<small>${fa(a.reduce((s,x)=>s+x.cnt,0))}</small></td>`};
+  const tot=L.reduce((s,x)=>s+x.cnt*x.days.length,0);
+  return `<h2>برنامه‌ی هفتگی تو <span class="n">میانگین ${fa((Math.round(tot/7*10)/10).toString()).replace(".","٫")} قرص در روز</span></h2><div class="wkwrap"><table class="wk"><thead><tr><th></th>${WDF.map((d,i)=>`<th><span class="lg">${d}</span><span class="sm">${WD[i]}</span></th>`).join("")}</tr></thead><tbody><tr><th>صبح</th>${WD.map((_,i)=>cell(i,"am")).join("")}</tr><tr><th>شب</th>${WD.map((_,i)=>cell(i,"pm")).join("")}</tr></tbody></table></div><p class="qhint">هر خونه یک ساشه‌ست. بعضی مکمل‌ها مثل آهن و زینک عمداً هر روز نیستن، چون این‌طوری بهتر جذب می‌شن یا دوز هفتگی‌شون کافیه. برنامه‌ی نهایی رو داروساز تأیید می‌کنه.</p>`};
  const sachHTML=()=>{const L=mine();return sach("ساشه‌ی صبح، همراه صبحانه","sun",L.filter(x=>x.t==="am"))+sach("ساشه‌ی شب، بعد از شام","moon",L.filter(x=>x.t==="pm"))};
  const pills=arr=>arr.map((x,i)=>`<span class="pill ${x.r?"r":""}" style="background:${x.c};color:${x.c};animation-delay:${400+i*90}ms"></span>`).join("");
  const sach=(lab,ic,arr)=>`<div class="sachet"><div class="when"><span>${lab}</span><img src="${IMG.logo}" alt=""></div><div class="pills">${arr.length?pills(arr):'<span class="qhint">—</span>'}</div><ul>${arr.map(x=>`<li>${esc(x.n)}</li>`).join("")}</ul></div>`;
@@ -1471,10 +1489,10 @@ function result(){
   <div class="pf" style="grid-column:span 2"><small>هدف‌ها</small><b style="font-size:.9rem">${g.map(esc).join("، ")}</b></div>
   <div class="pf" style="grid-column:span 2"><small>دسته‌های پاسخ داده‌شده</small><b style="font-size:.9rem">${answered.join("، ")}</b></div>
  </div></section>
- <section class="sec reveal"><div class="sachets" id="sachs" style="margin-bottom:20px">${sachHTML()}</div><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="supps">
+ <section class="sec reveal"><div class="sachets" id="sachs" style="margin-bottom:20px">${sachHTML()}</div><div id="wkp" style="margin-bottom:22px">${weekHTML()}</div><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="supps">
   ${R.list.map((x,i)=>`<div class="supp ${S.off[x.k]?"off":""}" data-k="${x.k}" style="animation-delay:${i*70}ms"><span class="dot" style="background:${x.c};color:${x.c}"></span>
    <div><h3>${esc(x.n)}</h3><p>${esc((x.why||[]).slice(0,3).join(" · "))}</p><div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
-   <span class="t">${x.t==="am"?"صبح":"شب"}</span><button class="sw" role="switch" aria-checked="${!S.off[x.k]}" aria-label="${esc(x.n)} در پک من"></button></div>`).join("")}
+   <span class="t">${x.t==="am"?"صبح":"شب"}<small>${x.cnt>1?fa(x.cnt)+" عدد · ":""}${freqLabel(x.days)}</small></span><button class="sw" role="switch" aria-checked="${!S.off[x.k]}" aria-label="${esc(x.n)} در پک من"></button></div>`).join("")}
  </div><p class="disc">مکمل‌ها از برندهای معتبر و دارای مجوز بازار ایران${CFG.brands.length?" مثل "+CFG.brands.join(" و "):""} انتخاب می‌شن. دوز نهایی هر مکمل پس از بازبینی داروساز و با توجه به مکمل‌های فعلی تو تعیین می‌شود.</p></section>
  <section class="sec reveal"><h2>دقیق‌ترش کن با آزمایش <span class="n">اختیاری</span></h2><p class="qhint">اگه آزمایش خون اخیر (سه ماه گذشته) داری، عددها رو وارد کن تا ترکیبت دقیق‌تر بشه.</p>
   <div class="labs">
@@ -1508,7 +1526,7 @@ function result(){
  d.querySelector("#lb-file")&&(d.querySelector("#lb-file").onchange=e=>uploadLab(e.target.files[0],d.querySelector("#lb-fn")));
  if(API)fetch(API+"/api/ref?code="+myCode()).then(r=>r.json()).then(j=>{if(j.ok){d.querySelector("#ref-n").textContent=fa(j.joined);d.querySelector("#ref-s").textContent=fa(j.submitted)}}).catch(()=>{});
  d.querySelector("#story").onclick=()=>storyCard(R,mine(),P,d.querySelector("#storyout"));
- d.querySelectorAll(".supp .sw").forEach(b=>b.onclick=()=>{const row=b.closest(".supp"),k=row.dataset.k;S.off[k]=!S.off[k];save();row.classList.toggle("off",!!S.off[k]);b.setAttribute("aria-checked",!S.off[k]);d.querySelector("#sachs").innerHTML=sachHTML();d.querySelector("#pc").textContent=fa(mine().length);mktUpd();rchar()});mktUpd();
+ d.querySelectorAll(".supp .sw").forEach(b=>b.onclick=()=>{const row=b.closest(".supp"),k=row.dataset.k;S.off[k]=!S.off[k];save();row.classList.toggle("off",!!S.off[k]);b.setAttribute("aria-checked",!S.off[k]);d.querySelector("#sachs").innerHTML=sachHTML();d.querySelector("#pc").textContent=fa(mine().length);mktUpd();{const w=d.querySelector("#wkp");if(w)w.innerHTML=weekHTML()}rchar()});mktUpd();
  d.querySelector("#send").onclick=async()=>{
   const ok=d.querySelector("#ok"),ph=toEn(d.querySelector("#f-ph").value).replace(/[\s-]/g,"");
   S.phone=d.querySelector("#f-ph").value;S.email=d.querySelector("#f-em").value.trim();save();
@@ -1526,7 +1544,7 @@ if(API)fetch(API+"/health").catch(()=>{});
 function answersText(){const o={};Object.keys(S.a).forEach(k=>{const q=QBY[k];if(!q)return;const v=S.a[k];o[k]=Array.isArray(v)?v.map(i=>q.o[i]):q.o[v]});return o}
 function leadPayload(stage,R,list){const p={cid:S.cid,name:S.b.name,phone:toEn(S.phone).replace(/[\s-]/g,""),age:+S.b.age||null,sex:S.b.sex,stage,
   data:{height:+S.b.h||null,weight:+S.b.w||null,goals:(S.a.G||[]).map(i=>GOALS.o[i]),selectedCats:selCats().map(id=>CATS.find(c=>c.id===id).title),answers:answersText(),texts:S.txt}};
- if(R){p.plan=PLANS[R.plan].k;p.needsReview=R.review;Object.assign(p.data,{supplements:(list||R.list).map(x=>x.n),removedByUser:R.removedByUser||R.list.filter(x=>S.off&&S.off[x.k]).map(x=>x.n),excluded:R.exList.map(x=>x.n+" — "+x.r),flags:R.flags.map(f=>(f.bad?"[مهم] ":"")+f.t),notes:R.notes.map(n=>n.t||n)})}
+ if(R){p.plan=PLANS[R.plan].k;p.needsReview=R.review;Object.assign(p.data,{supplements:(list||R.list).map(x=>x.n),schedule:(list||R.list).map(x=>({k:x.k,n:x.n,t:x.t,cnt:x.cnt,days:x.days})),removedByUser:R.removedByUser||R.list.filter(x=>S.off&&S.off[x.k]).map(x=>x.n),excluded:R.exList.map(x=>x.n+" — "+x.r),flags:R.flags.map(f=>(f.bad?"[مهم] ":"")+f.t),notes:R.notes.map(n=>n.t||n)})}
  if(S.email)p.data.email=S.email;if(S.code)p.data.code=S.code;if(S.ref)p.data.ref=S.ref;p.data.subscription=S.sub==="m1"?"یک‌ماهه":"سه‌ماهه";
  const lb=S.labs||{};if(lb.d!==undefined)p.data.labs={"ویتامین D":lb.d,"فریتین":lb.f,"B12":lb.b,"TSH":lb.t};
  p.data.state={b:S.b,a:S.a,txt:S.txt,sel:S.sel,done:S.done,phone:S.phone,ref:S.ref,code:S.code,labs:S.labs,sub:S.sub};return p}
@@ -1608,16 +1626,21 @@ async function workspace(r,host){
  host.innerHTML=`<div class="ws">${R0.list.map(x=>{const m=META[x.k]||{},f=F.items[x.k]||{},on=f.on!=null?f.on:!custOff.has(x.n);
   return `<div class="wsi ${on?"":"off"}" data-k="${x.k}"><div class="wsh"><label><input type="checkbox" class="won" ${on?"checked":""}> <b>${esc(x.n)}</b></label><span class="qhint">امتیاز ${fa(x.s)}${custOff.has(x.n)?" · مشتری خاموشش کرده":""}</span>${m.g?`<span class="ev" style="--ec:${GR[m.g][1]}">${GR[m.g][0]}</span>`:""}</div>
   <p class="qhint">دلیل: ${esc((x.why||[]).join(" · "))}</p>${m.e?`<p class="wse">${esc(m.e)}</p>`:""}<p class="qhint">${m.dose?"دوز مرجع: "+esc(m.dose):""}${m.ul?" · حداکثر: "+esc(m.ul):""}</p>${srcLinks(m.src)}
+  <div class="wsch"><select class="inp wt"><option value="am" ${(f.t||x.t)==="am"?"selected":""}>صبح</option><option value="pm" ${(f.t||x.t)==="pm"?"selected":""}>شب</option></select><input class="inp wn" type="number" min="1" max="4" value="${f.cnt||x.cnt}" title="تعداد در هر نوبت"><span class="wdays">${WD.map((w,i)=>`<button type="button" class="${(f.days||x.days).includes(i)?"on":""}" data-i="${i}" title="${WDF[i]}">${w}</button>`).join("")}</span><span class="wpre"><button type="button" data-p="all">هر روز</button><button type="button" data-p="alt">یک روز در میان</button><button type="button" data-p="x3">۳ روز</button><button type="button" data-p="x1">هفته‌ای ۱</button></span></div>
   <div class="wsrow"><select class="inp wprod"><option value="">${P[x.k].length?"انتخاب محصول ("+fa(P[x.k].length)+" قرص/کپسول موجود)":"محصول قرص/کپسول موجود نیست"}</option>${P[x.k].map(opt).join("")}</select><input class="inp wdose" placeholder="دوز نهایی" value="${esc(f.dose||"")}"></div></div>`}).join("")}
   ${R0.exList.length?`<div class="sec"><h2 style="font-size:1rem">حذف‌شده توسط موتور</h2>${R0.exList.map(x=>`<div class="qa"><b>${esc(x.n)}:</b> ${esc(x.r)}${srcLinks(x.s)}</div>`).join("")}</div>`:""}
   ${R0.flags.length||R0.notes.length?`<div class="sec"><h2 style="font-size:1rem">هشدارها و نکات</h2>${R0.flags.map(f=>`<div class="flag ${f.bad?"bad":""}"><span>${esc(f.t)}${srcLinks(f.s)}</span></div>`).join("")}${R0.notes.map(n=>`<div class="flag note"><span>${esc(n.t||n)}${srcLinks(n.s)}</span></div>`).join("")}</div>`:""}
   <div class="field"><label>یادداشت داروساز</label><textarea class="inp" id="wnote" rows="3">${esc(F.note||"")}</textarea></div>
   <div class="wscost" id="wcost"></div><div class="cta-row"><button class="btn lime" id="wsave">ذخیره‌ی تصمیم نهایی <span class="arr">${ICON.arrow}</span></button><span class="qhint" id="wmsg">${F.at?"آخرین ذخیره: "+new Date(F.at).toLocaleString("fa-IR"):""}</span></div></div>`;
  host.querySelectorAll(".wsi").forEach(el=>{const k=el.dataset.k,f=F.items[k]||{},sel=el.querySelector(".wprod");if(f.prod){const i=P[k].findIndex(p=>p.u===f.prod.u);if(i>=0)sel.value=i}});
- const collect=()=>{const items={};let cost=0,unk=0;host.querySelectorAll(".wsi").forEach(el=>{const k=el.dataset.k,on=el.querySelector(".won").checked,v=el.querySelector(".wprod").value,p=v===""?null:P[k][+v];el.classList.toggle("off",!on);
-   items[k]={on,dose:el.querySelector(".wdose").value.trim(),prod:p?{n:p.n,b:p.b,f:p.f,o:p.o,q:p.q,u:p.u,src:p.src}:null};if(on&&p){if(p.q)cost+=p.o/p.q*28;else unk++}});return{items,cost,unk}};
- const upd=()=>{const{cost,unk}=collect();host.querySelector("#wcost").innerHTML=cost?`هزینه‌ی تقریبی مواد ۲۸ روز (یک عدد در روز، قیمت بدون تخفیف): <b>${tmn(cost)}</b>${unk?` · برای ${fa(unk)} محصول تعداد بسته معلوم نیست`:""}`:""};
- host.addEventListener("change",upd);upd();
+ host.querySelectorAll(".wdays button").forEach(b=>b.onclick=()=>{b.classList.toggle("on");upd()});
+ host.querySelectorAll(".wpre button").forEach(b=>b.onclick=()=>{const ds=DAYS[b.dataset.p];b.closest(".wsch").querySelectorAll(".wdays button").forEach(x=>x.classList.toggle("on",ds.includes(+x.dataset.i)));upd()});
+ const collect=()=>{const items={};let cost=0,unk=0,pills=0;host.querySelectorAll(".wsi").forEach(el=>{const k=el.dataset.k,on=el.querySelector(".won").checked,v=el.querySelector(".wprod").value,p=v===""?null:P[k][+v];el.classList.toggle("off",!on);
+   const days=[...el.querySelectorAll(".wdays button.on")].map(b=>+b.dataset.i),cnt=Math.max(1,+el.querySelector(".wn").value||1),t=el.querySelector(".wt").value;
+   items[k]={on,dose:el.querySelector(".wdose").value.trim(),t,cnt,days,prod:p?{n:p.n,b:p.b,f:p.f,o:p.o,q:p.q,u:p.u,src:p.src}:null};
+   if(on){pills+=cnt*days.length;if(p){if(p.q)cost+=p.o/p.q*cnt*days.length*4;else unk++}}});return{items,cost,unk,pills}};
+ const upd=()=>{const{cost,unk,pills}=collect();host.querySelector("#wcost").innerHTML=`میانگین <b>${fa((Math.round(pills/7*10)/10).toString()).replace(".","٫")}</b> قرص در روز · ${fa(pills*4)} قرص در ۲۸ روز`+(cost?` · هزینه‌ی تقریبی مواد ۲۸ روز (قیمت بدون تخفیف): <b>${tmn(cost)}</b>${unk?` · برای ${fa(unk)} محصول تعداد بسته معلوم نیست`:""}`:"")};
+ host.addEventListener("change",upd);host.addEventListener("input",upd);upd();
  host.querySelector("#wsave").onclick=async()=>{const{items}=collect();const fin={items,note:host.querySelector("#wnote").value.trim(),at:Date.now()};const m=host.querySelector("#wmsg");m.textContent="در حال ذخیره…";
   if(!API){m.textContent="ذخیره فقط روی سایت اصلی فعاله";return}
   try{const j=await (await fetch(API+"/api/final",{method:"POST",headers:{"content-type":"application/json","x-admin-key":adminKey()},body:JSON.stringify({cid:r.cid,final:fin})})).json();m.textContent=j.ok?"ذخیره شد ✓":"ذخیره نشد";if(j.ok)r.final=fin}catch(e){m.textContent="اتصال برقرار نشد"}}}
