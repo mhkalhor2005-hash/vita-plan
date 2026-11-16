@@ -566,7 +566,7 @@ const CFG={
  brandMap:{},           // برند هر مکمل، مثلاً {d3:"یوروویتال",omega3:"عبیدی"}
  reviews:[]             // فقط نظر واقعی: {name:"سارا",plan:"BeautyPlan",stars:5,text:"..."}
 };
-const BUILD="1794842324";
+const BUILD="1794842858";
 const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
@@ -690,14 +690,14 @@ const QBY={};CATS.forEach(c=>c.qs.forEach(q=>{q.cat=c.id;QBY[q.id]=q}));QBY.G=GO
 /* ---------------- supplement engine ---------------- */
 const SUP={
  multi:{n:"مولتی‌ویتامین و مینرال پایه",t:"am",c:"#E4B33B",r:0},
- d3:{n:"ویتامین D3",t:"am",c:"#F2D14B",r:1},
- omega3:{n:"امگا ۳ (روغن ماهی)",t:"am",c:"#C98A2E",r:0},
+ d3:{n:"ویتامین D3",t:"noon",c:"#F2D14B",r:1},
+ omega3:{n:"امگا ۳ (روغن ماهی)",t:"noon",c:"#C98A2E",r:0},
  mg:{n:"منیزیم (گلیسینات / سیترات)",t:"pm",c:"#B9C2C9",r:0},
  bcomplex:{n:"ویتامین‌های گروه B",t:"am",c:"#D9603B",r:1},
  b12:{n:"ویتامین B12",t:"am",c:"#C2334B",r:1},
  iron:{n:"آهن + ویتامین C",t:"am",c:"#7A2E2E",r:1},
  folic:{n:"اسید فولیک",t:"am",c:"#E7A0B8",r:1},
- coq10:{n:"کوآنزیم Q10",t:"am",c:"#E07B2A",r:0},
+ coq10:{n:"کوآنزیم Q10",t:"noon",c:"#E07B2A",r:0},
  vitc:{n:"ویتامین C",t:"am",c:"#F28C28",r:1},
  zinc:{n:"زینک",t:"pm",c:"#9AA4AE",r:1},
  probiotic:{n:"پروبیوتیک",t:"am",c:"#F3EFE6",r:0},
@@ -714,7 +714,7 @@ const SUP={
  inositol:{n:"اینوزیتول",t:"pm",c:"#D7C6E8",r:1},
  chromium:{n:"کروم پیکولینات",t:"am",c:"#8FA36B",r:1},
  greentea:{n:"عصاره‌ی چای سبز",t:"am",c:"#5F8F3A",r:0},
- curcumin:{n:"کورکومین",t:"pm",c:"#E3A11C",r:0}
+ curcumin:{n:"کورکومین",t:"noon",c:"#E3A11C",r:0}
 };
 const PLANS={
  sport:{k:"SportPlan",fa:"برنامه‌ی ورزشی",c:"var(--indigo)",img:"sport",line:"برنامه‌ی روزانه‌ی ویتامینی که بعد از ورزش حواسش به بدنت هست!"},
@@ -727,6 +727,7 @@ const PLANS={
 const ODS=n=>"https://ods.od.nih.gov/factsheets/"+n+"-HealthProfessional/";
 const SRC={},META={};
 const GR={A:["شواهد قوی","var(--lime)"],B:["شواهد متوسط","var(--cyan)"],C:["شواهد محدود","var(--warn)"]};
+const TM={am:["صبح","همراه صبحانه","sun","08"],noon:["ظهر","همراه ناهار","sun","14"],pm:["شب","بعد از شام","moon","22"]},TIMES=["am","noon","pm"];
 const WD=["ش","ی","د","س","چ","پ","ج"],WDF=["شنبه","یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه"];
 const DAYS={all:[0,1,2,3,4,5,6],alt:[0,2,4,6],x3:[1,3,5],x1:[5]};
 function schedFor(k,c){const t=SUP[k].t;let days=DAYS.all,n=1;
@@ -1114,7 +1115,7 @@ const FAQ=[
  ["با داروهایی که مصرف می‌کنم تداخل نداره؟","توی پرسشنامه داروها و بیماری‌هات رو می‌پرسیم و مکمل‌هایی که با اون‌ها تداخل دارن خودکار حذف می‌شن. بعد داروساز ویتاپلن هم برنامه رو بازبینی می‌کنه. اگه داروی خاصی مصرف می‌کنی، بهتره با پزشک معالجت هم هماهنگ کنی."],
  ["بعد از چند وقت اثرش رو حس می‌کنم؟","بستگی به مکمل و بدن هر کس داره. بیشتر مکمل‌ها با مصرف منظم و روزانه طی چند هفته اثرشون مشخص می‌شه، برای همین پک‌ها ۲۸ روزه طراحی شدن."],
  ["توی بارداری یا شیردهی هم می‌تونم استفاده کنم؟","بله، ولی با فرمول مخصوص. اگه توی پرسشنامه بارداری یا شیردهی رو بزنی، ترکیبات نامناسب حذف می‌شن و برنامه حتماً باید قبل از ارسال توسط داروساز تأیید بشه."],
- ["ساشه‌ها رو چطور مصرف کنم؟","هر روز یک ساشه‌ی صبح همراه صبحانه و یک ساشه‌ی شب بعد از شام. زمان مصرف روی هر ساشه نوشته شده."],
+ ["ساشه‌ها رو چطور مصرف کنم؟","ساشه‌ی صبح همراه صبحانه، ساشه‌ی ظهر همراه ناهار (برای مکمل‌های محلول در چربی مثل امگا ۳ و ویتامین D که با غذای اصلی بهتر جذب می‌شن) و ساشه‌ی شب بعد از شام. زمان مصرف روی هر ساشه نوشته شده."],
  ["اگه بخوام ترکیب پکم رو عوض کنم؟","توی صفحه‌ی نتیجه هر مکملی رو نخوای خاموش می‌کنی. بعداً هم می‌تونی پرسشنامه رو دوباره پر کنی یا با داروساز صحبت کنی."],
  ["اطلاعاتم کجا ذخیره می‌شه؟","پاسخ‌هات فقط برای طراحی پک و تماس داروساز با تو استفاده می‌شه و در اختیار کس دیگه‌ای قرار نمی‌گیره."]];
 const ARTICLES=[
@@ -1165,7 +1166,7 @@ async function uploadLab(file,lab){if(!file||!API)return;lab.textContent="در �
 function icsFile(out){const d=new Date();d.setDate(d.getDate()+1);const ymd=d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
  const st=new Date().toISOString().replace(/[-:]/g,"").slice(0,15)+"Z";
  const ev=(id,hh,title)=>["BEGIN:VEVENT","UID:"+id+"-"+S.cid+"@vitaplan","DTSTAMP:"+st,"DTSTART:"+ymd+"T"+hh+"0000","DURATION:PT10M","RRULE:FREQ=DAILY;COUNT=28","SUMMARY:"+title,"DESCRIPTION:ویتاپلن · @vitaplan.ir","BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+title,"TRIGGER:PT0M","END:VALARM","END:VEVENT"].join("\r\n");
- const ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//VitaPlan//FA","CALSCALE:GREGORIAN",ev("am","08","ساشه‌ی صبح ویتاپلن ☀️"),ev("pm","22","ساشه‌ی شب ویتاپلن 🌙"),"END:VCALENDAR"].join("\r\n");
+ const ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//VitaPlan//FA","CALSCALE:GREGORIAN",ev("am","08","ساشه‌ی صبح ویتاپلن ☀️"),...(compute(S).list.some(x=>!(S.off||{})[x.k]&&x.t==="noon")?[ev("noon","14","ساشه‌ی ظهر ویتاپلن 🍽️ همراه ناهار")]:[]),ev("pm","22","ساشه‌ی شب ویتاپلن 🌙"),"END:VCALENDAR"].join("\r\n");
  const url=URL.createObjectURL(new Blob([ics],{type:"text/calendar"}));
  const a=document.createElement("a");a.href=url;a.download="vitaplan-reminder.ics";document.body.append(a);a.click();a.remove();
  out.innerHTML=`<span class="qhint">اگه تقویم باز نشد، <a href="${url}" download="vitaplan-reminder.ics" style="color:var(--lime)">این فایل</a> رو باز کن.</span>`}
@@ -1252,6 +1253,7 @@ function home(){
   <div class="day glass reveal"><div class="dbar"><i></i></div><div class="dstops">
    <div class="dstop"><div class="di" style="color:#F2D14B">${ICON.sun}</div><b>08:00</b><span>ساشه‌ی صبح</span><small>همراه صبحانه</small></div>
    <div class="dstop"><div class="di" style="color:var(--lime)">${ICON.activity}</div><b>11:00</b><span>انرژی پایدار</span><small>تمرکز در طول روز</small></div>
+   <div class="dstop"><div class="di" style="color:#C98A2E">${ICON.sun}</div><b>14:00</b><span>ساشه‌ی ظهر</span><small>همراه ناهار</small></div>
    <div class="dstop"><div class="di" style="color:#FF8C3C">${ICON.mind}</div><b>18:00</b><span>عصر سبک‌تر</span><small>ورزش و ریکاوری</small></div>
    <div class="dstop"><div class="di" style="color:var(--indigo)">${ICON.moon}</div><b>22:00</b><span>ساشه‌ی شب</span><small>بعد از شام</small></div>
   </div></div>
@@ -1464,8 +1466,8 @@ function result(){
  saveLead("completed",R,mine());
  const weekHTML=()=>{const L=mine();const cell=(di,t)=>{const a=L.filter(x=>x.t===t&&x.days.includes(di));return `<td>${a.map(x=>Array.from({length:x.cnt},()=>`<span class="pill ${x.r?"r":""}" title="${esc(x.n)}" style="background:${x.c};color:${x.c}"></span>`).join("")).join("")}<small>${fa(a.reduce((s,x)=>s+x.cnt,0))}</small></td>`};
   const tot=L.reduce((s,x)=>s+x.cnt*x.days.length,0);
-  return `<h2>برنامه‌ی هفتگی تو <span class="n">میانگین ${fa((Math.round(tot/7*10)/10).toString()).replace(".","٫")} قرص در روز</span></h2><div class="wkwrap"><table class="wk"><thead><tr><th></th>${WDF.map((d,i)=>`<th><span class="lg">${d}</span><span class="sm">${WD[i]}</span></th>`).join("")}</tr></thead><tbody><tr><th>صبح</th>${WD.map((_,i)=>cell(i,"am")).join("")}</tr><tr><th>شب</th>${WD.map((_,i)=>cell(i,"pm")).join("")}</tr></tbody></table></div><p class="qhint">هر خونه یک ساشه‌ست. بعضی مکمل‌ها مثل آهن و زینک عمداً هر روز نیستن، چون این‌طوری بهتر جذب می‌شن یا دوز هفتگی‌شون کافیه. برنامه‌ی نهایی رو داروساز تأیید می‌کنه.</p>`};
- const sachHTML=()=>{const L=mine();return sach("ساشه‌ی صبح، همراه صبحانه","sun",L.filter(x=>x.t==="am"))+sach("ساشه‌ی شب، بعد از شام","moon",L.filter(x=>x.t==="pm"))};
+  return `<h2>برنامه‌ی هفتگی تو <span class="n">میانگین ${fa((Math.round(tot/7*10)/10).toString()).replace(".","٫")} قرص در روز</span></h2><div class="wkwrap"><table class="wk"><thead><tr><th></th>${WDF.map((d,i)=>`<th><span class="lg">${d}</span><span class="sm">${WD[i]}</span></th>`).join("")}</tr></thead><tbody>${TIMES.filter(t=>t!=="noon"||L.some(x=>x.t==="noon")).map(t=>`<tr><th>${TM[t][0]}</th>${WD.map((_,i)=>cell(i,t)).join("")}</tr>`).join("")}</tbody></table></div><p class="qhint">هر خونه یک ساشه‌ست. بعضی مکمل‌ها مثل آهن و زینک عمداً هر روز نیستن، چون این‌طوری بهتر جذب می‌شن یا دوز هفتگی‌شون کافیه. برنامه‌ی نهایی رو داروساز تأیید می‌کنه.</p>`};
+ const sachHTML=()=>{const L=mine();return TIMES.filter(t=>t!=="noon"||L.some(x=>x.t==="noon")).map(t=>sach("ساشه‌ی "+TM[t][0]+"، "+TM[t][1],TM[t][2],L.filter(x=>x.t===t))).join("")};
  const pills=arr=>arr.map((x,i)=>`<span class="pill ${x.r?"r":""}" style="background:${x.c};color:${x.c};animation-delay:${400+i*90}ms"></span>`).join("");
  const sach=(lab,ic,arr)=>`<div class="sachet"><div class="when"><span>${lab}</span><img src="${IMG.logo}" alt=""></div><div class="pills">${arr.length?pills(arr):'<span class="qhint">—</span>'}</div><ul>${arr.map(x=>`<li>${esc(x.n)}</li>`).join("")}</ul></div>`;
  const mktUpd=()=>{const e=d.querySelector("#mkt");if(!e)return;const{t,n}=mktTotal(mine());e.innerHTML=n?`خرید جداگانه‌ی همین ${fa(n)} مکمل از داروخونه (یک بسته از هر کدوم، قیمت میانه‌ی بازار بدون تخفیف): حدود <b>${tmn(t)}</b>`:""};
@@ -1492,7 +1494,7 @@ function result(){
  <section class="sec reveal"><div class="sachets" id="sachs" style="margin-bottom:20px">${sachHTML()}</div><div id="wkp" style="margin-bottom:22px">${weekHTML()}</div><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="supps">
   ${R.list.map((x,i)=>`<div class="supp ${S.off[x.k]?"off":""}" data-k="${x.k}" style="animation-delay:${i*70}ms"><span class="dot" style="background:${x.c};color:${x.c}"></span>
    <div><h3>${esc(x.n)}</h3><p>${esc((x.why||[]).slice(0,3).join(" · "))}</p><div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
-   <span class="t">${x.t==="am"?"صبح":"شب"}<small>${x.cnt>1?fa(x.cnt)+" عدد · ":""}${freqLabel(x.days)}</small></span><button class="sw" role="switch" aria-checked="${!S.off[x.k]}" aria-label="${esc(x.n)} در پک من"></button></div>`).join("")}
+   <span class="t">${TM[x.t]?TM[x.t][0]:"صبح"}<small>${x.cnt>1?fa(x.cnt)+" عدد · ":""}${freqLabel(x.days)}</small></span><button class="sw" role="switch" aria-checked="${!S.off[x.k]}" aria-label="${esc(x.n)} در پک من"></button></div>`).join("")}
  </div><p class="disc">مکمل‌ها از برندهای معتبر و دارای مجوز بازار ایران${CFG.brands.length?" مثل "+CFG.brands.join(" و "):""} انتخاب می‌شن. دوز نهایی هر مکمل پس از بازبینی داروساز و با توجه به مکمل‌های فعلی تو تعیین می‌شود.</p></section>
  <section class="sec reveal"><h2>دقیق‌ترش کن با آزمایش <span class="n">اختیاری</span></h2><p class="qhint">اگه آزمایش خون اخیر (سه ماه گذشته) داری، عددها رو وارد کن تا ترکیبت دقیق‌تر بشه.</p>
   <div class="labs">
@@ -1504,7 +1506,7 @@ function result(){
   ${API?`<label class="drop"><input type="file" id="lb-file" accept="image/*,application/pdf"><span>${ICON.arrow}</span><span id="lb-fn">${S.labs.file?"فایل آزمایش فرستاده شد ✓":"یا عکس / PDF آزمایش رو بفرست تا داروساز ببینه"}</span></label>`:""}
   <div class="cta-row" style="margin-top:14px"><button class="btn line" id="lb-go">به‌روزرسانی ترکیب <span class="arr">${ICON.arrow}</span></button><span class="qhint" id="lb-msg"></span></div></section>
  <section class="sec reveal"><h2>نوع اشتراک</h2><div class="subs">${[["m3","اشتراک سه‌ماهه","پیشنهادی",CFG.prices.m3],["m1","یک‌ماهه","",CFG.prices.m1]].map(([k,t,tag,p])=>`<button class="sub ${S.sub===k?"on":""}" data-s="${k}">${tag?`<span class="tag2">${tag}</span>`:""}<b>${t}</b><div class="pr">${p?`روزی <span>${fa(p.toLocaleString("en-US").replace(/,/g,"٬"))}</span> تومان`:'<small>قیمت بعد از بازبینی داروساز اعلام می‌شه</small>'}</div><small>${k==="m3"?"۳ بسته‌ی ۲۸ روزه":"یک بسته‌ی ۲۸ روزه"}</small></button>`).join("")}</div></section>
- <section class="sec reveal"><h2>یادآور مصرف</h2><p class="qhint">ساشه‌ی صبح ساعت ۸ و ساشه‌ی شب ساعت ۲۲، به مدت ۲۸ روز توی تقویم گوشیت.</p><div class="cta-row" style="margin-top:12px"><button class="btn line" id="ics">افزودن به تقویم گوشی <span class="arr">${ICON.arrow}</span></button><span id="icsout"></span></div></section>
+ <section class="sec reveal"><h2>یادآور مصرف</h2><p class="qhint">ساشه‌ی صبح ساعت ۸، ساشه‌ی ظهر ساعت ۱۴ (اگه داری) و ساشه‌ی شب ساعت ۲۲، به مدت ۲۸ روز توی تقویم گوشیت.</p><div class="cta-row" style="margin-top:12px"><button class="btn line" id="ics">افزودن به تقویم گوشی <span class="arr">${ICON.arrow}</span></button><span id="icsout"></span></div></section>
  ${R.exList.length?`<section class="sec reveal"><h2>حذف‌شده برای ایمنی تو</h2><div class="ex">${R.exList.map(x=>`<span>${esc(x.n)}<em>${esc(x.r)}</em></span>`).join("")}</div></section>`:""}
  ${R.flags.length||R.notes.length?`<section class="sec reveal"><h2>نکات ایمنی و مصرف</h2>${R.flags.map(f=>`<div class="flag ${f.bad?"bad":""}"><span>${esc(f.t)}${srcLinks(f.s)}</span></div>`).join("")}${R.notes.map(n=>`<div class="flag note"><span>${esc(n.t||n)}${srcLinks(n.s)}</span></div>`).join("")}</section>`:""}
  <section class="submitbox reveal"><h2>ارسال برای بازبینی داروساز</h2><p>شماره‌ات رو وارد کن تا داروساز ویتاپلن برنامه رو بررسی کنه و برای سفارش بسته‌ی ۲۸ روزه باهات تماس بگیره.</p>
@@ -1626,7 +1628,7 @@ async function workspace(r,host){
  host.innerHTML=`<div class="ws">${R0.list.map(x=>{const m=META[x.k]||{},f=F.items[x.k]||{},on=f.on!=null?f.on:!custOff.has(x.n);
   return `<div class="wsi ${on?"":"off"}" data-k="${x.k}"><div class="wsh"><label><input type="checkbox" class="won" ${on?"checked":""}> <b>${esc(x.n)}</b></label><span class="qhint">امتیاز ${fa(x.s)}${custOff.has(x.n)?" · مشتری خاموشش کرده":""}</span>${m.g?`<span class="ev" style="--ec:${GR[m.g][1]}">${GR[m.g][0]}</span>`:""}</div>
   <p class="qhint">دلیل: ${esc((x.why||[]).join(" · "))}</p>${m.e?`<p class="wse">${esc(m.e)}</p>`:""}<p class="qhint">${m.dose?"دوز مرجع: "+esc(m.dose):""}${m.ul?" · حداکثر: "+esc(m.ul):""}</p>${srcLinks(m.src)}
-  <div class="wsch"><select class="inp wt"><option value="am" ${(f.t||x.t)==="am"?"selected":""}>صبح</option><option value="pm" ${(f.t||x.t)==="pm"?"selected":""}>شب</option></select><input class="inp wn" type="number" min="1" max="4" value="${f.cnt||x.cnt}" title="تعداد در هر نوبت"><span class="wdays">${WD.map((w,i)=>`<button type="button" class="${(f.days||x.days).includes(i)?"on":""}" data-i="${i}" title="${WDF[i]}">${w}</button>`).join("")}</span><span class="wpre"><button type="button" data-p="all">هر روز</button><button type="button" data-p="alt">یک روز در میان</button><button type="button" data-p="x3">۳ روز</button><button type="button" data-p="x1">هفته‌ای ۱</button></span></div>
+  <div class="wsch"><select class="inp wt">${TIMES.map(t=>`<option value="${t}" ${(f.t||x.t)===t?"selected":""}>${TM[t][0]}</option>`).join("")}</select><input class="inp wn" type="number" min="1" max="4" value="${f.cnt||x.cnt}" title="تعداد در هر نوبت"><span class="wdays">${WD.map((w,i)=>`<button type="button" class="${(f.days||x.days).includes(i)?"on":""}" data-i="${i}" title="${WDF[i]}">${w}</button>`).join("")}</span><span class="wpre"><button type="button" data-p="all">هر روز</button><button type="button" data-p="alt">یک روز در میان</button><button type="button" data-p="x3">۳ روز</button><button type="button" data-p="x1">هفته‌ای ۱</button></span></div>
   <div class="wsrow"><select class="inp wprod"><option value="">${P[x.k].length?"انتخاب محصول ("+fa(P[x.k].length)+" قرص/کپسول موجود)":"محصول قرص/کپسول موجود نیست"}</option>${P[x.k].map(opt).join("")}</select><input class="inp wdose" placeholder="دوز نهایی" value="${esc(f.dose||"")}"></div></div>`}).join("")}
   ${R0.exList.length?`<div class="sec"><h2 style="font-size:1rem">حذف‌شده توسط موتور</h2>${R0.exList.map(x=>`<div class="qa"><b>${esc(x.n)}:</b> ${esc(x.r)}${srcLinks(x.s)}</div>`).join("")}</div>`:""}
   ${R0.flags.length||R0.notes.length?`<div class="sec"><h2 style="font-size:1rem">هشدارها و نکات</h2>${R0.flags.map(f=>`<div class="flag ${f.bad?"bad":""}"><span>${esc(f.t)}${srcLinks(f.s)}</span></div>`).join("")}${R0.notes.map(n=>`<div class="flag note"><span>${esc(n.t||n)}${srcLinks(n.s)}</span></div>`).join("")}</div>`:""}
