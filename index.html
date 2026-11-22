@@ -594,7 +594,7 @@ const CFG={
  brandMap:{},           // برند هر مکمل، مثلاً {d3:"یوروویتال",omega3:"عبیدی"}
  reviews:[]             // فقط نظر واقعی: {name:"سارا",plan:"BeautyPlan",stars:5,text:"..."}
 };
-const BUILD="1795371219";
+const BUILD="1795371969";
 const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
@@ -1768,7 +1768,7 @@ function initStory(root){
   for(let k=0;k<6;k++)el("rect",{x:b.x-34*s+k*13.5*s,y:top-66*s,width:4*s,height:32*s,rx:2,fill:"#000",opacity:.18},lid);
   b.cx=b.x;b.cy=top+h/2;b.my=top-30*s});
  // ghost logo behind everything
- const ghost=el("image",{x:170,y:20,width:460,height:460,opacity:.2,filter:"url(#stGlow)"},q("#stGhost"));ghost.setAttribute("href",IMG.logo);
+ const ghost=el("image",{x:190,y:-60,width:420,height:420,opacity:.2,filter:"url(#stGlow)"},q("#stGhost"));ghost.setAttribute("href",IMG.logo);
  const N=7,SW=86,SH=118,GAP=8,SY=650,SX0=400-(N*SW+(N-1)*GAP)/2,S=[],strip=q("#stStrip");
  const DN=["شنبه","یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه"];
  for(let i=0;i<N;i++){const x=SX0+i*(SW+GAP),g=el("g",{},strip);
