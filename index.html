@@ -594,7 +594,7 @@ const CFG={
  brandMap:{},           // برند هر مکمل، مثلاً {d3:"یوروویتال",omega3:"عبیدی"}
  reviews:[]             // فقط نظر واقعی: {name:"سارا",plan:"BeautyPlan",stars:5,text:"..."}
 };
-const BUILD="1795370377";
+const BUILD="1795370893";
 const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
@@ -1773,8 +1773,8 @@ function initStory(root){
  el("rect",{x:BX-BW/2,y:BY,width:BW,height:BH,rx:6,fill:"url(#stBox)",stroke:"rgba(166,240,74,.55)","stroke-width":1.5},fg);
  el("polygon",{points:`${BX+BW/2},${BY} ${BX+BW/2+44},${BY-36} ${BX+BW/2+44},${BY+BH-36} ${BX+BW/2},${BY+BH}`,fill:"#0C1410",stroke:"rgba(166,240,74,.35)"},fg);
  el("rect",{x:BX-BW/2,y:BY+BH-62,width:BW,height:62,fill:LIME},fg);
- el("circle",{cx:BX-BW/2+62,cy:BY+70,r:34,fill:LIME,filter:"url(#stGlow)"},fg);
- const vp=el("text",{x:BX-BW/2+62,y:BY+80,"text-anchor":"middle","font-family":F,"font-weight":"900","font-size":26,fill:"#071003"},fg);vp.textContent="VP";
+ el("circle",{cx:BX-BW/2+62,cy:BY+70,r:40,fill:"url(#stFloor)"},fg);
+ const lg=el("image",{x:BX-BW/2+26,y:BY+34,width:72,height:72,filter:"url(#stGlow)"},fg);lg.setAttribute("href",IMG.logo);
  const t1=el("text",{direction:"rtl",x:BX+BW/2-26,y:BY+72,"text-anchor":"start","font-family":F,"font-weight":"900","font-size":34,fill:"#EEF4EA"},fg);t1.textContent="ویتاپلن";
  const t2=el("text",{direction:"rtl",x:BX+BW/2-26,y:BY+108,"text-anchor":"start","font-family":F,"font-size":17,fill:"#A9B6AE"},fg);t2.textContent="پک شخصی ۲۸ روزه";
  const t3=el("text",{direction:"rtl",x:BX+BW/2-26,y:BY+BH-24,"text-anchor":"start","font-family":F,"font-weight":"900","font-size":17,fill:"#071003"},fg);t3.textContent="۲۸ ساشه · مخصوص تو";
