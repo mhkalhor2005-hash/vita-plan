@@ -191,6 +191,27 @@ main{padding-block:12px 150px;position:relative}
 .field{display:grid;gap:6px;margin-top:14px}
 .field label{font-size:.85rem;color:var(--cocoa-2)}
 .inp{width:100%;font:inherit;color:var(--cocoa);background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:13px 16px;transition:border-color .25s,box-shadow .25s}
+.drg{margin-top:14px;position:relative}
+.drg .sug{position:absolute;inset-inline:0;top:100%;z-index:5;margin-top:6px;background:#0f1a0a;border:1px solid var(--line);border-radius:14px;max-height:240px;overflow:auto;box-shadow:0 18px 40px -12px rgba(0,0,0,.6)}
+.drg .sug button{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:start;padding:11px 14px;background:none;border:0;color:var(--cocoa);font:inherit;cursor:pointer;min-height:44px}
+.drg .sug button:hover,.drg .sug button:focus-visible{background:var(--lime-soft);outline:none}
+.drg .sug small{opacity:.6;unicode-bidi:isolate;direction:ltr}
+.dchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.dchips span{display:inline-flex;align-items:center;gap:6px;padding:6px 8px 6px 12px;border-radius:999px;background:var(--lime-soft);border:1px solid rgba(161,202,80,.4);font-size:.9rem}
+.dchips button{background:none;border:0;color:inherit;cursor:pointer;font-size:1rem;line-height:1;min-width:28px;min-height:28px}
+.good{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.good>div{padding:14px 16px;border-radius:16px;background:var(--lime-soft);border:1px solid rgba(161,202,80,.3)}
+.good b{display:block;margin-bottom:4px}.good p{margin:0;font-size:.88rem;opacity:.8}
+.eta{display:grid;gap:14px}.er{display:grid;grid-template-columns:130px 1fr;gap:4px 14px;align-items:center}
+.er p{grid-column:2;margin:0;font-size:.82rem;opacity:.72}
+.et{position:relative;height:12px;border-radius:99px;background:rgba(255,255,255,.07)}
+.et i{position:absolute;top:0;bottom:0;border-radius:99px;background:linear-gradient(90deg,var(--lime),#59B7D6);box-shadow:0 0 12px var(--lime-soft)}
+.eax{display:flex;justify-content:space-between;margin-inline-start:144px;font-size:.75rem;opacity:.55}
+@media(max-width:560px){.er{grid-template-columns:1fr}.er p{grid-column:1}.eax{margin-inline-start:0}}
+.packfx .steps{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:6px;font-size:.9rem}
+.packfx .steps li{opacity:0;animation:stIn .4s var(--ease,ease) forwards}
+.packfx .steps li::before{content:"✓";color:var(--lime);margin-inline-end:8px}
+@keyframes stIn{from{opacity:0;transform:translateY(6px)}to{opacity:.9;transform:none}}
 .inp:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 4px var(--lime-soft)}
 .inp::placeholder{color:var(--stone)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -595,7 +616,7 @@ const CFG={
  brandMap:{},           // برند هر مکمل، مثلاً {d3:"یوروویتال",omega3:"عبیدی"}
  reviews:[]             // فقط نظر واقعی: {name:"سارا",plan:"BeautyPlan",stars:5,text:"..."}
 };
-const BUILD="1795372516";
+const BUILD="1795374315";
 const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
@@ -617,6 +638,42 @@ const ICON={
 
 /* ---------------- questionnaire data ---------------- */
 const NONE="هیچ‌کدام";
+const DRUGS=[
+["لووتیروکسین","Levothyroxine · Euthyrox · Thyroxine",[1]],["لیوتیرونین","Liothyronine",[1]],["متی‌مازول","Methimazole",[1]],["پروپیل‌تیواوراسیل","PTU",[1]],
+["متفورمین","Metformin",[2]],["گلی‌بن‌کلامید","Glibenclamide",[2]],["گلیکلازید","Gliclazide",[2]],["پیوگلیتازون","Pioglitazone",[2]],["سیتاگلیپتین","Sitagliptin",[2]],["امپاگلیفلوزین (جاردیانس)","Empagliflozin · Jardiance",[2]],["انسولین","Insulin",[2]],
+["سماگلوتاید (اوزمپیک، ویگووی)","Semaglutide · Ozempic · Wegovy · Rybelsus",[2,"glp1"]],["لیراگلوتاید (ساکسندا، ویکتوزا)","Liraglutide · Saxenda · Victoza",[2,"glp1"]],["تیرزپاتاید (مونجارو)","Tirzepatide · Mounjaro",[2,"glp1"]],
+["وارفارین","Warfarin",[3]],["آپیکسابان (الیکوئیس)","Apixaban · Eliquis",["doac"]],["ریواروکسابان (زارلتو)","Rivaroxaban · Xarelto",["doac"]],["دابیگاتران","Dabigatran",["doac"]],["هپارین / انوکساپارین","Enoxaparin",["doac"]],
+["آسپرین","Aspirin",[10]],["کلوپیدوگرل (پلاویکس)","Clopidogrel · Plavix",[10]],["تیکاگرلور","Ticagrelor",[10]],
+["والپروات (دپاکین)","Valproate · Depakine",[4]],["کاربامازپین","Carbamazepine",[4]],["فنی‌توئین","Phenytoin",[4]],["لاموتریژین","Lamotrigine",[4]],["لوتیراستام (کپرا)","Levetiracetam · Keppra",[4]],["توپیرامات","Topiramate",[4]],["گاباپنتین","Gabapentin",[4]],["پره‌گابالین (لیریکا)","Pregabalin · Lyrica",[4]],["فنوباربیتال","Phenobarbital",[4]],
+["ایزوترتینوئین (راکوتان)","Isotretinoin · Roaccutane",[5]],["آسیترتین","Acitretin",[5]],
+["سرترالین","Sertraline",[6]],["فلوکستین","Fluoxetine",[6]],["سیتالوپرام / اس‌سیتالوپرام","Escitalopram · Citalopram · Cipralex",[6]],["پاروکستین","Paroxetine",[6]],["فلووکسامین","Fluvoxamine",[6]],["ونلافاکسین","Venlafaxine",[6]],["دولوکستین","Duloxetine",[6]],["بوپروپیون","Bupropion",[6]],["میرتازاپین","Mirtazapine",[6,12]],["آمی‌تریپتیلین","Amitriptyline",[6,12]],["نورتریپتیلین","Nortriptyline",[6]],["ترازودون","Trazodone",[6,12]],
+["لیتیوم","Lithium",["lithium"]],
+["کوئتیاپین (سروکوئل)","Quetiapine · Seroquel",["antipsych",12]],["اولانزاپین","Olanzapine",["antipsych",12]],["ریسپریدون","Risperidone",["antipsych"]],["آریپیپرازول","Aripiprazole",["antipsych"]],["هالوپریدول","Haloperidol",["antipsych"]],
+["آلپرازولام","Alprazolam",[12]],["کلونازپام","Clonazepam",[12]],["لورازپام","Lorazepam",[12]],["دیازپام","Diazepam",[12]],["اگزازپام","Oxazepam",[12]],["زولپیدم","Zolpidem",[12]],["کلردیازپوکساید","Chlordiazepoxide",[12]],
+["متیل‌فنیدیت (ریتالین)","Methylphenidate · Ritalin",["stim"]],["آتوموکستین","Atomoxetine",["stim"]],
+["لوزارتان","Losartan",[7]],["والزارتان","Valsartan",[7]],["کاندزارتان","Candesartan",[7]],["تلمیزارتان","Telmisartan",[7]],["ایربزارتان","Irbesartan",[7]],["کاپتوپریل","Captopril",[7]],["انالاپریل","Enalapril",[7]],["لیزینوپریل","Lisinopril",[7]],
+["آملودیپین","Amlodipine",[7]],["نیفدیپین","Nifedipine",[7]],["دیلتیازم","Diltiazem",[7]],["وراپامیل","Verapamil",[7]],
+["متوپرولول","Metoprolol",[7]],["آتنولول","Atenolol",[7]],["پروپرانولول","Propranolol",[7]],["کارودیلول","Carvedilol",[7]],["بیسوپرولول","Bisoprolol",[7]],
+["هیدروکلروتیازید","Hydrochlorothiazide",[7,"thiazide"]],["تریامترن اچ (تریامترن‌اچ)","Triamterene H · Dyazide",[7,"thiazide","ksp"]],["اینداپامید","Indapamide",[7,"thiazide"]],["کلرتالیدون","Chlorthalidone",[7,"thiazide"]],
+["فوروزماید (لازیکس)","Furosemide · Lasix",[7,"loop"]],["اسپیرونولاکتون","Spironolactone",[7,"ksp"]],["آمیلوراید","Amiloride",[7,"ksp"]],
+["دیگوکسین","Digoxin",["digoxin"]],["آمیودارون","Amiodarone",["amio"]],
+["آتورواستاتین","Atorvastatin",[9]],["روزوواستاتین","Rosuvastatin",[9]],["سیمواستاتین","Simvastatin",[9]],["لوواستاتین","Lovastatin",[9]],["جم‌فیبروزیل","Gemfibrozil",["fib"]],["فنوفیبرات","Fenofibrate",["fib"]],["ازتیمایب","Ezetimibe",[]],
+["آلندرونات","Alendronate",[11]],["ریزدرونات","Risedronate",[11]],["ایباندرونات","Ibandronate",[11]],["زولدرونیک اسید","Zoledronic acid",[]],
+["امپرازول","Omeprazole · Losec",["ppi"]],["پنتوپرازول","Pantoprazole · Pantozol",["ppi"]],["اِزومپرازول","Esomeprazole",["ppi"]],["لانزوپرازول","Lansoprazole",["ppi"]],["رانیتیدین / فاموتیدین","Famotidine",["h2"]],
+["داکسی‌سایکلین","Doxycycline",["abx"]],["مینوسایکلین","Minocycline",["abx"]],["تتراسایکلین","Tetracycline",["abx"]],["سیپروفلوکساسین","Ciprofloxacin",["abx"]],["لووفلوکساسین","Levofloxacin",["abx"]],["آزیترومایسین","Azithromycin",["abx2"]],["آموکسی‌سیلین / کوآموکسی‌کلاو","Amoxicillin",["abx2"]],["سفکسیم","Cefixime",["abx2"]],["مترونیدازول","Metronidazole",["abx2"]],
+["ایزونیازید","Isoniazid",["inh"]],
+["پردنیزولون","Prednisolone · Prednisone",["steroid"]],["دگزامتازون","Dexamethasone",["steroid"]],["متیل‌پردنیزولون","Methylprednisolone",["steroid"]],["هیدروکورتیزون خوراکی","Hydrocortisone",["steroid"]],
+["متوترکسات","Methotrexate",["mtx",8]],["آزاتیوپرین","Azathioprine",[8]],["سیکلوسپورین","Cyclosporine",[8]],["تاکرولیموس","Tacrolimus",[8]],["مایکوفنولات","Mycophenolate",[8]],["هیدروکسی‌کلروکین","Hydroxychloroquine · Plaquenil",["hcq"]],["سولفاسالازین","Sulfasalazine",["ssz"]],["تاموکسیفن","Tamoxifen",[8]],["لتروزول / آناستروزول","Letrozole",[8]],["کپسیتابین","Capecitabine",[8]],["آدالیمومب / اتانرسپت","Adalimumab",[8]],
+["لوودوپا (سینمت)","Levodopa · Sinemet",["levodopa"]],
+["قرص ضدبارداری (LD، HD، یاسمین، دیان)","OCP · LD · HD · Yasmin · Diane",["ocp"]],["سیپروترون","Cyproterone",["ocp"]],["استروژن / هورمون‌درمانی یائسگی","HRT",["ocp"]],["پروژسترون / مدروکسی‌پروژسترون","Progesterone",[]],
+["تستوسترون","Testosterone",["testo"]],["فیناستراید","Finasteride",[]],["ماینوکسیدیل خوراکی","Minoxidil",[7]],
+["آلوپورینول","Allopurinol",[]],["کلشی‌سین","Colchicine",["colch"]],
+["ایبوپروفن / ناپروکسن (مصرف روزانه)","NSAID",["nsaid"]],["سلکوکسیب","Celecoxib",["nsaid"]],["ترامادول","Tramadol",["tram"]],["سوماتریپتان","Sumatriptan",["trip"]],
+["مونته‌لوکاست","Montelukast",[]],["سالبوتامول / سرتاید","Inhaler",[]],["ستیریزین / لوراتادین","Antihistamine",[]],
+["تامسولوسین","Tamsulosin",[]],["سیلدنافیل / تادالافیل","PDE5",["pde5"]],
+["اورلیستات","Orlistat",["orli"]],["کلستیرامین","Cholestyramine",["bas"]],
+["آهن (فروس سولفات، فرفولیک)","Iron",["fe"]],["کلسیم یا کلسیم‌دی","Calcium",["ca"]],["ویتامین D (پرل ۵۰ هزار)","Vitamin D 50000",["vd"]],
+];
 const BASIC={id:"basic",title:"اطلاعات پایه"};
 const GOALS={id:"G",t:"هدف اصلی شما از دریافت برنامه‌ی شخصی‌سازی‌شده‌ی مکمل چیست؟",hint:"حداکثر سه گزینه انتخاب کنید.",type:"multi",max:3,o:["افزایش سطح انرژی و کاهش خستگی","بهبود کیفیت خواب","افزایش تمرکز و عملکرد ذهنی","تقویت سیستم ایمنی","بهبود وضعیت پوست، مو و ناخن","بهبود عملکرد ورزشی و ریکاوری","کاهش وزن و بهبود متابولیسم","افزایش وزن","بهبود عملکرد جنسی","حمایت از باروری و سلامت هورمونی","پیشگیری از کمبود ریزمغذی‌ها و حفظ سلامت عمومی"],other:"سایر اهداف (اختیاری)"};
 
@@ -682,7 +739,7 @@ const CATS=[
  {id:"NUT07",t:"بیشتر کدام مورد درباره‌ی شما صدق می‌کند؟",o:["معمولاً وعده‌های غذایی منظمی دارم.","گاهی وعده‌های اصلی را حذف می‌کنم.","بیشتر روزها صبحانه نمی‌خورم.","برنامه‌ی غذایی منظمی ندارم."]},
  {id:"NUT08",t:"مصرف نوشیدنی‌های شیرین، فست‌فود یا غذاهای فراوری‌شده‌ی شما چگونه است؟",o:["به‌ندرت","۱ تا ۲ بار در هفته","۳ تا ۵ بار در هفته","تقریباً هر روز"]},
  {id:"NUT09",t:"کدام مورد بیشتر درباره‌ی شما صدق می‌کند؟",o:["اشتهای طبیعی دارم.","اشتهای کمی دارم.","بیشتر اوقات اشتهای زیادی دارم.","اشتهای من در طول روز متغیر است."]},
- {id:"NUT10",type:"multi",t:"آیا یکی از محدودیت‌های زیر را دارید؟",o:["عدم تحمل لاکتوز","حساسیت به گلوتن یا سلیاک","آلرژی غذایی",NONE],text:{when:[2],label:"به چه چیزی آلرژی دارید؟"}},
+ {id:"NUT10",type:"multi",t:"آیا یکی از محدودیت‌های زیر را دارید؟",o:["عدم تحمل لاکتوز","حساسیت به گلوتن یا سلیاک","آلرژی غذایی","آلرژی به ماهی یا صدف","آلرژی به سویا",NONE],text:{when:[2],label:"به چه چیزی آلرژی دارید؟"}},
  {id:"NUT11",t:"چای یا قهوه رو معمولاً کِی می‌خورید؟",o:["همراه غذا یا بلافاصله بعدش","حداقل یک ساعت بعد از غذا","به‌ندرت چای یا قهوه می‌خورم"],why:"چای و قهوه همراه غذا جذب آهن رو به‌شدت کم می‌کنن؛ با یک ساعت فاصله، این اثر تقریباً نصف می‌شه."},
 ]},
 {id:"beauty",title:"پوست، مو و ناخن",desc:"تیپ پوست، ریزش مو و وضعیت ناخن",icon:"beauty",goals:[4],qs:[
@@ -706,13 +763,14 @@ const CATS=[
  {id:"CL01",t:"آیا در حال حاضر بیماری زمینه‌ای یا مزمن دارید؟",o:["خیر","بله (یک بیماری)","بله (چند بیماری)","مطمئن نیستم"],other:"سایر توضیحات",why:"برخی بیماری‌ها (مثل تیروئید، دیابت، مشکلات کبدی یا هورمونی) نیاز بدن به ویتامین‌ها و مواد معدنی را تغییر می‌دهند و روی انتخاب مکمل اثر مستقیم دارند."},
  {id:"CL02",type:"multi",t:"آیا تاکنون یکی از موارد زیر برای شما تشخیص داده شده است؟",o:["کم‌خونی یا فقر آهن","بیماری تیروئید","دیابت یا پیش‌دیابت","PCOS","بیماری گوارشی مزمن","صرع یا تشنج","بیماری کلیوی","بیماری کبدی",NONE],other:"سایر",why:"برخی بیماری‌ها مستقیماً روی جذب یا نیاز بدن به ویتامین‌ها اثر دارند (مثل B12، D، فولات و آهن). در بیماری‌های کلیوی و کبدی، مکمل‌هایی مانند منیزیم، پتاسیم و برخی عصاره‌های گیاهی باید کاملاً محدود شوند."},
  {id:"CL02B",type:"multi",t:"کدام‌یک از این شرایط درباره‌ی شما صدق می‌کند؟",o:["ناقل تالاسمی (تالاسمی مینور)","فاویسم (کمبود آنزیم G6PD)","سابقه‌ی سنگ کلیه","بیماری قلبی یا فشار خون بالا","چربی یا تری‌گلیسرید خون بالا","پوکی یا کم‌تراکمی استخوان","اختلال انعقادی، یا جراحی در دو هفته‌ی آینده","سابقه‌ی جراحی چاقی (اسلیو یا بای‌پس)","آهن بالای خون (هموکروماتوز)","بیماری خودایمنی (مثل لوپوس، MS یا روماتوئید)","سرطان تحت درمان","نقرس","میگرن","افسردگی یا اضطراب تشخیص‌داده‌شده",NONE],other:"سایر",why:"هر کدوم از این شرایط روی انتخاب یا دوز مکمل اثر مستقیم داره؛ مثلاً ناقلان تالاسمی معمولاً آهن اضافه لازم ندارن، در فاویسم ویتامین C با دوز بالا خطرناکه، و قبل از جراحی امگا ۳ و کورکومین باید قطع بشن."},
- {id:"CL03",type:"multi",t:"آیا در حال حاضر داروی خاصی مصرف می‌کنید؟",o:["خیر","داروهای تیروئید","داروهای قند خون (مثل متفورمین)","داروهای رقیق‌کننده‌ی خون (مثل وارفارین)","داروهای اعصاب یا ضدتشنج","داروهای پوست (مثل راکوتان)","داروهای ضدافسردگی یا ضداضطراب","داروهای فشار خون یا ادرارآور","داروهای سرکوب ایمنی یا شیمی‌درمانی","داروهای چربی خون (مثل آتورواستاتین)","آسپرین یا داروهای ضدپلاکت (مثل کلوپیدوگرل)","داروهای پوکی استخوان (مثل آلندرونات)","آرام‌بخش یا داروی خواب (مثل آلپرازولام، کلونازپام)"],noneIdx:0,other:"سایر داروها (نام ببرید)",why:"برخی داروها با مکمل‌ها تداخل دارند یا نیاز بدن به ویتامین‌ها را تغییر می‌دهند. مثلاً وارفارین به ویتامین K و کوآنزیم Q10 حساس است و راکوتان مصرف ویتامین A را محدود می‌کند."},
+ {id:"CL03",type:"multi",drugs:1,t:"آیا در حال حاضر داروی خاصی مصرف می‌کنید؟",o:["خیر","داروهای تیروئید","داروهای قند خون (مثل متفورمین)","داروهای رقیق‌کننده‌ی خون (مثل وارفارین)","داروهای اعصاب یا ضدتشنج","داروهای پوست (مثل راکوتان)","داروهای ضدافسردگی یا ضداضطراب","داروهای فشار خون یا ادرارآور","داروهای سرکوب ایمنی یا شیمی‌درمانی","داروهای چربی خون (مثل آتورواستاتین)","آسپرین یا داروهای ضدپلاکت (مثل کلوپیدوگرل)","داروهای پوکی استخوان (مثل آلندرونات)","آرام‌بخش یا داروی خواب (مثل آلپرازولام، کلونازپام)"],noneIdx:0,other:"سایر داروها (نام ببرید)",why:"برخی داروها با مکمل‌ها تداخل دارند یا نیاز بدن به ویتامین‌ها را تغییر می‌دهند. مثلاً وارفارین به ویتامین K و کوآنزیم Q10 حساس است و راکوتان مصرف ویتامین A را محدود می‌کند."},
  {id:"CL04",sex:"f",t:"آیا در حال حاضر باردار یا شیرده هستید یا قصد بارداری دارید؟",o:["باردار هستم","شیرده هستم","در شش ماه آینده قصد بارداری دارم",NONE],why:"در این شرایط برخی ویتامین‌ها (مثل ویتامین A با دوز بالا) و بعضی ترکیبات گیاهی باید حذف یا تنظیم شوند. برای قصد بارداری هم شروع اسید فولیک از قبل اهمیت دارد."},
  {id:"CL05",type:"multi",t:"آیا در حال حاضر مکمل مصرف می‌کنید؟",o:["خیر","مولتی‌ویتامین","مکمل پوست / مو / ناخن","مکمل ورزشی","آهن / ویتامین B12 / ویتامین D"],noneIdx:0,other:"سایر",why:"برای جلوگیری از مصرف تکراری یا بیش‌دوزی و تنظیم دقیق دوز مکمل‌های جدید بر اساس مصرف فعلی شما."},
  {id:"CL06",type:"multi",t:"در یک ماه اخیر کدام مورد را تجربه کرده‌اید؟",o:["خستگی مداوم یا بی‌انرژی بودن","ریزش موی شدید یا ناگهانی","تغییر وزن غیرعادی","تغییرات پوست یا خلق",NONE],why:"این علائم می‌توانند نشانه‌ی کمبودهای مهم (مثل آهن، B12، ویتامین D یا مشکلات تیروئید) باشند و مسیر انتخاب مکمل را هدفمندتر می‌کنند."},
  {id:"CL08",t:"آیا سیگار یا قلیان مصرف می‌کنید؟",o:["خیر","گاهی","روزانه"],why:"مصرف دخانیات نیاز به ویتامین C را بالا می‌برد و مکمل بتاکاروتن برای افراد سیگاری توصیه نمی‌شود."},
+ {id:"CL08B",t:"مصرف نوشیدنی الکلی‌تون چطوره؟",hint:"پاسخ فقط برای تنظیم ویتامین‌های گروه B و منیزیم استفاده می‌شه و محرمانه‌ست.",o:["مصرف نمی‌کنم","گاهی (کمتر از یک بار در هفته)","یک تا دو بار در هفته","سه بار در هفته یا بیشتر"],why:"الکل جذب و ذخیره‌ی ویتامین B1، اسید فولیک و منیزیم را کم می‌کند و با مکمل‌های خواب‌آور اثر هم‌افزا دارد."},
  {id:"CL09",t:"در طول هفته چقدر در معرض مستقیم نور آفتاب هستید؟",o:["تقریباً هیچ (بیشتر در فضای بسته‌ام)","کمتر از ۱ ساعت در هفته","چند بار در هفته، هر بار حدود ۱۵ دقیقه","بیشتر روزها"],why:"نور خورشید منبع اصلی ساخت ویتامین D است و کمبود آن در ایران بسیار شایع است."},
- {id:"CL10",type:"multi",t:"ترجیح شما برای شکل مکمل‌ها در ساشه چیست؟",o:["محدودیتی ندارم","فقط کپسول گیاهی (بدون ژلاتین)","بلع قرص برایم سخت است","ترجیح می‌دهم تعداد قرص‌ها کم باشد"],noneIdx:0,why:"محتوای هر ساشه بر اساس ترجیح شما چیده می‌شود."},
+ {id:"CL10",type:"multi",t:"ترجیح شما برای شکل مکمل‌ها در ساشه چیست؟",o:["محدودیتی ندارم","فقط کپسول گیاهی (بدون ژلاتین)","بلع قرص برایم سخت است","ترجیح می‌دهم تعداد قرص‌ها کم باشد","بدون منشأ دریایی (روغن ماهی، کلاژن دریایی)"],noneIdx:0,why:"محتوای هر ساشه بر اساس ترجیح شما چیده می‌شود."},
  {id:"CL07",t:"آیا مورد خاص دیگری درباره‌ی سلامت، بیماری یا دارو دارید که در گزینه‌های بالا ذکر نشده باشد؟",o:["خیر","بله"],text:{when:[1],label:"لطفاً توضیح دهید"},why:"برای پوشش شرایط خاص یا غیرمعمول (مثل بیماری‌های نادر، داروهای خاص یا حساسیت‌های فردی) که در انتخاب مکمل و ایمنی آن نقش مهمی دارند."}
 ]}
 ];
@@ -806,7 +864,8 @@ function compute(S){
  const note=(t,s)=>{if(!notes.some(n=>(n.t||n)===t))notes.push({t,s})};
  const female0=S.b.sex==="f",hasA=(id,i)=>{const v=A[id];return Array.isArray(v)?v.includes(i):v===i};
  /* ===== قوانین مستند (اول اعمال می‌شن تا دلیلِ دارای منبع ثبت بشه) ===== */
- const med=i=>hasA("CL03",i);
+ const DC=new Set();(A.DRG||[]).forEach(n=>{const d=DRUGS.find(x=>x[0]===n);d&&d[2].forEach(c=>DC.add(c))});const dc=k=>DC.has(k);
+ const med=i=>hasA("CL03",i)||DC.has(i);
  if(med(1)||hasA("CL02",1)){no("ashwa","اشواگاندا سطح هورمون تیروئید را بالا می‌برد",["msd","odsAsh"]);note("داروی تیروئید: آهن، کلسیم، منیزیم و کروم جذب لووتیروکسین را کم می‌کنند؛ ساشه‌ی صبح حداقل ۴ ساعت بعد از قرص تیروئید مصرف شود.",["odsFe","odsCa","msd"])}
  if(med(2)||hasA("WH07",3)){no("chromium","کروم همراه داروهای دیابت خطر افت قند دارد",["msd","odsCr"]);add("b12",3,"متفورمین جذب ویتامین B12 را کم می‌کند");note("داروهای دیابت: اشواگاندا هم ممکن است قند خون را پایین بیاورد.",["msd"])}
  if(med(3)){no("coq10","کوآنزیم Q10 اثر وارفارین را کم می‌کند",["msd","q10"]);no("greentea","چای سبز اثر وارفارین را کم می‌کند",["msd"]);no("melatonin","ملاتونین همراه ضدانعقاد خطر خونریزی را بالا می‌برد",["msd"]);no("curcumin","زردچوبه همراه ضدانعقاد خطر خونریزی دارد",["tur"]);no("omega3","امگا ۳ ممکن است اثر ضدانعقادی را تقویت کند",["odsO3"]);flag("مصرف داروی ضدانعقاد (وارفارین): کوآنزیم Q10، چای سبز، ملاتونین، زردچوبه و امگا ۳ حذف شد. هر تغییر در مکمل‌ها باید با پزشک هماهنگ شود.",true,["msd"])}
@@ -825,7 +884,37 @@ function compute(S){
  if(female0&&(hasA("CL04",0)||hasA("CL04",1))){[["ashwa",["odsAsh"]],["greentea",["gt"]],["herbal",["odsVal"]],["melatonin",["mel"]],["creatine",["issn"]],["chromium",["odsCr"]],["curcumin",["tur"]],["coq10",["q10"]]].forEach(([k,sr])=>no(k,"بی‌خطری در بارداری یا شیردهی ثابت نشده",sr));add("folic",4,"بارداری یا شیردهی");flag("بارداری یا شیردهی: مولتی‌ویتامین با فرمول مخصوص بارداری (ویتامین A کنترل‌شده) جایگزین می‌شود و برنامه باید توسط داروساز تأیید شود.",true,["odsA","uspstf"])}
  if(female0&&hasA("CL04",2))add("folic",4,"قصد بارداری: اسید فولیک باید از قبل شروع شود (USPSTF)");
  if(hasA("CL08",1)||hasA("CL08",2))note("مصرف دخانیات: مکمل بتاکاروتن در افراد سیگاری خطر سرطان ریه را بالا برده؛ مولتی‌ویتامین بدون بتاکاروتن انتخاب می‌شود.",["odsA"]);
- if(hasA("GI06",1)){add("b12",3,"داروهای ضداسید جذب B12 را کم می‌کنند");add("mg",1,"مصرف طولانی داروهای ضداسید منیزیم را کم می‌کند");note("مصرف طولانی داروهای ضداسید (PPI): سطح B12 و منیزیم باید پایش شود.",["odsB12","odsMg"])}
+ if(hasA("GI06",1)||dc("ppi")){add("b12",3,"داروهای ضداسید جذب B12 را کم می‌کنند");add("mg",1,"مصرف طولانی داروهای ضداسید منیزیم را کم می‌کند");note("مصرف طولانی داروهای ضداسید (PPI): سطح B12 و منیزیم باید پایش شود.",["odsB12","odsMg"])}
+ /* داروهای جست‌وجوشده (فهرست DRUGS) */
+ if(dc("glp1")){add("protein",2,"داروهای GLP-1 اشتها و دریافت پروتئین را کم می‌کنند");add("d3",1,"حفظ استخوان هنگام کاهش وزن سریع");add("calcium",1,"حفظ استخوان هنگام کاهش وزن سریع");note("داروهای GLP-1 (اوزمپیک، مونجارو، ساکسندا): دریافت کالری و ریزمغذی‌ها کم می‌شود و خطر از دست رفتن عضله و استخوان هست؛ پروتئین کافی و تمرین قدرتی توصیه‌ی بیانیه‌ی مشترک ۲۰۲۵ است. مکمل‌ها همراه غذا برای کم کردن تهوع.",["glp1"]);flag("مصرف داروی GLP-1: داروساز دوز پروتئین و ریزمغذی‌ها را بازبینی کند.",false,["glp1"])}
+ if(dc("abx")){add("probiotic",1,"دوره‌ی آنتی‌بیوتیک");flag("آنتی‌بیوتیک تتراسایکلین یا کینولون (داکسی‌سایکلین، سیپروفلوکساسین…): آهن، روی، کلسیم و منیزیم جذب آنتی‌بیوتیک را کم می‌کنند؛ تا پایان دوره مکمل‌های معدنی حداقل ۲ ساعت بعد یا ۶ ساعت قبل از آنتی‌بیوتیک مصرف شوند.",true,["odsMg","odsZn"]);note("پروبیوتیک حداقل ۲ ساعت با آنتی‌بیوتیک فاصله داشته باشد.",["odsPro"])}
+ if(dc("abx2")){add("probiotic",1,"دوره‌ی آنتی‌بیوتیک");note("پروبیوتیک حداقل ۲ ساعت با آنتی‌بیوتیک فاصله داشته باشد.",["odsPro"])}
+ if(dc("steroid")){add("calcium",2,"مصرف کورتون تراکم استخوان را کم می‌کند");add("d3",2,"مصرف کورتون تراکم استخوان را کم می‌کند");note("کورتون خوراکی (پردنیزولون، دگزامتازون): در مصرف بیش از سه ماه، کلسیم و ویتامین D برای حفظ استخوان مهم‌اند.",["odsCa","odsD"])}
+ if(dc("lithium")){no("electro","سدیم و پتاسیم سطح لیتیوم خون را تغییر می‌دهند",["msd"]);no("greentea","کافئین دفع لیتیوم را تغییر می‌دهد",["msd"]);no("herbal","اثر هم‌افزای آرام‌بخشی",["msd"]);flag("مصرف لیتیوم: هر مکمل جدید فقط با تأیید پزشک معالج؛ برنامه قبل از ارسال باید بازبینی شود.",true,["msd"])}
+ if(dc("mtx")){no("folic","اسید فولیک همراه متوترکسات فقط طبق نسخه‌ی پزشک",["msd"]);no("bcomplex","حاوی فولات؛ همراه متوترکسات فقط طبق نسخه",["msd"]);flag("مصرف متوترکسات: فولات و ب‌کمپلکس حذف شد؛ اسید فولیک فقط با دوز و روزی که پزشک تعیین کرده.",true,["msd"])}
+ if(dc("levodopa")){flag("مصرف لوودوپا: آهن جذب لوودوپا را کم می‌کند و باید حداقل ۲ ساعت فاصله داشته باشد؛ ویتامین B6 با دوز بالا هم اثر دارو را تغییر می‌دهد.",true,["msd","odsB6"]);if(sc.iron)note("لوودوپا: آهن در ساشه‌ای جدا از زمان مصرف دارو.",["msd"])}
+ if(dc("digoxin")){no("electro","تغییر پتاسیم و منیزیم روی اثر دیگوکسین اثر دارد",["odsK"]);flag("مصرف دیگوکسین: کلسیم و ویتامین D با دوز بالا و تغییر سطح پتاسیم یا منیزیم ممکن است اثر دارو را تغییر دهد؛ بازبینی داروساز لازم است.",true,["msd","odsCa"])}
+ if(dc("amio"))flag("مصرف آمیودارون: هر مکمل گیاهی (به‌خصوص چای سبز و زردچوبه) با نظر پزشک.",true,["msd"]);
+ if(dc("ocp")&&female0){add("bcomplex",1,"قرص ضدبارداری یا هورمون‌درمانی نیاز به ویتامین‌های B را بالا می‌برد");add("folic",1,"قرص ضدبارداری سطح فولات را کم می‌کند")}
+ if(dc("thiazide"))note("ادرارآور تیازیدی (هیدروکلروتیازید، تریامترن‌اچ): دفع کلسیم را کم می‌کند؛ کلسیم و ویتامین D با دوز بالا خطر افزایش کلسیم خون دارد.",["odsCa"]);
+ if(dc("loop"))add("mg",1,"فوروزماید دفع منیزیم را بالا می‌برد");
+ if(dc("ksp"))no("electro","پتاسیم همراه ادرارآورهای نگه‌دارنده‌ی پتاسیم خطرناک است",["odsK"]);
+ if(dc("doac")){no("curcumin","زردچوبه همراه ضدانعقاد خطر خونریزی دارد",["tur"]);no("greentea","احتیاط با ضدانعقاد",["msd"]);note("ضدانعقاد خوراکی: امگا ۳ با دوز بالا خطر خونریزی را بیشتر می‌کند؛ فقط دوز پایه.",["odsO3"])}
+ if(dc("inh"))add("bcomplex",2,"ایزونیازید ویتامین B6 را کم می‌کند");
+ if(dc("ssz"))add("folic",1,"سولفاسالازین جذب فولات را کم می‌کند");
+ if(dc("colch"))add("b12",1,"کلشی‌سین جذب B12 را کم می‌کند");
+ if(dc("orli")||dc("bas")){add("d3",1,"این دارو جذب ویتامین‌های محلول در چربی را کم می‌کند");note("اورلیستات یا کلستیرامین: ویتامین‌های محلول در چربی (D، E، K، A) حداقل ۲ ساعت قبل یا بعد از دارو.",["odsD"])}
+ if(dc("testo"))flag("مصرف تستوسترون: داروساز باید برنامه را بازبینی کند.",true);
+ if(dc("stim"))no("greentea","کافئین چای سبز اثر محرک‌ها را تشدید می‌کند",["msd"]);
+ if(dc("fe"))no("iron","در حال حاضر آهن مصرف می‌کنید؛ جلوگیری از دوز مضاعف",["odsFe"]);
+ if(dc("ca"))no("calcium","در حال حاضر کلسیم مصرف می‌کنید؛ جلوگیری از دوز مضاعف",["odsCa"]);
+ if(dc("vd"))no("d3","در حال حاضر ویتامین D با دوز بالا مصرف می‌کنید؛ جلوگیری از دوز مضاعف",["odsD"]);
+ /* الکل */
+ if(hasA("CL08B",2)||hasA("CL08B",3)){add("bcomplex",2,"الکل ذخیره‌ی ویتامین B1 و فولات را کم می‌کند");add("mg",1,"الکل دفع منیزیم را بالا می‌برد");add("folic",1,"الکل جذب فولات را کم می‌کند");note("الکل با مکمل‌های خواب (ملاتونین، سنبل‌الطیب) اثر خواب‌آوری هم‌افزا دارد.",["odsTh","msd"])}
+ if(hasA("CL08B",3)){["melatonin","herbal","ashwa"].forEach(k=>no(k,"اثر هم‌افزا با الکل",["msd"]));no("curcumin","مصرف زیاد الکل؛ احتیاط کبدی",["lt"]);no("greentea","مصرف زیاد الکل؛ احتیاط کبدی",["lt"])}
+ /* آلرژی و منشأ */
+ if(hasA("NUT10",3)||hasA("CL10",4)){no("omega3",hasA("NUT10",3)?"آلرژی به ماهی؛ فقط امگا ۳ جلبکی با تأیید داروساز":"ترجیح بدون منشأ دریایی؛ فقط امگا ۳ جلبکی با تأیید داروساز");flag(hasA("NUT10",3)?"آلرژی به ماهی یا صدف: روغن ماهی حذف شد؛ امگا ۳ فقط با منشأ جلبکی و کلاژن فقط با منشأ گاوی/غیردریایی؛ اگر موجود نبود حذف شود.":"ترجیح بدون منشأ دریایی: امگا ۳ جلبکی و کلاژن غیردریایی انتخاب شود.",hasA("NUT10",3))}
+ if(hasA("NUT10",4))flag("آلرژی به سویا: پوسته‌ی سافت‌ژل و ویتامین E بعضی برندها از سویا (لسیتین سویا) است؛ برچسب بررسی شود.",true);
  const G=i=>has("G",i);
  const female=S.b.sex==="f", age=+S.b.age||0;
  let plan={sport:0,slim:0,beauty:0};
@@ -1525,11 +1614,11 @@ function packThen(){
  const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
  if(reduce){go(()=>S.view="result");return}
  const o=document.createElement("div");o.className="packfx";o.setAttribute("role","status");
- o.innerHTML=`<div class="stage"><div class="fly">${sachetEls(7)}</div><div class="box"><div class="lid"></div><div class="front"><img src="${IMG.logo}" alt=""><b>VITAPLAN</b><span>PERSONALIZED PACK</span><em>28</em></div></div><p>پک شخصی <b>${esc(S.b.name.split(" ")[0])}</b> در حال آماده‌سازیه…</p></div>`;
+ o.innerHTML=`<div class="stage"><div class="fly">${sachetEls(7)}</div><div class="box"><div class="lid"></div><div class="front"><img src="${IMG.logo}" alt=""><b>VITAPLAN</b><span>PERSONALIZED PACK</span><em>28</em></div></div><p>پک شخصی <b>${esc(S.b.name.split(" ")[0])}</b> در حال آماده‌سازیه…</p><ul class="steps">${["بررسی تداخل با داروها و بیماری‌هات","چیدن ساعت و روز مصرف هر مکمل","آماده‌سازی برای بازبینی داروساز"].map((t,i)=>`<li style="animation-delay:${.4+i*.8}s">${t}</li>`).join("")}</ul></div>`;
  document.body.append(o);
  setTimeout(()=>o.querySelector(".box").classList.add("glow"),2300);
- setTimeout(()=>{o.classList.add("out");S.view="result";S.off=S.off||{};save();render();window.scrollTo({top:0,behavior:"instant"})},3100);
- setTimeout(()=>o.remove(),3750);
+ setTimeout(()=>{o.classList.add("out");S.view="result";S.off=S.off||{};save();render();window.scrollTo({top:0,behavior:"instant"})},3500);
+ setTimeout(()=>o.remove(),4150);
 }
 function question(){
  const cat=CATS.find(c=>c.id===S.cat),qs=visibleQs(cat);
@@ -1540,6 +1629,7 @@ function question(){
   <span class="q-ic">${ICON[cat.icon]}</span>
   <div class="kicker">${cat.title} · سؤال ${fa(S.qi+1)} از ${fa(qs.length)} · دسته‌ی ${fa(selCats().indexOf(cat.id)+1)} از ${fa(selCats().length)} <span class="code">${q.id}</span></div>
   <h1 class="qtitle">${esc(q.t)}</h1>${q.hint?`<p class="qhint">${q.hint}</p>`:multi?'<p class="qhint">می‌توانید چند گزینه انتخاب کنید.</p>':""}
+  ${q.drugs?`<div class="field drg"><label for="f-drg">اسم دقیق داروهاتون رو جست‌وجو کنید (فارسی یا انگلیسی)؛ یا از دسته‌های پایین انتخاب کنید</label><input class="inp" id="f-drg" autocomplete="off" placeholder="مثلاً لووتیروکسین، Metformin، پردنیزولون…" role="combobox" aria-expanded="false" aria-controls="drgs"><div class="sug" id="drgs" role="listbox" hidden></div><div class="dchips" aria-live="polite"></div></div>`:""}
   ${optsHTML(q,val)}
   <div id="txw">${tx?`<div class="field"><label for="f-tx">${q.text.label}</label><input class="inp" id="f-tx" value="${esc(S.txt[q.id]||"")}"></div>`:""}</div>
   ${q.other?`<div class="field"><label for="f-oth">${q.other}</label><input class="inp" id="f-oth" value="${esc(S.txt[q.id+"o"]||"")}"></div>`:""}
@@ -1547,7 +1637,7 @@ function question(){
   <div class="err"></div>
   <div class="navrow"><span style="display:flex;gap:14px;align-items:center"><button class="back" id="bk">${ICON.back} ${S.qi||selCats().indexOf(cat.id)>0?"قبلی":"دسته‌ها"}</button>${API?'<button class="later" id="later">ادامه‌ی بعداً</button>':""}</span>
   <button class="btn" id="nx">${S.qi===qs.length-1?(nextCat(cat.id)?"دسته‌ی بعدی":"ساخت پک من"):"بعدی"} <span class="arr">${ICON.arrow}</span></button></div></div></div>`);
- const next=()=>{const cur=S.a[q.id];if(cur===undefined||(Array.isArray(cur)&&!cur.length)){d.querySelector(".err").textContent="یک گزینه را انتخاب کن.";return}
+ const next=()=>{const cur=S.a[q.id];if(q.drugs&&(S.a.DRG||[]).length&&(cur===undefined||!cur.length))S.a[q.id]=[];else if(cur===undefined||(Array.isArray(cur)&&!cur.length)){d.querySelector(".err").textContent="یک گزینه را انتخاب کن.";return}
   const nqs=visibleQs(cat);const at=nqs.findIndex(x=>x.id===q.id);
   if(at>=nqs.length-1){S.done[cat.id]=true;saveLead("in_progress");const nx=nextCat(cat.id)||nextCat(null);if(!nx){save();packThen();return}badge(cat,selCats().filter(id=>firstOpen(id)>=0&&id!==cat.id).length);go(()=>{S.dir=1;S.cat=nx;S.qi=firstOpen(nx)});return}
   go(()=>{S.dir=1;S.qi=at+1})};
@@ -1559,11 +1649,36 @@ function question(){
  d.querySelector("#f-tx")&&(d.querySelector("#f-tx").oninput=e=>{S.txt[q.id]=e.target.value;save()});
  d.querySelector("#f-oth")&&(d.querySelector("#f-oth").oninput=e=>{S.txt[q.id+"o"]=e.target.value;save()});
  d.querySelector("#bk").onclick=()=>go(()=>{S.dir=-1;if(S.qi){S.qi--;return}const sl=selCats(),i=sl.indexOf(cat.id);if(i>0){const pv=sl[i-1];S.cat=pv;S.qi=visibleQs(CATS.find(c=>c.id===pv)).length-1}else S.view="hub"});
+ if(q.drugs){const inp=d.querySelector("#f-drg"),sg=d.querySelector("#drgs"),ch=d.querySelector(".dchips");
+  const nrm=t=>t.toLowerCase().replace(/[‌\s\-()]/g,"").replace(/ي/g,"ی").replace(/ك/g,"ک");
+  const chips=()=>{ch.innerHTML=(S.a.DRG||[]).map(n=>`<span>${esc(n)}<button type="button" aria-label="حذف ${esc(n)}" data-n="${esc(n)}">×</button></span>`).join("");ch.querySelectorAll("button").forEach(b=>b.onclick=()=>{S.a.DRG=(S.a.DRG||[]).filter(x=>x!==b.dataset.n);save();chips()})};
+  const pick=n=>{S.a.DRG=[...new Set([...(S.a.DRG||[]),n])];const c=S.a[q.id];if(Array.isArray(c)){const z=q.noneIdx??0;S.a[q.id]=c.filter(x=>x!==z);const ob=d.querySelector(`.opt[data-i="${z}"]`);ob&&(ob.classList.remove("sel"),ob.setAttribute("aria-checked","false"))}inp.value="";sg.hidden=true;inp.setAttribute("aria-expanded","false");save();chips();inp.focus()};
+  inp.oninput=()=>{const v=nrm(inp.value);if(v.length<2){sg.hidden=true;return}const hit=DRUGS.filter(x=>nrm(x[0]).includes(v)||nrm(x[1]).includes(v)).slice(0,8);
+   sg.innerHTML=hit.length?hit.map(x=>`<button type="button" role="option" data-n="${esc(x[0])}"><span>${esc(x[0])}</span><small>${esc(x[1])}</small></button>`).join(""):`<button type="button" data-free="1"><span>«${esc(inp.value)}» را به‌عنوان داروی دیگر ثبت کن</span></button>`;
+   sg.hidden=false;inp.setAttribute("aria-expanded","true");
+   sg.querySelectorAll("button").forEach(b=>b.onclick=()=>{if(b.dataset.free){S.txt[q.id+"o"]=((S.txt[q.id+"o"]||"")+" "+inp.value).trim();const o=d.querySelector("#f-oth");o&&(o.value=S.txt[q.id+"o"]);inp.value="";sg.hidden=true;save();return}pick(b.dataset.n)})};
+  inp.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();sg.querySelector("button")?.click()}if(e.key==="Escape"){sg.hidden=true}};
+  chips()}
  d.querySelector("#nx").onclick=next;
  d.querySelector("#later")&&(d.querySelector("#later").onclick=resumeLater);
  return d;
 }
 
+
+function goodHTML(){const a=S.a,h=(id,i)=>{const v=a[id];return Array.isArray(v)?v.includes(i):v===i};const L=[];
+ if(h("SLP02",2))L.push(["خواب ۷ تا ۸ ساعته","همون مقداری که برای بزرگسال توصیه می‌شه."]);
+ if(h("NUT04",2))L.push(["۵ واحد میوه و سبزی در روز","پایه‌ی ویتامین C، پتاسیم و فیبر؛ مکمل جای این رو نمی‌گیره."]);
+ if(a.PA01>=2)L.push(["ورزش منظم","مهم‌ترین عامل برای انرژی، خواب و استخوان."]);
+ if(h("CL08",0))L.push(["بدون دخانیات","نیاز بدنت به ویتامین C و آنتی‌اکسیدان‌ها کمتره."]);
+ if(h("NUT02",2)||h("NUT02",3))L.push(["ماهی دو بار در هفته یا بیشتر","امگا ۳ از غذا؛ دوز مکملت پایین‌تر می‌مونه."]);
+ if(h("NUT08",0))L.push(["فست‌فود و نوشیدنی شیرین به‌ندرت","قند و نمک اضافه‌ی کمتر."]);
+ if(h("CL09",3))L.push(["آفتاب بیشتر روزها","ساخت ویتامین D از پوست."]);
+ if(h("NUT11",1))L.push(["چای با فاصله از غذا","جذب آهن غذات کمتر مختل می‌شه."]);
+ if(!L.length)return"";
+ return `<section class="sec reveal"><h2>کارهایی که درست انجام می‌دی <span class="n">${fa(L.length)} مورد</span></h2><div class="good">${L.map(([t,d])=>`<div><b>${t}</b><p>${d}</p></div>`).join("")}</div></section>`}
+function etaHTML(){const g=S.a.G||[];const M=[[0,"انرژی",1,2,"اگه علت خستگی کمبود آهن، B12 یا D باشه؛ هموگلوبین در ۴ تا ۸ هفته بالا می‌ره."],[1,"خواب",0.25,1,"منیزیم و ملاتونین در چند روز تا چند هفته."],[2,"تمرکز",2,3,"کارآزمایی‌های امگا ۳ معمولاً ۱۲ هفته‌ای هستن."],[3,"ایمنی",2.5,3.5,"در طول یک فصل سنجیده می‌شه، نه چند روز."],[4,"مو و ناخن",3,6,"ناخن ماهی حدود ۳٫۵ میلی‌متر و مو حدود ۱ سانتی‌متر رشد می‌کنه؛ تغییر از ریشه دیده می‌شه."],[5,"ورزش و ریکاوری",0.75,1,"کراتین روزانه ۳ گرم در حدود ۴ هفته عضله رو اشباع می‌کنه."],[6,"مدیریت وزن",2,3,"فقط همراه رژیم و فعالیت؛ اثر مکمل به‌تنهایی کمه."]];
+ const R=M.filter(m=>g.includes(m[0]));R.push([-1,"سطح ویتامین D خون",2,3,"حدود سه ماه طول می‌کشه تا به سطح پایدار برسه؛ زمان آزمایش دوباره."]);
+ const W=6;return `<section class="sec reveal"><h2>کِی تفاوت رو حس می‌کنی؟ <span class="n">تخمین بر اساس مطالعات</span></h2><div class="eta">${R.map(([_,t,a,b,d])=>`<div class="er"><b>${t}</b><div class="et" aria-label="${fa(a)} تا ${fa(b)} ماه"><i style="inset-inline-start:${a/W*100}%;width:${Math.max(4,(b-a)/W*100)}%"></i></div><p>${d}</p></div>`).join("")}<div class="eax"><span>شروع</span><span>۲ ماه</span><span>۴ ماه</span><span>۶ ماه</span></div></div><p class="qhint">بدن هر کس متفاوته؛ مصرف منظم هر روزه مهم‌ترین عامله. اگه بعد از این بازه تغییری حس نکردی، داروساز برنامه رو بازبینی می‌کنه.</p></section>`}
 function bmiOf(){const hh=+S.b.h/100,ww=+S.b.w;return hh&&ww?ww/(hh*hh):null}
 function result(){
  const R=compute(S),P=PLANS[R.plan],first=S.b.name.split(" ")[0];
@@ -1597,6 +1712,8 @@ function result(){
   <div class="pf" style="grid-column:span 2"><small>هدف‌ها</small><b style="font-size:.9rem">${g.map(esc).join("، ")}</b></div>
   <div class="pf" style="grid-column:span 2"><small>دسته‌های پاسخ داده‌شده</small><b style="font-size:.9rem">${answered.join("، ")}</b></div>
  </div></section>
+  ${goodHTML()}
+  ${etaHTML()}
  <section class="sec reveal"><div class="sachets" id="sachs" style="margin-bottom:20px">${sachHTML()}</div><div id="wkp" style="margin-bottom:22px">${weekHTML()}</div><h2>پک خودت رو بچین <span class="n">${fa(R.list.length)} پیشنهاد</span></h2><div class="packsum"><span>هر مکملی که نمی‌خوای رو خاموش کن. ساشه‌های بالا همزمان عوض می‌شن.</span><span>پک تو: <b id="pc">${fa(mine().length)}</b> مکمل</span></div><div class="supps">
   ${R.list.map((x,i)=>`<div class="supp ${S.off[x.k]?"off":""}" data-k="${x.k}" style="animation-delay:${i*70}ms"><span class="dot" style="background:${x.c};color:${x.c}"></span>
    <div><h3>${esc(x.n)}</h3><p>${esc((x.why||[]).slice(0,3).join(" · "))}</p><div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
@@ -1735,7 +1852,8 @@ async function workspace(r,host){
  const P={};R0.list.forEach(x=>P[x.k]=prods(x.k));
  const opt=(x,i)=>`<option value="${i}">${esc(x.n)} — ${esc(x.b||"")} · ${FORMFA[x.f]||x.f}${x.combo?" · ترکیبی":""} · ${x.o?tmn(x.o):""} · ${SRCFA[x.src]||""}</option>`;
  const LH=(r.labHist||r.state.labHist||[]);const labTop=`<div class="flag ${r.labStatus==="received"||r.state.labs&&r.state.labs.file?"note":"bad"}"><span>وضعیت آزمایش: ${r.labStatus==="received"?"دریافت شد":"هنوز آزمایش نفرستاده"}${(r.labNeeds||[]).length?" · لازم: "+esc(r.labNeeds.join("، ")):""}</span></div>${LH.length?`<div class="tbl" style="margin:8px 0 14px"><table><tr><th>تاریخ</th>${LABF.map(l=>`<th>${l[1]}</th>`).join("")}</tr>${LH.map(h=>`<tr><td class="latin">${esc(h.at)}</td>${LABF.map(l=>`<td class="latin">${esc(h[l[0]]??"")}</td>`).join("")}</tr>`).join("")}</table></div>`:""}`;
- host.innerHTML=labTop+`<div class="ws">${R0.list.map(x=>{const m=META[x.k]||{},f=F.items[x.k]||{},on=f.on!=null?f.on:!custOff.has(x.n);
+ const drg=(r.state.a&&r.state.a.DRG)||[],dOth=(r.state.txt||{}).CL03o||"";const medTop=drg.length||dOth?`<div class="flag note"><span><b>داروهای ثبت‌شده:</b> ${drg.map(esc).join("، ")}${dOth?(drg.length?" · ":"")+"متن آزاد: "+esc(dOth):""}</span></div>`:"";
+ host.innerHTML=labTop+medTop+`<div class="ws">${R0.list.map(x=>{const m=META[x.k]||{},f=F.items[x.k]||{},on=f.on!=null?f.on:!custOff.has(x.n);
   return `<div class="wsi ${on?"":"off"}" data-k="${x.k}"><div class="wsh"><label><input type="checkbox" class="won" ${on?"checked":""}> <b>${esc(x.n)}</b></label><span class="qhint">امتیاز ${fa(x.s)}${custOff.has(x.n)?" · مشتری خاموشش کرده":""}</span>${m.g?`<span class="ev" style="--ec:${GR[m.g][1]}">${GR[m.g][0]}</span>`:""}</div>
   <p class="qhint">دلیل: ${esc((x.why||[]).join(" · "))}</p>${m.e?`<p class="wse">${esc(m.e)}</p>`:""}<p class="qhint">${m.dose?"دوز مرجع: "+esc(m.dose):""}${m.ul?" · حداکثر: "+esc(m.ul):""}</p>${srcLinks(m.src)}
   <div class="wsch"><select class="inp wt">${TIMES.map(t=>`<option value="${t}" ${(f.t||x.t)===t?"selected":""}>${TM[t][0]}</option>`).join("")}</select><input class="inp wn" type="number" min="1" max="4" value="${f.cnt||x.cnt}" title="تعداد در هر نوبت"><span class="wdays">${WD.map((w,i)=>`<button type="button" class="${(f.days||x.days).includes(i)?"on":""}" data-i="${i}" title="${WDF[i]}">${w}</button>`).join("")}</span><span class="wpre"><button type="button" data-p="all">هر روز</button><button type="button" data-p="alt">یک روز در میان</button><button type="button" data-p="x3">۳ روز</button><button type="button" data-p="x1">هفته‌ای ۱</button></span></div>
