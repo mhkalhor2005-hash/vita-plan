@@ -525,6 +525,7 @@ main{padding-block:12px 150px;position:relative}
 .ws{display:grid;gap:12px}.wsi{padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03)}.wsi.off{opacity:.5}.wsh{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.wse{font-size:.82rem;margin:6px 0}.wsrow{display:grid;grid-template-columns:1fr 160px;gap:8px;margin-top:8px}.wsrow select{font-size:.78rem;min-width:0}@media(max-width:600px){.wsrow{grid-template-columns:1fr}}.wscost{margin:10px 0;font-size:.9rem}.wscost b{color:var(--lime)}
 .supp .t small{display:block;font-size:.66rem;color:var(--stone);margin-top:2px;white-space:normal}.wkwrap{overflow-x:auto}.wk{width:100%;border-collapse:separate;border-spacing:4px;table-layout:fixed}.wk th .sm{display:none}@media(max-width:600px){.wk{border-spacing:2px}.wk th .lg{display:none}.wk th .sm{display:inline}.wk td{padding:4px 1px;border-radius:7px}.wk td .pill{width:9px;height:5px}.wk td .pill.r{width:6px;height:6px}.wk th:first-child{width:28px;font-size:.62rem}}.wk th{font-size:.72rem;color:var(--stone);font-weight:600}.wk td{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:6px 4px;vertical-align:top;text-align:center;height:58px}.wk td .pill{display:inline-block;width:14px;height:7px;margin:1px;animation:none}.wk td .pill.r{width:8px;height:8px}.wk td small{display:block;font-size:.62rem;color:var(--stone);margin-top:3px}
 .wsch{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}.wsch .wt{width:80px}.wsch .wn{width:64px}.wdays,.wpre{display:flex;gap:4px;flex-wrap:wrap}.wdays button,.wpre button{font:inherit;font-size:.72rem;padding:4px 8px;border-radius:8px;border:1px solid rgba(255,255,255,.14);background:transparent;color:var(--stone);cursor:pointer}.wdays button.on{border-color:var(--lime);color:var(--lime);background:var(--lime-soft)}
+.labsec h2{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.lstat{font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:99px;border:1px solid var(--warn);color:var(--warn)}.lstat.ok{border-color:var(--lime);color:var(--lime)}.needs{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 16px}.needs span{font-size:.8rem;padding:6px 12px;border-radius:10px;background:var(--paper);border:1px solid var(--line)}.lct{margin-top:24px;font-size:1.05rem}.lcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:12px}.lc{border:1px solid var(--line);border-radius:16px;padding:12px 14px;background:var(--paper)}.lch{display:flex;justify-content:space-between;gap:8px;font-size:.85rem}.lsv{width:100%;height:auto;display:block;margin-top:6px}.lcd span{direction:rtl;unicode-bidi:isolate}.lcd{direction:ltr;display:flex;justify-content:space-between;font-size:.68rem;color:var(--stone)}
 .mktsum{margin:-4px 0 14px;font-size:.84rem;color:var(--stone)}.mktsum b{color:var(--lime)}
 .srcs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .srcs a{font-size:.68rem;color:var(--cyan);border:1px solid rgba(79,227,224,.3);border-radius:8px;padding:1px 8px;text-decoration:none;font-family:var(--latin);direction:ltr}
@@ -594,7 +595,7 @@ const CFG={
  brandMap:{},           // برند هر مکمل، مثلاً {d3:"یوروویتال",omega3:"عبیدی"}
  reviews:[]             // فقط نظر واقعی: {name:"سارا",plan:"BeautyPlan",stars:5,text:"..."}
 };
-const BUILD="1795371969";
+const BUILD="1795372516";
 const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
@@ -681,7 +682,8 @@ const CATS=[
  {id:"NUT07",t:"بیشتر کدام مورد درباره‌ی شما صدق می‌کند؟",o:["معمولاً وعده‌های غذایی منظمی دارم.","گاهی وعده‌های اصلی را حذف می‌کنم.","بیشتر روزها صبحانه نمی‌خورم.","برنامه‌ی غذایی منظمی ندارم."]},
  {id:"NUT08",t:"مصرف نوشیدنی‌های شیرین، فست‌فود یا غذاهای فراوری‌شده‌ی شما چگونه است؟",o:["به‌ندرت","۱ تا ۲ بار در هفته","۳ تا ۵ بار در هفته","تقریباً هر روز"]},
  {id:"NUT09",t:"کدام مورد بیشتر درباره‌ی شما صدق می‌کند؟",o:["اشتهای طبیعی دارم.","اشتهای کمی دارم.","بیشتر اوقات اشتهای زیادی دارم.","اشتهای من در طول روز متغیر است."]},
- {id:"NUT10",type:"multi",t:"آیا یکی از محدودیت‌های زیر را دارید؟",o:["عدم تحمل لاکتوز","حساسیت به گلوتن یا سلیاک","آلرژی غذایی",NONE],text:{when:[2],label:"به چه چیزی آلرژی دارید؟"}}
+ {id:"NUT10",type:"multi",t:"آیا یکی از محدودیت‌های زیر را دارید؟",o:["عدم تحمل لاکتوز","حساسیت به گلوتن یا سلیاک","آلرژی غذایی",NONE],text:{when:[2],label:"به چه چیزی آلرژی دارید؟"}},
+ {id:"NUT11",t:"چای یا قهوه رو معمولاً کِی می‌خورید؟",o:["همراه غذا یا بلافاصله بعدش","حداقل یک ساعت بعد از غذا","به‌ندرت چای یا قهوه می‌خورم"],why:"چای و قهوه همراه غذا جذب آهن رو به‌شدت کم می‌کنن؛ با یک ساعت فاصله، این اثر تقریباً نصف می‌شه."},
 ]},
 {id:"beauty",title:"پوست، مو و ناخن",desc:"تیپ پوست، ریزش مو و وضعیت ناخن",icon:"beauty",goals:[4],qs:[
  {id:"SK01",t:"کدام توصیف بیشتر شبیه پوست صورت شماست؟",o:["خشک، کم‌آب و گاهی پوسته‌پوسته","چرب و براق با منافذ باز و جوش","مختلط (قسمت‌هایی چرب، قسمت‌هایی خشک)","حساس، زود ملتهب یا قرمز","نرمال و پایدار"]},
@@ -703,6 +705,7 @@ const CATS=[
 {id:"clinical",title:"ایمنی و وضعیت بالینی",desc:"بیماری‌ها، داروها، بارداری و مکمل‌های فعلی",icon:"shield",required:true,qs:[
  {id:"CL01",t:"آیا در حال حاضر بیماری زمینه‌ای یا مزمن دارید؟",o:["خیر","بله (یک بیماری)","بله (چند بیماری)","مطمئن نیستم"],other:"سایر توضیحات",why:"برخی بیماری‌ها (مثل تیروئید، دیابت، مشکلات کبدی یا هورمونی) نیاز بدن به ویتامین‌ها و مواد معدنی را تغییر می‌دهند و روی انتخاب مکمل اثر مستقیم دارند."},
  {id:"CL02",type:"multi",t:"آیا تاکنون یکی از موارد زیر برای شما تشخیص داده شده است؟",o:["کم‌خونی یا فقر آهن","بیماری تیروئید","دیابت یا پیش‌دیابت","PCOS","بیماری گوارشی مزمن","صرع یا تشنج","بیماری کلیوی","بیماری کبدی",NONE],other:"سایر",why:"برخی بیماری‌ها مستقیماً روی جذب یا نیاز بدن به ویتامین‌ها اثر دارند (مثل B12، D، فولات و آهن). در بیماری‌های کلیوی و کبدی، مکمل‌هایی مانند منیزیم، پتاسیم و برخی عصاره‌های گیاهی باید کاملاً محدود شوند."},
+ {id:"CL02B",type:"multi",t:"کدام‌یک از این شرایط درباره‌ی شما صدق می‌کند؟",o:["ناقل تالاسمی (تالاسمی مینور)","فاویسم (کمبود آنزیم G6PD)","سابقه‌ی سنگ کلیه","بیماری قلبی یا فشار خون بالا","چربی یا تری‌گلیسرید خون بالا","پوکی یا کم‌تراکمی استخوان","اختلال انعقادی، یا جراحی در دو هفته‌ی آینده","سابقه‌ی جراحی چاقی (اسلیو یا بای‌پس)","آهن بالای خون (هموکروماتوز)","بیماری خودایمنی (مثل لوپوس، MS یا روماتوئید)","سرطان تحت درمان","نقرس","میگرن","افسردگی یا اضطراب تشخیص‌داده‌شده",NONE],other:"سایر",why:"هر کدوم از این شرایط روی انتخاب یا دوز مکمل اثر مستقیم داره؛ مثلاً ناقلان تالاسمی معمولاً آهن اضافه لازم ندارن، در فاویسم ویتامین C با دوز بالا خطرناکه، و قبل از جراحی امگا ۳ و کورکومین باید قطع بشن."},
  {id:"CL03",type:"multi",t:"آیا در حال حاضر داروی خاصی مصرف می‌کنید؟",o:["خیر","داروهای تیروئید","داروهای قند خون (مثل متفورمین)","داروهای رقیق‌کننده‌ی خون (مثل وارفارین)","داروهای اعصاب یا ضدتشنج","داروهای پوست (مثل راکوتان)","داروهای ضدافسردگی یا ضداضطراب","داروهای فشار خون یا ادرارآور","داروهای سرکوب ایمنی یا شیمی‌درمانی","داروهای چربی خون (مثل آتورواستاتین)","آسپرین یا داروهای ضدپلاکت (مثل کلوپیدوگرل)","داروهای پوکی استخوان (مثل آلندرونات)","آرام‌بخش یا داروی خواب (مثل آلپرازولام، کلونازپام)"],noneIdx:0,other:"سایر داروها (نام ببرید)",why:"برخی داروها با مکمل‌ها تداخل دارند یا نیاز بدن به ویتامین‌ها را تغییر می‌دهند. مثلاً وارفارین به ویتامین K و کوآنزیم Q10 حساس است و راکوتان مصرف ویتامین A را محدود می‌کند."},
  {id:"CL04",sex:"f",t:"آیا در حال حاضر باردار یا شیرده هستید یا قصد بارداری دارید؟",o:["باردار هستم","شیرده هستم","در شش ماه آینده قصد بارداری دارم",NONE],why:"در این شرایط برخی ویتامین‌ها (مثل ویتامین A با دوز بالا) و بعضی ترکیبات گیاهی باید حذف یا تنظیم شوند. برای قصد بارداری هم شروع اسید فولیک از قبل اهمیت دارد."},
  {id:"CL05",type:"multi",t:"آیا در حال حاضر مکمل مصرف می‌کنید؟",o:["خیر","مولتی‌ویتامین","مکمل پوست / مو / ناخن","مکمل ورزشی","آهن / ویتامین B12 / ویتامین D"],noneIdx:0,other:"سایر",why:"برای جلوگیری از مصرف تکراری یا بیش‌دوزی و تنظیم دقیق دوز مکمل‌های جدید بر اساس مصرف فعلی شما."},
@@ -963,6 +966,23 @@ function compute(S){
  if(L.f!==""&&L.f!=null){if(L.f<30)add("iron",4,"آزمایش: فریتین پایین");else if(L.f>150)no("iron","آزمایش: ذخیره‌ی آهن کافی است")}
  if(L.b!==""&&L.b!=null){if(L.b<200)add("b12",6,"آزمایش: کمبود ویتامین B12");else if(L.b<300)add("b12",3,"آزمایش: ویتامین B12 در مرز")}
  if(L.t!==""&&L.t!=null&&(L.t<0.4||L.t>4.5))flag("TSH خارج از محدوده‌ی طبیعی است؛ پیش از شروع، با پزشک درباره‌ی تیروئید مشورت کن.",true);
+ // other conditions (CL02B)
+ const cx=i=>has("CL02B",i),lowFer=L.f!==""&&L.f!=null&&L.f<30;
+ if(cx(0)){if(!lowFer)no("iron","ناقل تالاسمی: آهن فقط وقتی لازمه که آزمایش فریتین پایین باشه",["thal"]);else flag("ناقل تالاسمی با فریتین پایین: آهن با دوز و مدت مشخص و زیر نظر پزشک.",true,["thal"]);add("folic",1,"ناقلان تالاسمی");note("ناقل تالاسمی: کم‌خونی خفیف تو معمولاً به آهن جواب نمی‌ده؛ تصمیم آهن فقط با آزمایش فریتین.",["thal"])}
+ if(cx(1)){flag("فاویسم (کمبود G6PD): ویتامین C فقط با دوز پایین (حداکثر ۵۰۰ میلی‌گرم)؛ دوز بالا خطر همولیز داره.",true,["g6pd"]);no("greentea","احتیاط در فاویسم")}
+ if(cx(2)){if(!female)no("vitc","سابقه‌ی سنگ کلیه: ویتامین C مکمل در مردان با افزایش خطر سنگ همراه بوده",["stone"]);else flag("سابقه‌ی سنگ کلیه: ویتامین C حداکثر ۵۰۰ میلی‌گرم؛ کلسیم فقط همراه غذا.",false,["stone"]);note("سنگ کلیه: کلسیم مکمل همراه وعده‌ی غذایی مصرف بشه و آب کافی بنوش.",["stone"])}
+ if(cx(3)){add("omega3",1,"سلامت قلب");flag("بیماری قلبی یا فشار خون: مکمل‌ها با داروهای قلبی‌ات بررسی می‌شن.",false)}
+ if(cx(4)){add("omega3",2,"تری‌گلیسرید یا چربی خون بالا");note("برای کاهش تری‌گلیسرید معمولاً دوز EPA+DHA بالای ۲ گرم لازمه؛ داروساز دوز نهایی رو تعیین می‌کنه.",["pmO3t"])}
+ if(cx(5)){add("calcium",2,"پوکی یا کم‌تراکمی استخوان");add("d3",2,"سلامت استخوان");add("mg",1,"سلامت استخوان");note("اگه آلندرونات یا داروی مشابه می‌خوری، صبح ناشتا و جدا از همه‌ی مکمل‌ها.")}
+ if(cx(6)){["omega3","curcumin","greentea","ashwa","coq10"].forEach(k=>no(k,"اختلال انعقادی یا جراحی نزدیک: اثر بر خونریزی یا بیهوشی"));flag("جراحی نزدیک یا اختلال انعقادی: تا دو هفته بعد از جراحی، شروع مکمل فقط با نظر پزشک.",true)}
+ if(cx(7)){add("b12",3,"بعد از جراحی چاقی جذب B12 کم می‌شه");add("iron",2,"بعد از جراحی چاقی");add("calcium",2,"بعد از جراحی چاقی (ترجیحاً کلسیم سیترات)");add("d3",2,"بعد از جراحی چاقی");flag("جراحی چاقی: رژیم مکمل اختصاصی و آزمایش دوره‌ای لازمه؛ برنامه حتماً توسط داروساز تنظیم می‌شه.",true)}
+ if(cx(8)){no("iron","آهن بالای خون");no("vitc","ویتامین C جذب آهن رو بیشتر می‌کنه")}
+ if(cx(9)){no("ashwa","بیماری خودایمنی: اشواگاندا ممکنه سیستم ایمنی رو تحریک کنه");flag("بیماری خودایمنی: مکمل‌ها با داروهای سرکوب‌کننده‌ی ایمنی بررسی می‌شن.",true)}
+ if(cx(10)){["vitc","curcumin","coq10","greentea","ashwa","herbal"].forEach(k=>no(k,"سرطان تحت درمان: آنتی‌اکسیدان‌ها و گیاهی‌ها ممکنه با درمان تداخل کنن"));flag("سرطان تحت درمان: هیچ مکملی بدون تأیید انکولوژیست شروع نشه.",true)}
+ if(cx(11))note("نقرس: آب کافی بنوش؛ مکمل‌های پیشنهادی با داروهای نقرس بررسی می‌شن.");
+ if(cx(12)){add("mg",2,"پیشگیری از میگرن");add("coq10",1,"پیشگیری از میگرن");add("bcomplex",1,"ریبوفلاوین (B2) برای میگرن")}
+ if(cx(13)){add("omega3",1,"خلق‌وخو (EPA)");if(med(6))no("ashwa","همراه داروی ضدافسردگی بدون نظر پزشک نه")}
+ if(has("NUT11",0)){note("چای و قهوه رو حداقل یک ساعت بعد از غذا و دور از ساشه‌ای که آهن داره بخور؛ همراه غذا جذب آهن رو به‌شدت کم می‌کنن.",["tea1","tea2"]);if(sc.iron)add("vitc",1,"کمک به جذب آهن")}
  const exList=Object.keys(ex).filter(k=>k!=="multiA"&&sc[k]>=2).map(k=>({k,n:SUP[k].n,r:ex[k],s:exS[k]}));
  const ok=k=>k!=="multi"&&!ex[k];const rank=Object.keys(sc).filter(ok).sort((a,b)=>sc[b]-sc[a]);
  const sch0=k=>schedFor(k,{L,G,sc,preg});const perDay=ks=>ks.reduce((t,k)=>{const q=sch0(k);return t+q.n*q.days.length},0)/7;
@@ -1062,6 +1082,27 @@ function badge(cat,left){
 }
 
 /* ---------------- 9 story card ---------------- */
+
+/* ---------------- labs: required list, status, progress chart ---------------- */
+const LABF=[["d","ویتامین D","ng/mL",30,80],["f","فریتین","ng/mL",30,150],["b","ویتامین B12","pg/mL",300,900],["t","TSH","mIU/L",.4,4.5],["hb","هموگلوبین","g/dL",12,16]];
+function labOK(){const l=S.labs||{};return !!l.file||LABF.some(([k])=>l[k]!==""&&l[k]!=null)}
+function labNeeds(){const h=(id,i)=>{const v=S.a[id];return Array.isArray(v)?v.includes(i):v===i};const n=["شمارش کامل خون (CBC)","فریتین","ویتامین D (25-OH)","ویتامین B12"];
+ if(h("CL02",1)||h("CL03",1)||h("HA02",0)||h("MNT01",0)||h("WH06",2))n.push("TSH (تیروئید)");
+ if(h("CL02",2)||h("CL02",3)||h("CL03",2)||h("WH06",0))n.push("قند ناشتا و HbA1c");
+ if(h("CL02B",3)||h("CL02B",4)||h("CL03",9))n.push("پروفایل چربی خون");
+ if(h("CL02",6)||h("CL02B",2))n.push("کراتینین");
+ if(h("CL02",7))n.push("آنزیم‌های کبدی");
+ if(h("CL02B",0))n.push("الکتروفورز هموگلوبین (اگه قبلاً نداری)");
+ return n}
+function labChart(){const H=(S.labHist||[]).slice(-8);if(!H.length)return "";
+ const cards=LABF.map(([k,n,u,lo,hi])=>{const pts=H.map(r=>({at:r.at,v:r[k]})).filter(p=>p.v!==""&&p.v!=null);if(!pts.length)return "";
+  const W=260,Hh=96,pad=14,pv=pts.map(p=>p.v),vals=pv.concat([lo],Math.max(...pv)*1.6>hi?[hi]:[]),mn=Math.min(...vals)*0.85,mx=Math.max(...vals)*1.15,y=v=>Hh-pad-(v-mn)/(mx-mn)*(Hh-2*pad),x=i=>pts.length<2?W/2:pad+i*(W-2*pad)/(pts.length-1);
+  const last=pts[pts.length-1].v,st=last<lo?["پایین","var(--warn)"]:last>hi?["بالا","var(--warn)"]:["در محدوده","var(--lime)"];
+  return `<div class="lc"><div class="lch"><b>${n}</b><span style="color:${st[1]}">${fa(String(last))} <small class="latin">${u}</small> · ${st[0]}</span></div>
+  <svg viewBox="0 0 ${W} ${Hh}" class="lsv" role="img" aria-label="روند ${n}"><rect x="0" y="${Math.max(0,y(hi))}" width="${W}" height="${y(lo)-Math.max(0,y(hi))}" fill="rgba(166,240,74,.08)"/><line x1="0" x2="${W}" y1="${y(lo)}" y2="${y(lo)}" stroke="rgba(166,240,74,.3)" stroke-dasharray="3 4"/>
+  <polyline points="${pts.map((p,i)=>x(i)+","+y(p.v)).join(" ")}" fill="none" stroke="var(--lime)" stroke-width="2"/>${pts.map((p,i)=>`<circle cx="${x(i)}" cy="${y(p.v)}" r="4" fill="var(--bg)" stroke="var(--lime)" stroke-width="2"><title>${p.at}: ${p.v}</title></circle>`).join("")}</svg>
+  <div class="lcd">${pts.map(p=>`<span>${new Date(p.at).toLocaleDateString("fa-IR",{month:"short",day:"numeric"})}</span>`).join("")}</div></div>`}).join("");
+ return `<h3 class="lct">نمودار پیشرفت تو</h3><p class="qhint">هر بار آزمایش جدید ثبت کنی، روند اینجا ساخته می‌شه؛ نوار سبز محدوده‌ی هدفه. پیشنهاد: هر سه ماه یک بار آزمایش تکرار بشه.</p><div class="lcs">${cards}</div>`}
 function myCode(){if(!S.code){const A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let c="";const r=new Uint32Array(5);try{crypto.getRandomValues(r)}catch(e){for(let i=0;i<5;i++)r[i]=Math.random()*1e9}r.forEach(v=>c+=A[v%A.length]);S.code="VP-"+c;save()}return S.code}
 async function storyCard(R,list,P,out,withChar=true){
  try{await document.fonts.ready}catch(e){}
@@ -1561,15 +1602,15 @@ function result(){
    <div><h3>${esc(x.n)}</h3><p>${esc((x.why||[]).slice(0,3).join(" · "))}</p><div class="score" aria-label="میزان اولویت">${[0,1,2,3,4].map(k=>`<i class="${k<Math.min(5,Math.ceil(x.s/1.5))?"on":""}"></i>`).join("")}</div></div>
    <span class="t">${TM[x.t]?TM[x.t][0]:"صبح"}<small>${x.cnt>1?fa(x.cnt)+" عدد · ":""}${freqLabel(x.days)}</small></span><button class="sw" role="switch" aria-checked="${!S.off[x.k]}" aria-label="${esc(x.n)} در پک من"></button></div>`).join("")}
  </div><p class="disc">مکمل‌ها از برندهای معتبر و دارای مجوز بازار ایران${CFG.brands.length?" مثل "+CFG.brands.join(" و "):""} انتخاب می‌شن. دوز نهایی هر مکمل پس از بازبینی داروساز و با توجه به مکمل‌های فعلی تو تعیین می‌شود.</p></section>
- <section class="sec reveal"><h2>دقیق‌ترش کن با آزمایش <span class="n">اختیاری</span></h2><p class="qhint">اگه آزمایش خون اخیر (سه ماه گذشته) داری، عددها رو وارد کن تا ترکیبت دقیق‌تر بشه.</p>
+ <section class="sec reveal labsec" id="labsec"><h2>مرحله‌ی آخر: آزمایش خون <span class="lstat ${labOK()?"ok":""}">${labOK()?"آزمایش دریافت شد ✓":"در انتظار آزمایش"}</span></h2>
+  <p class="qhint">پیشنهادهات آماده‌ست و می‌تونی همین الان ثبتش کنی. برای اینکه داروساز <b>تأیید نهایی</b> کنه و پک ساخته بشه، یک آزمایش خون مربوط به سه ماه اخیر لازمه. اگه نداری، با همین فهرست به هر آزمایشگاهی برو و بعداً از همین صفحه بفرستش.</p>
+  <div class="needs">${labNeeds().map(t=>`<span>${esc(t)}</span>`).join("")}</div>
   <div class="labs">
-   <div class="field"><label for="lb-d">ویتامین D (ng/mL)</label><input class="inp latin" id="lb-d" inputmode="decimal" value="${esc(S.labs.d||"")}"></div>
-   <div class="field"><label for="lb-f">فریتین (ng/mL)</label><input class="inp latin" id="lb-f" inputmode="decimal" value="${esc(S.labs.f||"")}"></div>
-   <div class="field"><label for="lb-b">ویتامین B12 (pg/mL)</label><input class="inp latin" id="lb-b" inputmode="decimal" value="${esc(S.labs.b||"")}"></div>
-   <div class="field"><label for="lb-t">TSH (mIU/L)</label><input class="inp latin" id="lb-t" inputmode="decimal" value="${esc(S.labs.t||"")}"></div>
+   ${LABF.map(([k,n,u])=>`<div class="field"><label for="lb-${k}">${n} <small class="latin">${u}</small></label><input class="inp latin" id="lb-${k}" inputmode="decimal" value="${esc(S.labs[k]??"")}"></div>`).join("")}
   </div>
-  ${API?`<label class="drop"><input type="file" id="lb-file" accept="image/*,application/pdf"><span>${ICON.arrow}</span><span id="lb-fn">${S.labs.file?"فایل آزمایش فرستاده شد ✓":"یا عکس / PDF آزمایش رو بفرست تا داروساز ببینه"}</span></label>`:""}
-  <div class="cta-row" style="margin-top:14px"><button class="btn line" id="lb-go">به‌روزرسانی ترکیب <span class="arr">${ICON.arrow}</span></button><span class="qhint" id="lb-msg"></span></div></section>
+  ${API?`<label class="drop"><input type="file" id="lb-file" accept="image/*,application/pdf"><span>${ICON.arrow}</span><span id="lb-fn">${S.labs.file?"فایل آزمایش فرستاده شد ✓":"یا عکس / PDF برگه‌ی آزمایش رو بفرست"}</span></label>`:""}
+  <div class="cta-row" style="margin-top:14px"><button class="btn line" id="lb-go">ثبت عددها و به‌روزرسانی ترکیب <span class="arr">${ICON.arrow}</span></button><span class="qhint" id="lb-msg"></span></div>
+  <div id="labchart">${labChart()}</div></section>
  <section class="sec reveal"><h2>نوع اشتراک</h2><div class="subs">${[["m3","اشتراک سه‌ماهه","پیشنهادی",CFG.prices.m3],["m1","یک‌ماهه","",CFG.prices.m1]].map(([k,t,tag,p])=>`<button class="sub ${S.sub===k?"on":""}" data-s="${k}">${tag?`<span class="tag2">${tag}</span>`:""}<b>${t}</b><div class="pr">${p?`روزی <span>${fa(p.toLocaleString("en-US").replace(/,/g,"٬"))}</span> تومان`:'<small>قیمت بعد از بازبینی داروساز اعلام می‌شه</small>'}</div><small>${k==="m3"?"۳ بسته‌ی ۲۸ روزه":"یک بسته‌ی ۲۸ روزه"}</small></button>`).join("")}</div></section>
  <section class="sec reveal"><h2>یادآور مصرف</h2><p class="qhint">ساشه‌ی صبح ساعت ۸، ساشه‌ی ظهر ساعت ۱۴ (اگه داری) و ساشه‌ی شب ساعت ۲۲، به مدت ۲۸ روز توی تقویم گوشیت.</p><div class="cta-row" style="margin-top:12px"><button class="btn line" id="ics">افزودن به تقویم گوشی <span class="arr">${ICON.arrow}</span></button><span id="icsout"></span></div></section>
  ${R.exList.length?`<section class="sec reveal"><h2>حذف‌شده برای ایمنی تو</h2><div class="ex">${R.exList.map(x=>`<span>${esc(x.n)}<em>${esc(x.r)}</em></span>`).join("")}</div></section>`:""}
@@ -1589,7 +1630,9 @@ function result(){
  d.querySelectorAll(".sub").forEach(b=>b.onclick=()=>{S.sub=b.dataset.s;save();d.querySelectorAll(".sub").forEach(x=>x.classList.toggle("on",x===b));saveLead("completed",R,mine())});
  d.querySelector("#ics").onclick=()=>icsFile(d.querySelector("#icsout"));
  d.querySelector("#lb-go").onclick=()=>{const v=id=>{const n=parseFloat(toEn(d.querySelector(id).value).replace(/[^\d.]/g,""));return isFinite(n)?n:""};
-  Object.assign(S.labs,{d:v("#lb-d"),f:v("#lb-f"),b:v("#lb-b"),t:v("#lb-t")});save();render();setTimeout(()=>{const m=document.getElementById("lb-msg");m&&(m.textContent="ترکیبت با عددهای آزمایش به‌روز شد.");m&&m.closest(".sec").scrollIntoView({block:"center"})},100)};
+  const nv={};LABF.forEach(([k])=>nv[k]=v("#lb-"+k));Object.assign(S.labs,nv);
+  if(LABF.some(([k])=>nv[k]!=="")){S.labHist=S.labHist||[];const today=new Date().toISOString().slice(0,10),last=S.labHist[S.labHist.length-1];const rec={at:today,...nv};if(last&&last.at===today)S.labHist[S.labHist.length-1]=rec;else S.labHist.push(rec)}
+  save();saveLead("completed");render();setTimeout(()=>{const m=document.getElementById("lb-msg");m&&(m.textContent="ترکیبت با عددهای آزمایش به‌روز شد.");m&&m.closest(".sec").scrollIntoView({block:"center"})},100)};
  d.querySelector("#lb-file")&&(d.querySelector("#lb-file").onchange=e=>uploadLab(e.target.files[0],d.querySelector("#lb-fn")));
  if(API)fetch(API+"/api/ref?code="+myCode()).then(r=>r.json()).then(j=>{if(j.ok){d.querySelector("#ref-n").textContent=fa(j.joined);d.querySelector("#ref-s").textContent=fa(j.submitted)}}).catch(()=>{});
  d.querySelector("#story").onclick=()=>storyCard(R,mine(),P,d.querySelector("#storyout"));
@@ -1600,7 +1643,7 @@ function result(){
   if(!/^(\+98|0)?9\d{9}$/.test(ph)){ok.style.color="var(--warn)";ok.textContent="شماره‌ی موبایل را کامل وارد کن، مثلاً ۰۹۱۲۳۴۵۶۷۸۹.";return}
   ok.style.color="";ok.textContent="در حال ثبت…";
   S.phone=ph;const res=await submit({...R,list:mine(),removedByUser:R.list.filter(x=>S.off[x.k]).map(x=>x.n)},ph);
-  ok.textContent=res;
+  ok.textContent=res+(labOK()?"":" پکت رزرو شد؛ تأیید نهایی داروساز بعد از دریافت آزمایش خون انجام می‌شه.");if(!labOK())setTimeout(()=>document.getElementById("labsec")?.scrollIntoView({behavior:"smooth",block:"start"}),900);
  };
  return d;
 }
@@ -1613,8 +1656,9 @@ function leadPayload(stage,R,list){const p={cid:S.cid,name:S.b.name,phone:toEn(S
   data:{height:+S.b.h||null,weight:+S.b.w||null,goals:(S.a.G||[]).map(i=>GOALS.o[i]),selectedCats:selCats().map(id=>CATS.find(c=>c.id===id).title),answers:answersText(),texts:S.txt}};
  if(R){p.plan=PLANS[R.plan].k;p.needsReview=R.review;Object.assign(p.data,{supplements:(list||R.list).map(x=>x.n),schedule:(list||R.list).map(x=>({k:x.k,n:x.n,t:x.t,cnt:x.cnt,days:x.days})),removedByUser:R.removedByUser||R.list.filter(x=>S.off&&S.off[x.k]).map(x=>x.n),excluded:R.exList.map(x=>x.n+" — "+x.r),flags:R.flags.map(f=>(f.bad?"[مهم] ":"")+f.t),notes:R.notes.map(n=>n.t||n)})}
  if(S.email)p.data.email=S.email;if(S.code)p.data.code=S.code;if(S.ref)p.data.ref=S.ref;p.data.subscription=S.sub==="m1"?"یک‌ماهه":"سه‌ماهه";
- const lb=S.labs||{};if(lb.d!==undefined)p.data.labs={"ویتامین D":lb.d,"فریتین":lb.f,"B12":lb.b,"TSH":lb.t};
- p.data.state={b:S.b,a:S.a,txt:S.txt,sel:S.sel,done:S.done,phone:S.phone,ref:S.ref,code:S.code,labs:S.labs,sub:S.sub};return p}
+ const lb=S.labs||{};if(lb.d!==undefined)p.data.labs={"ویتامین D":lb.d,"فریتین":lb.f,"B12":lb.b,"TSH":lb.t,"هموگلوبین":lb.hb};
+ p.data.labStatus=labOK()?"received":"pending";p.data.labNeeds=labNeeds();if(S.labHist)p.data.labHist=S.labHist;
+ p.data.state={b:S.b,a:S.a,txt:S.txt,sel:S.sel,done:S.done,phone:S.phone,ref:S.ref,code:S.code,labs:S.labs,labHist:S.labHist||[],sub:S.sub};return p}
 async function saveLead(stage,R,list){if(!API||!S.phone)return true;
  try{const r=await fetch(API+"/api/save",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(leadPayload(stage,R,list)),keepalive:stage!=="submitted"});return r.ok}catch(e){return false}}
 let DB=null,USER=null;
@@ -1690,7 +1734,8 @@ async function workspace(r,host){
  const prods=k=>((L&&L[keyOf[k]])||[]).filter(p=>p.s&&p.o&&!p.kid&&SOLID.has(p.f)).sort((a,b)=>(a.combo-b.combo)||(a.o-b.o));
  const P={};R0.list.forEach(x=>P[x.k]=prods(x.k));
  const opt=(x,i)=>`<option value="${i}">${esc(x.n)} — ${esc(x.b||"")} · ${FORMFA[x.f]||x.f}${x.combo?" · ترکیبی":""} · ${x.o?tmn(x.o):""} · ${SRCFA[x.src]||""}</option>`;
- host.innerHTML=`<div class="ws">${R0.list.map(x=>{const m=META[x.k]||{},f=F.items[x.k]||{},on=f.on!=null?f.on:!custOff.has(x.n);
+ const LH=(r.labHist||r.state.labHist||[]);const labTop=`<div class="flag ${r.labStatus==="received"||r.state.labs&&r.state.labs.file?"note":"bad"}"><span>وضعیت آزمایش: ${r.labStatus==="received"?"دریافت شد":"هنوز آزمایش نفرستاده"}${(r.labNeeds||[]).length?" · لازم: "+esc(r.labNeeds.join("، ")):""}</span></div>${LH.length?`<div class="tbl" style="margin:8px 0 14px"><table><tr><th>تاریخ</th>${LABF.map(l=>`<th>${l[1]}</th>`).join("")}</tr>${LH.map(h=>`<tr><td class="latin">${esc(h.at)}</td>${LABF.map(l=>`<td class="latin">${esc(h[l[0]]??"")}</td>`).join("")}</tr>`).join("")}</table></div>`:""}`;
+ host.innerHTML=labTop+`<div class="ws">${R0.list.map(x=>{const m=META[x.k]||{},f=F.items[x.k]||{},on=f.on!=null?f.on:!custOff.has(x.n);
   return `<div class="wsi ${on?"":"off"}" data-k="${x.k}"><div class="wsh"><label><input type="checkbox" class="won" ${on?"checked":""}> <b>${esc(x.n)}</b></label><span class="qhint">امتیاز ${fa(x.s)}${custOff.has(x.n)?" · مشتری خاموشش کرده":""}</span>${m.g?`<span class="ev" style="--ec:${GR[m.g][1]}">${GR[m.g][0]}</span>`:""}</div>
   <p class="qhint">دلیل: ${esc((x.why||[]).join(" · "))}</p>${m.e?`<p class="wse">${esc(m.e)}</p>`:""}<p class="qhint">${m.dose?"دوز مرجع: "+esc(m.dose):""}${m.ul?" · حداکثر: "+esc(m.ul):""}</p>${srcLinks(m.src)}
   <div class="wsch"><select class="inp wt">${TIMES.map(t=>`<option value="${t}" ${(f.t||x.t)===t?"selected":""}>${TM[t][0]}</option>`).join("")}</select><input class="inp wn" type="number" min="1" max="4" value="${f.cnt||x.cnt}" title="تعداد در هر نوبت"><span class="wdays">${WD.map((w,i)=>`<button type="button" class="${(f.days||x.days).includes(i)?"on":""}" data-i="${i}" title="${WDF[i]}">${w}</button>`).join("")}</span><span class="wpre"><button type="button" data-p="all">هر روز</button><button type="button" data-p="alt">یک روز در میان</button><button type="button" data-p="x3">۳ روز</button><button type="button" data-p="x1">هفته‌ای ۱</button></span></div>
