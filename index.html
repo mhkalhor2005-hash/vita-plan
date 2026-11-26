@@ -302,6 +302,7 @@ main{padding-block:12px 150px;position:relative}
 .disc{font-size:.8rem;color:var(--stone);margin-top:22px}
 .blocked{max-width:560px;margin:60px auto;text-align:center}
 .wsdh{margin:6px 0;padding:8px 12px;border-radius:10px;background:rgba(166,240,74,.08);border:1px solid rgba(166,240,74,.35);font-size:13.5px}.wsdh ul{margin:4px 0 0;padding-inline-start:18px}.wtr summary{cursor:pointer;padding:6px 0}.trq{padding:8px 0;border-top:1px solid rgba(255,255,255,.08)}.trq small{opacity:.7}.tra{font-size:13.5px;margin:2px 0}.trq ul{margin:4px 0;padding-inline-start:18px;font-size:13.5px}.trq li.x{color:#ff9a8a}.trq li.w{color:#f0c060}.trq li.p{color:#bfe98a}
+.cnt{margin:6px 0 10px}.cnt-per{margin:0 0 8px;font-size:15px}.cnt-per small{opacity:.7;font-size:12.5px;margin-inline-start:6px}.cnt-r{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.1)}.cnt-r.info{opacity:.85}.cnt-l{min-width:0}.cnt-l b{display:block;font-size:15px;font-weight:600}.cnt-l small{opacity:.7;font-size:12.5px}.cnt-l details{font-size:12.5px;margin-top:2px}.cnt-l summary{cursor:pointer;color:var(--lime,#A6F04A);list-style:none}.cnt-l details p{margin:4px 0 0;line-height:1.8;opacity:.85}.cnt-s{display:flex;align-items:center;gap:8px;flex:none}.cb{width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:transparent;color:inherit;font-size:20px;cursor:pointer;touch-action:manipulation}.cb:active{transform:scale(.95)}.cn{min-width:30px;text-align:center;font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}.cnt-note{font-size:12.5px;opacity:.75;margin:10px 0 6px;line-height:1.8}.cnt-t{padding:10px 14px;border-radius:12px;background:rgba(166,240,74,.1);border:1px solid rgba(166,240,74,.35);font-size:14px}
 .consent{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 14px;border-radius:14px;border:1px solid var(--warn,#E8B04A);font-size:14px;line-height:1.8;cursor:pointer}.consent input{margin-top:6px;width:18px;height:18px;flex:none;accent-color:var(--lime,#A6F04A)}.consent[hidden]{display:none}
 .unitg{display:flex;gap:14px;align-items:center;margin:4px 0 14px;padding:10px 14px;border:1px dashed var(--line-2,rgba(255,255,255,.2));border-radius:14px;color:var(--ink-2,inherit)}.unitg .ui{flex:none;color:var(--lime,#A6F04A);display:grid;place-items:center}.unitg p{margin:0;font-size:14px;line-height:1.7}
 
@@ -619,7 +620,7 @@ const CFG={
  brandMap:{},           // برند هر مکمل، مثلاً {d3:"یوروویتال",omega3:"عبیدی"}
  reviews:[]             // فقط نظر واقعی: {name:"سارا",plan:"BeautyPlan",stars:5,text:"..."}
 };
-const BUILD="1795639186";
+const BUILD="1795691262";
 const IMG={logo:"assets/logo.png",sport:"assets/sport.jpg",slim:"assets/slim.jpg",beauty:"assets/beauty.jpg"};
 const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn=s=>String(s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
@@ -645,6 +646,21 @@ const ICON={
 
 /* ---------------- questionnaire data ---------------- */
 const NONE="هیچ‌کدام";
+/* شمارنده‌ی «یک روز/هفته‌ی معمولی» — واحدها از فهرست جانشینی (Ashtary-Larky، ۱۳۹۹) */
+const COUNTQ={
+ NUT02:{per:"در یک هفته‌ی معمولی",unit:"وعده",note:"هر وعده = ۲ واحد جانشینی = ۶۰ گرم گوشت یا مرغ پخته. ماهی، پنیر و حبوبات را اینجا نشمارید.",
+  rows:[{l:"گوشت قرمز (گوساله، گوسفند، چرخ‌کرده)",u:"وعده‌ی ۶۰ گرمی",ex:"۶۰ گرم پخته ≈ ۲ قوطی کبریت · کباب کوبیده‌ی یک سیخ ≈ ۱ وعده",w:1},{l:"مرغ یا بوقلمون",u:"وعده‌ی ۶۰ گرمی",ex:"۶۰ گرم بدون پوست ≈ ۲ قوطی کبریت · یک ران کوچک ≈ ۱ وعده",w:1},{l:"تخم‌مرغ",u:"عدد",ex:"هر تخم‌مرغ بزرگ (۵۰ گرم) = ۱ واحد · ۲ عدد = ۱ وعده",w:.5}],
+  map:t=>t>=5?0:t>=2?1:t>=1?2:3},
+ NUT03:{per:"در یک ماه معمولی",unit:"وعده",note:"هر وعده = ۳ واحد جانشینی = حدود ۹۰ گرم ماهی پخته (۳ قوطی کبریت).",
+  rows:[{l:"ماهی (قزل‌آلا، آزاد، جنوب و…)",u:"وعده‌ی ۹۰ گرمی",ex:"۹۰ گرم ≈ یک تکه به اندازه‌ی کف دست بدون انگشت",w:1},{l:"کنسرو تن یا ساردین",u:"قوطی",ex:"هر قوطی معمولی ≈ ۱ وعده",w:1},{l:"میگو یا صدف",u:"وعده‌ی ۹۰ گرمی",ex:"حدود ۸ تا ۱۰ میگوی متوسط",w:1}],
+  map:t=>t>=8?0:t>=4?1:t>=1?2:3},
+ NUT04:{per:"در یک روز معمولی",unit:"واحد",note:"طبق فهرست جانشینی، پنیر جزو گروه گوشت است و کره، خامه و سرشیر جزو گروه چربی؛ پنیر جدا پرسیده می‌شود.",
+  rows:[{l:"شیر",u:"لیوان ۲۴۰ میلی‌لیتری",ex:"هر لیوان = ۱ واحد · نصف لیوان = ۰٫۵",w:1},{l:"ماست",u:"¾ لیوان",ex:"¾ لیوان ماست کم‌چرب = ۱ واحد · یک کاسه‌ی کوچک ≈ ۱ واحد",w:1},{l:"دوغ، دوغاب یا کفیر",u:"لیوان",ex:"هر لیوان = ۱ واحد",w:1},{l:"پنیر (جدا حساب می‌شود)",u:"قوطی کبریت ۳۰ گرمی",ex:"۳۰ گرم پنیر = ۱ واحد گروه گوشت؛ در کلسیم جدا لحاظ می‌شود",w:0}],
+  map:t=>t>=2?0:t>=1?1:t>0?2:3},
+ NUT05:{per:"در یک روز معمولی",unit:"واحد",note:"سیب‌زمینی، ذرت و نخودفرنگی طبق فهرست جانشینی جزو گروه نشاسته‌اند و اینجا شمرده نمی‌شوند.",
+  rows:[{l:"میوه‌ی تازه",u:"عدد",ex:"۱ سیب، پرتقال، موز یا هلوی کوچک · ۱ کیوی · ۲ نارنگی · ۱۲ گیلاس · ۱۷ حبه انگور · نصف انار · یک برش خربزه یا هندوانه",w:1},{l:"آب‌میوه‌ی طبیعی",u:"نصف لیوان",ex:"حداکثر ۱ واحد در روز حساب می‌شود",w:1,max:1},{l:"خشکبار",u:"واحد",ex:"۳ خرما · ۲ قاشق غذاخوری کشمش · ۴ برگه‌ی زردآلو · ۳ آلو بخارا",w:1},{l:"سبزی خام",u:"لیوان",ex:"سالاد، سبزی خوردن، ۱ گوجه‌فرنگی متوسط، ۱ خیار بزرگ",w:1},{l:"سبزی پخته",u:"نصف لیوان",ex:"اسفناج، کدو، بادمجان، لوبیاسبز، هویج، سبزی آش و خورش",w:1}],
+  map:t=>t>=5?0:t>=2?1:t>0?2:3}};
+const cntTotal=(c,v)=>c.rows.reduce((s,r,i)=>{let x=(v[i]||0)*r.w;if(r.max!=null)x=Math.min(x,r.max);return s+x},0);
 const UNIT_IC={
  NUT02:'<svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="5" y="14" width="12" height="20" rx="2"/><rect x="18" y="14" width="12" height="20" rx="2"/><rect x="31" y="14" width="12" height="20" rx="2"/><path d="M5 19h12M18 19h12M31 19h12"/></svg>',
  NUT03:'<svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 24c6-9 18-11 28-4l8-6v20l-8-6C24 35 12 33 6 24z"/><circle cx="14" cy="22" r="1.5" fill="currentColor"/></svg>',
@@ -744,10 +760,10 @@ const CATS=[
  ]},
  {id:"nutrition",code:"NUT",title:"تغذیه و الگوی غذایی",desc:"پروتئین، ماهی، لبنیات، میوه و سبزی و عادت‌های غذایی",icon:"food",goals:[],required:1,vis:()=>+S.b.age>=18,qs:[
   {id: "NUT01", t: "الگوی کلی تغذیه و هدف غذایی شما در حال حاضر چیست؟", o: ["رژیم متنوع و معمولی (بدون محدودیت خاص)", "گیاه‌خوار (Vegetarian - بدون گوشت و ماهی، اما مصرف تخم‌مرغ/لبنیات)", "وگان (Vegan - بدون هیچ‌گونه محصول حیوانی)", "رژیم کاهش وزن (کم‌کالری) یا فستینگ (روزه‌داری متناوب)", "رژیم کتوژنیک یا کم‌کربوهیدرات"], type: "multi", why: "تعیین کمبودهای ساختاری هر رژیم."},
-  {id: "NUT02", t: "مصرف منابع پروتئین حیوانی (گوشت قرمز، مرغ، بوقلمون و تخم‌مرغ) شما در هفته چقدر است؟", o: ["تقریباً هر روز (بیش از ۵ وعده در هفته)", "متوسط (۲ تا ۴ وعده در هفته)", "کم (فقط ۱ وعده در هفته)", "به‌ندرت یا اصلاً مصرف نمی‌کنم."], guide: "هر وعده = حدود ۳ قوطی کبریت گوشت/مرغ یا ۲ عدد تخم‌مرغ کامل", why: "شفاف‌سازی مصداق پروتئین حیوانی و ارزیابی دقیق دریافت آهن هِم، زینک، B12 و آمینواسیدهای ضروری."},
-  {id: "NUT03", t: "در طول هفته معمولاً چند وعده ماهی یا غذاهای دریایی مصرف می‌کنید؟", o: ["۲ وعده یا بیشتر در هفته", "۱ وعده در هفته", "به‌ندرت (ماهی یک یا دو بار)", "اصلاً مصرف نمی‌کنم."], guide: "هر وعده = یک کف دست فیله ماهی یا یک قوطی تن ماهی", why: "تعیین دقیق نیاز به مکمل امگا-۳ و تنظیم دوز آن."},
+  {id: "NUT02", t: "مصرف منابع پروتئین حیوانی (گوشت قرمز، مرغ، بوقلمون و تخم‌مرغ) شما در هفته چقدر است؟", o: ["تقریباً هر روز (۵ وعده یا بیشتر در هفته)", "متوسط (۲ تا ۴ وعده در هفته)", "کم (حدود ۱ وعده در هفته)", "به‌ندرت یا اصلاً (کمتر از ۱ وعده در هفته)"], guide: "هر وعده = ۶۰ گرم گوشت یا مرغ پخته (۲ واحد جانشینی) یا ۲ عدد تخم‌مرغ", why: "شفاف‌سازی مصداق پروتئین حیوانی و ارزیابی دقیق دریافت آهن هِم، زینک، B12 و آمینواسیدهای ضروری."},
+  {id: "NUT03", t: "در طول هفته معمولاً چند وعده ماهی یا غذاهای دریایی مصرف می‌کنید؟", o: ["۲ وعده یا بیشتر در هفته", "۱ وعده در هفته", "به‌ندرت (یک تا سه بار در ماه)", "اصلاً مصرف نمی‌کنم."], guide: "هر وعده = یک کف دست فیله ماهی یا یک قوطی تن ماهی", why: "تعیین دقیق نیاز به مکمل امگا-۳ و تنظیم دوز آن."},
   {id: "NUT04", t: "مصرف لبنیات (شیر، ماست، کشک و پنیر) شما در روز چقدر است؟", o: ["۲ واحد یا بیشتر در روز", "حدود ۱ واحد در روز", "فقط چند بار در هفته (کمتر از روزی یک واحد)", "به‌ندرت یا اصلاً مصرف نمی‌کنم."], guide: "هر واحد = ۱ لیوان شیر/ماست", why: "ارزیابی مستقیم دریافت کلسیم و ریبوفلاوین؛ نیاز به کلسیم، ویتامین D3 و K2 در مصرف پایین."},
-  {id: "NUT05", t: "به‌طور معمول در روز چقدر میوه و سبزیجات تازه مصرف می‌کنید؟", o: ["زیاد (۵ واحد یا بیشتر در روز)", "متوسط (۲ تا ۴ واحد در روز)", "کم (۱ واحد یا کمتر در روز)", "تقریباً روزهایی هست که هیچ میوه و سبزی نمی‌خورم."], guide: "هر واحد = ۱ عدد میوه متوسط یا ۱ لیوان سبزیجات خردشده/سالاد", why: "حذف گزینه «مطمئن نیستم» به کمک راهنمای بصری و ارزیابی دریافت ویتامین C، فولات، پتاسیم و آنتی‌اکسیدان‌ها."},
+  {id: "NUT05", t: "به‌طور معمول در روز چقدر میوه و سبزیجات تازه مصرف می‌کنید؟", o: ["زیاد (۵ واحد یا بیشتر در روز)", "متوسط (۲ تا ۴ واحد در روز)", "کم (کمتر از ۲ واحد در روز)", "تقریباً روزهایی هست که هیچ میوه و سبزی نمی‌خورم."], guide: "هر واحد = ۱ عدد میوه متوسط یا ۱ لیوان سبزیجات خردشده/سالاد", why: "حذف گزینه «مطمئن نیستم» به کمک راهنمای بصری و ارزیابی دریافت ویتامین C، فولات، پتاسیم و آنتی‌اکسیدان‌ها."},
   {id: "NUT06", t: "کدام عادات غذایی زیر در برنامه روزانه شما بیشتر تکرار می‌شود؟", o: ["وعده‌های غذایی منظم و خانگی دارم.", "اغلب صبحانه را حذف می‌کنم یا وعده‌های غذایی‌ام نامنظم است.", "بیش از ۳ بار در هفته فست‌فود، غذاهای سرخ‌کردنی یا فرآوری‌شده مصرف می‌کنم.", "مصرف روزانه شیرینی‌جات، نوشابه یا قندهای ساده دارم.", "حبوبات، مغزها (گردو، بادام) و غلات کامل در رژیمم بسیار کم است."], type: "multi", why: "شناسایی استرس اکسیداتیو ناشی از فست‌فود/قند و کمبود منیزیم/فیبر/ویتامین E."},
   {id: "NUT07", t: "کدام یک از موارد زیر در سبک زندگی روزانه شما وجود دارد؟", o: ["دریافت نور آفتاب مستقیم روی پوست (دست و صورت) کمتر از ۱۵ دقیقه در روز است.", "روزانه بیش از ۲ فنجان قهوه یا چای پررنگ (به‌ویژه نزدیک وعده‌های غذایی) می‌نوشم.", "مصرف دخانیات (سیگار، قلیان یا ویپ) دارم.", "هیچ‌کدام از موارد بالا"], type: "multi", noneIdx: 3, why: "تنظیم دوز ویتامین D3، شناسایی مهار جذب آهن/زینک ناشی از تانن و کافئین، و افزایش دوز ویتامین C در مصرف‌کنندگان دخانیات."},
   {id: "NUT08", t: "آیا یکی از محدودیت‌ها یا حساسیت‌های غذایی زیر را دارید؟", o: ["هیچ‌کدام (محدودیتی ندارم).", "عدم تحمل لاکتوز (نفخ یا دل‌درد با شیر و لبنیات)", "بیماری سلیاک یا حساسیت به گلوتن", "آلرژی غذایی (به آجیل، سویا، تخم‌مرغ یا غذاهای دریایی)"], type: "multi", noneIdx: 0, why: "فیلتر آلرژن‌ها در فرمولاسیون ساشه."},
@@ -1153,7 +1169,7 @@ function compute(S){
  on("NUT01",h=>{if(h(1)){add("b12",2,"رژیم گیاه‌خواری");add("iron",1);add("omega3",1);add("zinc",1)}if(h(2)){add("b12",3,"رژیم وگان");add("iron",1);add("zinc",1);add("d3",1);add("omega3",1,"در رژیم وگان امگا ۳ جلبکی");add("calcium",1);add("iodine",1,"وگان‌ها ید کمتری دریافت می‌کنند");note("وگان: امگا ۳ جلبکی، ویتامین D3 گیاهی (گلسنگ) و کپسول گیاهی انتخاب می‌شود.")}if(h(3)){add("bcomplex",1,"رژیم کم‌کالری یا فستینگ");add("mg",1);add("protein",1);note("رژیم کم‌کالری: پوشش ریزمغذی‌ها مهم است؛ مولتی‌ویتامین در این پک نیست، داروساز در صورت نیاز اضافه می‌کند.")}if(h(4)){add("electro",2,"رژیم کتو دفع سدیم و پتاسیم را بالا می‌برد");add("mg",2,"رژیم کتو")}});
  on("NUT02",h=>{if(h(2)){add("iron",1,"پروتئین حیوانی کم");add("zinc",1);add("b12",1)}if(h(3)){add("iron",2,"پروتئین حیوانی بسیار کم");add("zinc",1);add("b12",2);add("protein",1)}});
  on("NUT03",h=>{if(h(1))add("omega3",1,"ماهی هفته‌ای یک وعده");if(h(2))add("omega3",2,"ماهی به‌ندرت");if(h(3)){add("omega3",3,"عدم مصرف ماهی");dz("omega3","۱ گرم EPA+DHA")}});
- on("NUT04",h=>{if(h(1))add("calcium",1,"لبنیات روزی یک واحد");if(h(2)){add("calcium",2,"لبنیات کمتر از روزی یک واحد");add("d3",1)}if(h(3)){add("calcium",3,"عدم مصرف لبنیات");add("d3",1);dz("calcium","۵۰۰ میلی‌گرم کلسیم عنصری در هر نوبت")}});
+ on("NUT04",h=>{const cz=(A.NUT04_n||[])[3]||0;if(cz>=2){T(`پنیر ${cz} قوطی کبریت در روز (گروه گوشت در فهرست جانشینی)`);sc.calcium=(sc.calcium||0)-1}if(h(1))add("calcium",1,"لبنیات روزی یک واحد");if(h(2)){add("calcium",2,"لبنیات کمتر از روزی یک واحد");add("d3",1)}if(h(3)){add("calcium",3,"عدم مصرف لبنیات");add("d3",1);dz("calcium","۵۰۰ میلی‌گرم کلسیم عنصری در هر نوبت")}});
  on("NUT05",h=>{if(h(2)||h(3)){add("vitc",2,"میوه و سبزی کم");add("folic",1,"سبزی برگ‌سبز کم")}});
  on("NUT06",h=>{if(h(1))add("bcomplex",1,"حذف صبحانه یا وعده‌ی نامنظم");if(h(2))add("vitc",1,"فست‌فود زیاد");if(h(3)){if(!med(2))add("chromium",1,"قند ساده‌ی روزانه");add("mg",1);plan.slim+=1}if(h(4))add("mg",2,"حبوبات، مغزها و غلات کامل کم")});
  on("NUT07",h=>{if(h(0))add("d3",2,"آفتاب کمتر از ۱۵ دقیقه");if(h(1)){add("mg",1);note("چای و قهوه را حداقل یک ساعت بعد از غذا و دور از ساشه‌ی آهن‌دار بخور.",["tea1","tea2"]);if(sc.iron)add("vitc",1,"کمک به جذب آهن")}if(h(2)){add("vitc",2,"دخانیات");note("مصرف دخانیات: هیچ بتاکاروتنی در ساشه نیست.",["odsA"])}});
@@ -1703,6 +1719,7 @@ function blocked(){
  const d=h(`<div class="blocked qcard glass qpanel"><h1 class="qtitle">ویتاپلن برای ۱۲ سال به بالا طراحی شده</h1><p class="qhint" style="margin-top:10px">مکمل‌های کودکان زیر ۱۲ سال باید با وزن و شرایط کودک و توسط پزشک اطفال یا داروساز تعیین شود.</p><div class="cta-row" style="justify-content:center"><button class="btn" id="bk">اصلاح سن <span class="arr">${ICON.arrow}</span></button></div></div>`);
  d.querySelector("#bk").onclick=()=>go(()=>S.view="basic");return d;
 }
+function cntHTML(q){const c=COUNTQ[q.id],v=S.a[q.id+"_n"]||[];return `<div class="cnt"><p class="cnt-per">${c.per} چقدر می‌خورید؟ <small>هر بار زدن = نصف واحد</small></p>${c.rows.map((r,i)=>`<div class="cnt-r${r.w?"":" info"}"><div class="cnt-l"><b>${esc(r.l)}</b><small>${esc(r.u)}</small><details><summary>یک ${esc(r.u)} یعنی چه؟</summary><p>${esc(r.ex)}</p></details></div><div class="cnt-s"><button type="button" class="cb" data-cs="${i}" data-st="-0.5" aria-label="کمتر ${esc(r.l)}">−</button><span id="cn${i}" class="cn">${fa(v[i]||0).replace(".","٫")}</span><button type="button" class="cb" data-cs="${i}" data-st="0.5" aria-label="بیشتر ${esc(r.l)}">+</button></div></div>`).join("")}<p class="cnt-note">${esc(c.note)}</p><div class="cnt-t" id="cnt-t" aria-live="polite"></div></div>`}
 function optsHTML(q,val){
  const multi=q.type==="multi";
  return `<div class="opts ${multi?"multi":""}" role="${multi?"group":"radiogroup"}">${q.o.map((o,i)=>{const s=multi?(val||[]).includes(i):val===i;
@@ -1793,16 +1810,16 @@ function question(){
  const d=h(`<div class="qwrap">${rollHTML()}<div class="qcard glass qpanel ${S.dir<0?"rev":""}">
   <span class="q-ic">${ICON[cat.icon]}</span>
   <div class="kicker">${cat.title} · سؤال ${fa(S.qi+1)} از ${fa(qs.length)} · دسته‌ی ${fa(selCats().indexOf(cat.id)+1)} از ${fa(selCats().length)} <span class="code">${q.id}</span></div>
-  <h1 class="qtitle">${esc(q.t)}</h1>${q.hint?`<p class="qhint">${q.hint}</p>`:multi?'<p class="qhint">می‌توانید چند گزینه انتخاب کنید.</p>':""}${q.guide?`<div class="unitg"><span class="ui" aria-hidden="true">${UNIT_IC[q.id]||ICON.food}</span><p><b>یک واحد یعنی:</b> ${esc(q.guide.replace(/^هر (وعده|واحد)\s*=\s*/,""))}</p></div>`:""}
+  <h1 class="qtitle">${esc(q.t)}</h1>${q.hint?`<p class="qhint">${q.hint}</p>`:multi?'<p class="qhint">می‌توانید چند گزینه انتخاب کنید.</p>':""}${q.guide&&!COUNTQ[q.id]?`<div class="unitg"><span class="ui" aria-hidden="true">${UNIT_IC[q.id]||ICON.food}</span><p><b>یک واحد یعنی:</b> ${esc(q.guide.replace(/^هر (وعده|واحد)\s*=\s*/,""))}</p></div>`:""}
   ${q.drugs?`<div class="field drg"><label for="f-drg">اسم دقیق داروهاتون رو جست‌وجو کنید (فارسی یا انگلیسی)؛ یا از دسته‌های پایین انتخاب کنید</label><input class="inp" id="f-drg" autocomplete="off" placeholder="مثلاً لووتیروکسین، Metformin، پردنیزولون…" role="combobox" aria-expanded="false" aria-controls="drgs"><div class="sug" id="drgs" role="listbox" hidden></div><div class="dchips" aria-live="polite"></div></div>`:""}
-  ${optsHTML(q,val)}
+  ${COUNTQ[q.id]?cntHTML(q):optsHTML(q,val)}
   <div id="txw">${tx?`<div class="field"><label for="f-tx">${q.text.label}</label><input class="inp" id="f-tx" value="${esc(S.txt[q.id]||"")}"></div>`:""}</div>
   ${q.other?`<div class="field"><label for="f-oth">${q.other}</label><input class="inp" id="f-oth" value="${esc(S.txt[q.id+"o"]||"")}"></div>`:""}
   ${q.why?`<details class="why"><summary>چرا این سؤال مهم است؟</summary><p>${q.why}</p></details>`:""}
   <div class="err"></div>
   <div class="navrow"><span style="display:flex;gap:14px;align-items:center"><button class="back" id="bk">${ICON.back} ${S.qi||selCats().indexOf(cat.id)>0?"قبلی":"دسته‌ها"}</button>${API?'<button class="later" id="later">ادامه‌ی بعداً</button>':""}</span>
   <button class="btn" id="nx">${S.qi===qs.length-1?(nextCat(cat.id)?"دسته‌ی بعدی":"ساخت پک من"):"بعدی"} <span class="arr">${ICON.arrow}</span></button></div></div></div>`);
- const next=()=>{const cur=S.a[q.id];if(q.drugs&&(S.a.DRG||[]).length&&(cur===undefined||!cur.length))S.a[q.id]=[];else if(cur===undefined||(Array.isArray(cur)&&!cur.length)){d.querySelector(".err").textContent="یک گزینه را انتخاب کن.";return}
+ const next=()=>{if(COUNTQ[q.id]){const c=COUNTQ[q.id],v=S.a[q.id+"_n"]||c.rows.map(()=>0);S.a[q.id+"_n"]=v;S.a[q.id]=c.map(cntTotal(c,v));save()}const cur=S.a[q.id];if(q.drugs&&(S.a.DRG||[]).length&&(cur===undefined||!cur.length))S.a[q.id]=[];else if(cur===undefined||(Array.isArray(cur)&&!cur.length)){d.querySelector(".err").textContent="یک گزینه را انتخاب کن.";return}
   const nqs=visibleQs(cat);const at=nqs.findIndex(x=>x.id===q.id);
   if(at>=nqs.length-1){S.done[cat.id]=true;saveLead("in_progress");const nx=nextCat(cat.id)||nextCat(null);if(!nx){save();packThen();return}badge(cat,selCats().filter(id=>firstOpen(id)>=0&&id!==cat.id).length);go(()=>{S.dir=1;S.cat=nx;S.qi=firstOpen(nx)});return}
   go(()=>{S.dir=1;S.qi=at+1})};
@@ -1824,6 +1841,8 @@ function question(){
    sg.querySelectorAll("button").forEach(b=>b.onclick=()=>{if(b.dataset.free){S.txt[q.id+"o"]=((S.txt[q.id+"o"]||"")+" "+inp.value).trim();const o=d.querySelector("#f-oth");o&&(o.value=S.txt[q.id+"o"]);inp.value="";sg.hidden=true;save();return}pick(b.dataset.n)})};
   inp.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();sg.querySelector("button")?.click()}if(e.key==="Escape"){sg.hidden=true}};
   chips()}
+ if(COUNTQ[q.id]){const c=COUNTQ[q.id];const v=S.a[q.id+"_n"]||c.rows.map(()=>0);const upd=()=>{const t=cntTotal(c,v);d.querySelector("#cnt-t").textContent=`جمع: ${fa(Math.round(t*10)/10).replace(".","٫")} ${c.unit} ← «${q.o[c.map(t)]}»`};
+  d.querySelectorAll("[data-cs]").forEach(b=>b.onclick=()=>{const i=+b.dataset.cs,st=+b.dataset.st;v[i]=Math.max(0,Math.min(30,Math.round(((v[i]||0)+st)*2)/2));S.a[q.id+"_n"]=v;d.querySelector(`#cn${i}`).textContent=fa(v[i]).replace(".","٫");save();upd()});upd()}
  d.querySelector("#nx").onclick=next;
  d.querySelector("#later")&&(d.querySelector("#later").onclick=resumeLater);
  return d;
@@ -1935,7 +1954,8 @@ function result(){
 /* ---------------- storage ---------------- */
 const API=/onrender\.com$/.test(location.hostname)?"https://vitaplan-api.onrender.com":null;
 if(API)fetch(API+"/health").catch(()=>{});
-function answersText(){const o={};Object.keys(S.a).forEach(k=>{const q=QBY[k];if(!q)return;const v=S.a[k];o[k]=Array.isArray(v)?v.map(i=>q.o[i]):q.o[v]});return o}
+function answersText(){const o={};Object.keys(S.a).forEach(k=>{const q=QBY[k];if(!q)return;const v=S.a[k];o[k]=Array.isArray(v)?v.map(i=>q.o[i]):q.o[v];if(COUNTQ[k]&&S.a[k+"_n"])o[k]+=" — "+cntLine(k,S.a[k+"_n"])});return o}
+function cntLine(k,v){const c=COUNTQ[k];return c.per+": "+c.rows.map((r,i)=>v[i]?r.l.replace(/ \(.*\)/,"")+" "+fa(v[i])+" "+r.u:"").filter(Boolean).join("، ")+" · جمع "+fa(Math.round(cntTotal(c,v)*10)/10)+" "+c.unit}
 function leadPayload(stage,R,list){const p={cid:S.cid,name:S.b.name,phone:toEn(S.phone).replace(/[\s-]/g,""),age:+S.b.age||null,sex:S.b.sex,stage,
   data:{height:+S.b.h||null,weight:+S.b.w||null,goals:(S.a.G||[]).map(i=>GOALS.o[i]),selectedCats:selCats().map(id=>CATS.find(c=>c.id===id).title),answers:answersText(),texts:S.txt}};
  if(R){p.plan=PLANS[R.plan].k;p.needsReview=R.review;Object.assign(p.data,{supplements:(list||R.list).map(x=>x.n),schedule:(list||R.list).map(x=>({k:x.k,n:x.n,t:x.t,cnt:x.cnt,days:x.days})),removedByUser:R.removedByUser||R.list.filter(x=>S.off&&S.off[x.k]).map(x=>x.n),excluded:R.exList.map(x=>x.n+" — "+x.r),flags:R.flags.map(f=>(f.bad?"[مهم] ":"")+f.t),notes:R.notes.map(n=>n.t||n)})}
@@ -2054,7 +2074,7 @@ async function workspace(r,host){
   try{const j=await (await fetch(API+"/api/final",{method:"POST",headers:{"content-type":"application/json","x-admin-key":adminKey()},body:JSON.stringify({cid:r.cid,final:fin})})).json();m.textContent=j.ok?"ذخیره شد ✓":"ذخیره نشد";if(j.ok)r.final=fin}catch(e){m.textContent="اتصال برقرار نشد"}}}
 
 function traceHTML(R0,st){const T=R0.trace||{};const a=st.a||{},tx=st.txt||{};const lab={DRUG:"داروها (جست‌وجو + دسته‌ها)",CTX:"وضعیت ویژه (بارداری، نوجوان، جنسیت)",G:"اهداف و پایه",LAB:"اعداد آزمایش"};
- const ansOf=id=>{const q=QBY[id];if(!q)return"";const v=a[id];return Array.isArray(v)?v.map(i=>q.o[i]).join("، "):q.o[v]};
+ const ansOf=id=>{const q=QBY[id];if(!q)return"";const v=a[id];return (Array.isArray(v)?v.map(i=>q.o[i]).join("، "):q.o[v])+(COUNTQ[id]&&a[id+"_n"]?" — "+cntLine(id,a[id+"_n"]):"")};
  const ids=Object.keys(T);if(!ids.length)return"";
  return `<details class="sec wtr"><summary><b>مسیر تصمیم موتور</b> · ${fa(ids.length)} سؤال اثر گذاشت</summary>${ids.map(id=>`<div class="trq"><small>${lab[id]||id+" · "+esc(QBY[id]?.t||"")}</small>${QBY[id]?`<div class="tra">پاسخ: ${esc(ansOf(id))}${tx[id]?" — «"+esc(tx[id])+"»":""}</div>`:""}<ul>${T[id].map(t=>`<li class="${t[0]==="✕"?"x":t[0]==="⚠"?"w":t[0]==="+"?"p":""}">${esc(t)}</li>`).join("")}</ul>${typeof QLOGIC!=="undefined"&&QLOGIC[id]?`<p class="qhint">منطق پرسشنامه: ${esc(QLOGIC[id])}</p>`:""}</div>`).join("")}</details>`}
 function detail(r){
